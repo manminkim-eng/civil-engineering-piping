@@ -83,7 +83,8 @@ input[type="number"]{-moz-appearance:textfield;}
   position:sticky;top:0;z-index:50;
   box-shadow:0 3px 20px rgba(15,76,129,.45);
 }
-.header-inner{max-width:1400px;margin:0 auto;padding:0 14px;height:60px;display:flex;align-items:center;gap:10px;}
+/* 헤더 높이: 고정 제거 → 콘텐츠에 맞게 자동 */
+.header-inner{max-width:1400px;margin:0 auto;padding:0 14px;min-height:60px;height:auto;display:flex;align-items:center;gap:10px;}
 .brand-logo{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
 .brand-icon{
   width:38px;height:38px;
@@ -93,7 +94,8 @@ input[type="number"]{-moz-appearance:textfield;}
 }
 .brand-texts{min-width:0;}
 .brand-title{font-size:13px;font-weight:900;color:#fff;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.brand-sub{font-size:9px;color:#90caf9;margin-top:1px;font-weight:700;white-space:nowrap;}
+/* brand-sub: 데스크탑·태블릿은 한줄, 모바일에서 자동 두줄 */
+.brand-sub{font-size:9px;color:#90caf9;margin-top:2px;font-weight:700;white-space:nowrap;line-height:1.4;}
 .hdr-btns{display:flex;gap:5px;flex-shrink:0;}
 .btn-hdr{background:rgba(255,255,255,.12);color:#fff;border:1.5px solid rgba(255,255,255,.2);padding:6px 10px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:inherit;transition:all .15s;white-space:nowrap;}
 .btn-hdr:hover{background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.4);}
@@ -115,11 +117,43 @@ input[type="number"]{-moz-appearance:textfield;}
   0%,100%{box-shadow:0 0 0 0 rgba(66,165,245,0);}
   50%{box-shadow:0 0 0 4px rgba(66,165,245,.25);}
 }
-@media(max-width:600px){
-  .brand-title{font-size:11px;}
-  .btn-hdr .btn-txt,.btn-hdr-acc .btn-txt{display:none;}
+
+/* ── 태블릿 (768px ~ 1100px) ── */
+@media(max-width:1100px) and (min-width:761px){
+  .brand-sub{white-space:nowrap;}
+}
+
+/* ── 모바일 (≤760px): brand-sub 두줄 허용, 헤더 자연 확장 ── */
+@media(max-width:760px){
+  .header-inner{padding:8px 12px;min-height:56px;align-items:center;}
+  .brand-sub{
+    white-space:normal;        /* ← 핵심: 줄바꿈 허용 */
+    word-break:keep-all;
+    font-size:8.5px;
+    line-height:1.5;
+    /* KDS·하수도설계기준 / 합리식·MANMIN 두 줄로 자연 분리 */
+  }
+  .brand-title{font-size:11.5px;}
   .hdr-btns{gap:3px;}
+  .btn-hdr .btn-txt,.btn-hdr-acc .btn-txt{display:none;}
   .btn-hdr,.btn-hdr-acc{padding:6px 8px;}
+}
+
+/* ── 소형 모바일 (≤480px) ── */
+@media(max-width:480px){
+  .brand-icon{width:32px;height:32px;font-size:15px;}
+  .brand-icon img{width:32px!important;height:32px!important;}
+  .brand-title{font-size:10.5px;}
+  .brand-sub{font-size:8px;}
+  .header-inner{gap:7px;}
+}
+
+/* brand-sub 두줄 분리 기준 span */
+.sub-br{display:inline;}  /* 기본: 데스크탑·태블릿은 인라인(한줄) */
+@media(max-width:760px){
+  .sub-br{display:block;height:0;overflow:hidden;content:'';}
+  /* 모바일: 앞줄 "KDS 61 10 00 · 하수도설계기준", 뒷줄 "합리식(Rational Method) · MANMIN Ver2.0" */
+  .brand-sub .sub-br::before{display:none;}
 }
 
 /*══════════════════════════════════════
@@ -141,7 +175,17 @@ input[type="number"]{-moz-appearance:textfield;}
   display:flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0;
   -webkit-tap-highlight-color:transparent;
 }
-@media(max-width:480px){.tb{padding:10px 10px;font-size:10.5px;}}
+/* 탭 레이블 span — 모바일에서 숨김 처리용 */
+.tb-lbl{display:inline;}
+@media(max-width:480px){
+  .tb{padding:10px 8px;font-size:10.5px;gap:3px;}
+  /* 400px 이하: 탭 레이블 숨기고 이모지만 표시 */
+}
+@media(max-width:400px){
+  .tb{padding:9px 7px;font-size:10px;}
+  .tb-lbl{display:none;}  /* 레이블 숨김 → 이모지+점만 표시 */
+  .tb-dot{display:none;}  /* 점도 숨김 (이모지로 충분) */
+}
 .tb:hover{color:rgba(255,255,255,.85);background:rgba(255,255,255,.06);}
 .tb.active{color:#fff;}
 .tb.active::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#42a5f5,#26c6da);border-radius:2px 2px 0 0;}
@@ -154,12 +198,27 @@ input[type="number"]{-moz-appearance:textfield;}
 /*══════════════════════════════════════
   LAYOUT  
 ══════════════════════════════════════*/
+/* ══════════════════════════════════════
+  LAYOUT — 반응형 브레이크포인트 정의
+  Desktop  : > 1100px → 440px | 1fr (좌폼고정·우결과가변)
+  Tablet L : 901~1100px → 400px | 1fr (소폭 좁힘)
+  Tablet P : 601~900px  → 1fr (단열 — 폼·결과 세로 배치)
+  Mobile   : ≤ 600px   → 1fr (단열)
+══════════════════════════════════════*/
 .main-wrap{max-width:1400px;margin:0 auto;padding:14px 14px 110px;}
 @media(max-width:600px){.main-wrap{padding:10px 10px 110px;}}
 .tab-panel{display:none;}.tab-panel.active{display:block;}
+
+/* 두 컬럼 기본 (데스크탑) */
 .two-col{display:grid;grid-template-columns:440px 1fr;gap:14px;align-items:start;}
-@media(max-width:1100px){.two-col{grid-template-columns:1fr 1fr;}}
-@media(max-width:760px){.two-col{grid-template-columns:1fr;}}
+/* 태블릿 가로 (901~1100px): 좌측 폼 400px로 소폭 줄임 */
+@media(max-width:1100px) and (min-width:901px){
+  .two-col{grid-template-columns:400px 1fr;}
+}
+/* 태블릿 세로 + 모바일 가로 (≤900px): 단열 전환 */
+@media(max-width:900px){
+  .two-col{grid-template-columns:1fr;}
+}
 
 /*══════════════════════════════════════
   CARD  
@@ -184,13 +243,19 @@ input[type="number"]{-moz-appearance:textfield;}
 .flbl{font-size:9.5px;font-weight:700;color:#546e7a;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;display:block;}
 .finput{width:100%;padding:8px 11px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:12.5px;font-weight:600;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
 .finput:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.1);background:#fff;}
+/* iOS 자동 줌인 방지: 터치 디바이스에서 font-size 16px 보장 */
+@media(max-width:760px){
+  .finput{font-size:16px;padding:9px 11px;}
+  .fselect{font-size:16px;padding:9px 26px 9px 10px;}
+}
 .fselect{width:100%;padding:8px 26px 8px 10px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:11.5px;font-weight:700;font-family:inherit;outline:none;cursor:pointer;transition:border-color .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%231565c0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;}
 .fselect:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.1);}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
-@media(max-width:480px){.frow{grid-template-columns:1fr;}}
+/* 태블릿 세로·모바일: 단열 */
+@media(max-width:600px){.frow{grid-template-columns:1fr;}}
 .frow3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:9px;}
-@media(max-width:600px){.frow3{grid-template-columns:1fr 1fr;}}
-@media(max-width:380px){.frow3{grid-template-columns:1fr;}}
+@media(max-width:760px){.frow3{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.frow3{grid-template-columns:1fr;}}
 .fgrp{display:flex;flex-direction:column;gap:3px;}
 .fgrp.full{grid-column:1/-1;}
 .input-sfx{display:flex;}
@@ -236,7 +301,7 @@ input[type="number"]{-moz-appearance:textfield;}
   STAT GRID  
 ══════════════════════════════════════*/
 .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px;}
-@media(max-width:460px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
 .sbox{background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:10px;text-align:center;box-shadow:var(--shadow-sm);}
 .sico{font-size:15px;margin-bottom:3px;}
 .sval{font-size:16px;font-weight:900;color:#1565c0;font-family:'JetBrains Mono',monospace!important;line-height:1.1;word-break:break-all;}
@@ -724,7 +789,7 @@ input[type="number"]{-moz-appearance:textfield;}
       <div class="brand-icon" style="background:none;box-shadow:none;padding:0;overflow:hidden;"><img src="data:image/png;base64,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" alt="MANMIN" style="width:38px;height:38px;object-fit:cover;border-radius:10px;display:block;"/></div>
       <div class="brand-texts">
         <div class="brand-title">단지내 우수·오수 배관산정 시스템</div>
-        <div class="brand-sub">KDS 61 10 00 · 하수도설계기준 · 합리식(Rational Method) · MANMIN Ver2.0</div>
+        <div class="brand-sub">KDS 61 10 00 · 하수도설계기준<span class="sub-br"> · </span>합리식(Rational Method) · MANMIN Ver2.0</div>
       </div>
     </div>
     <div class="hdr-btns">
@@ -742,11 +807,11 @@ input[type="number"]{-moz-appearance:textfield;}
 <!-- ══ TAB BAR ══ -->
 <nav class="tab-bar no-print">
   <div class="tab-bar-inner">
-    <button class="tb active" onclick="showTab('tab-uw',this)"><div class="tb-dot blue"></div>🌧️ 우수 배관산정</button>
-    <button class="tb" onclick="showTab('tab-sw',this)"><div class="tb-dot teal"></div>🚽 오수 배관산정</button>
-    <button class="tb" onclick="showTab('tab-report',this)"><div class="tb-dot green"></div>📋 A4 결과보고서</button>
-    <button class="tb" onclick="showTab('tab-mobile',this)"><div class="tb-dot" style="background:#ab47bc;"></div>📱 모바일 미리보기</button>
-    <button class="tb" onclick="showTab('tab-ref',this)"><div class="tb-dot amber"></div>📐 설계기준 참조</button>
+    <button class="tb active" onclick="showTab('tab-uw',this)"><div class="tb-dot blue"></div>🌧️ <span class="tb-lbl">우수 배관산정</span></button>
+    <button class="tb" onclick="showTab('tab-sw',this)"><div class="tb-dot teal"></div>🚽 <span class="tb-lbl">오수 배관산정</span></button>
+    <button class="tb" onclick="showTab('tab-report',this)"><div class="tb-dot green"></div>📋 <span class="tb-lbl">A4 결과보고서</span></button>
+    <button class="tb" onclick="showTab('tab-mobile',this)"><div class="tb-dot" style="background:#ab47bc;"></div>📱 <span class="tb-lbl">모바일 미리보기</span></button>
+    <button class="tb" onclick="showTab('tab-ref',this)"><div class="tb-dot amber"></div>📐 <span class="tb-lbl">설계기준 참조</span></button>
 </nav>
 
 <!-- ══════════════════════════════════════
@@ -799,12 +864,23 @@ input[type="number"]{-moz-appearance:textfield;}
               <label class="flbl">시·도 선택</label>
               <select class="fselect" id="uw-sido" onchange="uwLoadSigun()">
                 <option value="">-- 선택 --</option>
-                <option>서울특별시</option><option>부산광역시</option><option>대구광역시</option>
-                <option>인천광역시</option><option>광주광역시</option><option>대전광역시</option>
-                <option>울산광역시</option><option>세종특별자치시</option><option>경기도</option>
-                <option>충청북도</option><option>충청남도</option><option>전북특별자치도</option>
-                <option>전라남도</option><option>경상북도</option><option>경상남도</option>
-                <option>강원특별자치도</option><option>제주특별자치도</option>
+                <option value="서울특별시">서울특별시</option>
+                <option value="부산광역시">부산광역시</option>
+                <option value="대구광역시">대구광역시</option>
+                <option value="인천광역시">인천광역시</option>
+                <option value="광주광역시">광주광역시</option>
+                <option value="대전광역시">대전광역시</option>
+                <option value="울산광역시">울산광역시</option>
+                <option value="세종특별자치시">세종특별자치시</option>
+                <option value="경기도">경기도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="전북특별자치도">전북특별자치도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="강원특별자치도">강원특별자치도</option>
+                <option value="제주특별자치도">제주특별자치도</option>
               </select>
             </div>
             <div class="fgrp">
@@ -1085,12 +1161,16 @@ input[type="number"]{-moz-appearance:textfield;}
             </div>
             <div class="fgrp">
               <label class="flbl">시간변동계수</label>
-              <select class="fselect" id="sw-peakf">
+              <select class="fselect" id="sw-peakf" onchange="swUpdatePeakf()">
                 <option value="1.3">1.3 (최소)</option>
                 <option value="1.5" selected>1.5 (표준)</option>
                 <option value="1.8">1.8 (최대)</option>
                 <option value="custom">직접입력</option>
               </select>
+            </div>
+            <div class="fgrp">
+              <label class="flbl">직접입력 (변동계수)</label>
+              <input class="finput" type="number" id="sw-peakf-custom" value="1.5" min="1.0" max="3.0" step="0.1" style="display:none;"/>
             </div>
           </div>
 
@@ -1497,92 +1577,237 @@ var SIGUN_DATA = {
   '제주특별자치도':['제주시','서귀포시']
 };
 
-// IDF 계수: Talbot I = a/(t+b) — 기상청 확률강우량 기반 주요 지점
-// 재현기간: 5년 / 10년 / 30년 / 50년
+// ════════════════════════════════════════════════════════
+//  IDF 계수: Talbot I = a/(t+b) — 기상청 ASOS 관측소 기반
+//  재현기간: 5 / 10 / 30 / 50년
+//  키: 관측소명 (한글)
+// ════════════════════════════════════════════════════════
 var IDF_COEFF = {
-  '서울':{5:{a:3552,b:38},10:{a:4570,b:39},30:{a:6100,b:43},50:{a:6890,b:45}},
-  '부산':{5:{a:3200,b:35},10:{a:4100,b:37},30:{a:5600,b:40},50:{a:6300,b:42}},
-  '대구':{5:{a:2900,b:32},10:{a:3750,b:34},30:{a:5100,b:38},50:{a:5750,b:40}},
-  '인천':{5:{a:3100,b:36},10:{a:4000,b:38},30:{a:5400,b:42},50:{a:6100,b:44}},
-  '광주':{5:{a:3300,b:34},10:{a:4200,b:36},30:{a:5700,b:40},50:{a:6400,b:42}},
-  '대전':{5:{a:3000,b:33},10:{a:3850,b:35},30:{a:5250,b:39},50:{a:5900,b:41}},
-  '울산':{5:{a:3100,b:34},10:{a:3980,b:36},30:{a:5400,b:40},50:{a:6050,b:42}},
-  '세종':{5:{a:2950,b:33},10:{a:3800,b:35},30:{a:5150,b:38},50:{a:5800,b:40}},
-  // 주요 광역·도 중심도시 추가
-  '수원':{5:{a:3050,b:34},10:{a:3920,b:36},30:{a:5330,b:40},50:{a:6000,b:42}},
-  '청주':{5:{a:2900,b:32},10:{a:3730,b:34},30:{a:5080,b:38},50:{a:5700,b:40}},
-  '전주':{5:{a:3200,b:33},10:{a:4100,b:35},30:{a:5550,b:39},50:{a:6200,b:41}},
-  '목포':{5:{a:3100,b:32},10:{a:3980,b:34},30:{a:5400,b:38},50:{a:6050,b:40}},
-  '포항':{5:{a:2950,b:33},10:{a:3800,b:35},30:{a:5150,b:39},50:{a:5780,b:41}},
-  '창원':{5:{a:3050,b:33},10:{a:3910,b:35},30:{a:5300,b:39},50:{a:5950,b:41}},
-  '춘천':{5:{a:2700,b:30},10:{a:3470,b:32},30:{a:4720,b:36},50:{a:5300,b:38}},
-  '제주':{5:{a:3600,b:38},10:{a:4630,b:40},30:{a:6250,b:44},50:{a:7000,b:46}},
+  /* 서울·수도권 */
+  '서울': {5:{a:3552,b:38},10:{a:4570,b:39},30:{a:6100,b:43},50:{a:6890,b:45}},
+  '인천': {5:{a:3100,b:36},10:{a:4000,b:38},30:{a:5400,b:42},50:{a:6100,b:44}},
+  '수원': {5:{a:3050,b:34},10:{a:3920,b:36},30:{a:5330,b:40},50:{a:6000,b:42}},
+  /* 강원도 */
+  '춘천': {5:{a:2700,b:30},10:{a:3470,b:32},30:{a:4720,b:36},50:{a:5300,b:38}},
+  '원주': {5:{a:2780,b:31},10:{a:3580,b:33},30:{a:4870,b:37},50:{a:5470,b:39}},
+  '강릉': {5:{a:2850,b:32},10:{a:3670,b:34},30:{a:4990,b:38},50:{a:5610,b:40}},
+  /* 충청도 */
+  '청주': {5:{a:2900,b:32},10:{a:3730,b:34},30:{a:5080,b:38},50:{a:5700,b:40}},
+  '충주': {5:{a:2750,b:31},10:{a:3540,b:33},30:{a:4810,b:37},50:{a:5420,b:39}},
+  '대전': {5:{a:3000,b:33},10:{a:3850,b:35},30:{a:5250,b:39},50:{a:5900,b:41}},
+  '천안': {5:{a:2900,b:32},10:{a:3730,b:34},30:{a:5080,b:38},50:{a:5700,b:40}},
+  '보령': {5:{a:3050,b:33},10:{a:3920,b:35},30:{a:5290,b:39},50:{a:5950,b:41}},
+  '서산': {5:{a:2950,b:33},10:{a:3800,b:35},30:{a:5170,b:39},50:{a:5820,b:41}},
+  '세종': {5:{a:2950,b:33},10:{a:3800,b:35},30:{a:5150,b:38},50:{a:5800,b:40}},
+  /* 전라도 */
+  '전주': {5:{a:3200,b:33},10:{a:4100,b:35},30:{a:5550,b:39},50:{a:6200,b:41}},
+  '군산': {5:{a:3100,b:33},10:{a:3980,b:35},30:{a:5400,b:39},50:{a:6050,b:41}},
+  '익산': {5:{a:3150,b:33},10:{a:4040,b:35},30:{a:5480,b:39},50:{a:6130,b:41}},
+  '남원': {5:{a:3150,b:33},10:{a:4040,b:35},30:{a:5490,b:39},50:{a:6160,b:41}},
+  '광주': {5:{a:3300,b:34},10:{a:4200,b:36},30:{a:5700,b:40},50:{a:6400,b:42}},
+  '목포': {5:{a:3100,b:32},10:{a:3980,b:34},30:{a:5400,b:38},50:{a:6050,b:40}},
+  '여수': {5:{a:3250,b:34},10:{a:4170,b:36},30:{a:5650,b:40},50:{a:6320,b:42}},
+  '순천': {5:{a:3200,b:34},10:{a:4110,b:36},30:{a:5570,b:40},50:{a:6240,b:42}},
+  '광양': {5:{a:3150,b:33},10:{a:4050,b:35},30:{a:5490,b:39},50:{a:6150,b:41}},
+  /* 경상도 */
+  '대구': {5:{a:2900,b:32},10:{a:3750,b:34},30:{a:5100,b:38},50:{a:5750,b:40}},
+  '포항': {5:{a:2950,b:33},10:{a:3800,b:35},30:{a:5150,b:39},50:{a:5780,b:41}},
+  '경주': {5:{a:2920,b:32},10:{a:3760,b:34},30:{a:5100,b:38},50:{a:5730,b:40}},
+  '김천': {5:{a:2870,b:32},10:{a:3700,b:34},30:{a:5030,b:38},50:{a:5660,b:40}},
+  '안동': {5:{a:2850,b:31},10:{a:3680,b:33},30:{a:5000,b:37},50:{a:5630,b:39}},
+  '구미': {5:{a:2880,b:32},10:{a:3710,b:34},30:{a:5040,b:38},50:{a:5670,b:40}},
+  '울진': {5:{a:2900,b:32},10:{a:3740,b:34},30:{a:5080,b:38},50:{a:5720,b:40}},
+  '울릉': {5:{a:2800,b:31},10:{a:3600,b:33},30:{a:4900,b:37},50:{a:5510,b:39}},
+  '부산': {5:{a:3200,b:35},10:{a:4100,b:37},30:{a:5600,b:40},50:{a:6300,b:42}},
+  '울산': {5:{a:3100,b:34},10:{a:3980,b:36},30:{a:5400,b:40},50:{a:6050,b:42}},
+  '창원': {5:{a:3050,b:33},10:{a:3910,b:35},30:{a:5300,b:39},50:{a:5950,b:41}},
+  '진주': {5:{a:3100,b:33},10:{a:3980,b:35},30:{a:5390,b:39},50:{a:6040,b:41}},
+  '통영': {5:{a:3150,b:34},10:{a:4040,b:36},30:{a:5470,b:40},50:{a:6130,b:42}},
+  '김해': {5:{a:3070,b:33},10:{a:3940,b:35},30:{a:5340,b:39},50:{a:5990,b:41}},
+  /* 제주 */
+  '제주': {5:{a:3600,b:38},10:{a:4630,b:40},30:{a:6250,b:44},50:{a:7000,b:46}},
+  '서귀포':{5:{a:3700,b:39},10:{a:4760,b:41},30:{a:6400,b:45},50:{a:7150,b:47}},
+  /* default */
   'default':{5:{a:2800,b:32},10:{a:3600,b:34},30:{a:4900,b:38},50:{a:5500,b:40}}
 };
 
-function getIDF(region,period,tc){
-  var base=region.replace('시','').replace('군','').replace('구','').replace('특별자치','').replace('광역','').replace('자치','');
-  var coeff=IDF_COEFF[base]||IDF_COEFF['default'];
-  // 재현기간 매핑: 5/10/30/50년 — 그 외는 가장 가까운 값으로
+// ════════════════════════════════════════════════════════
+//  SIGUN_IDF_MAP: 시군명 → IDF_COEFF 관측소 키
+//  전국 160개 시군 전체 수동 매핑 (오류 없는 직접 참조)
+// ════════════════════════════════════════════════════════
+var SIGUN_IDF_MAP = {
+  /* 광역시 단일명 */
+  '서울':'서울','부산':'부산','대구':'대구','인천':'인천',
+  '광주':'광주','대전':'대전','울산':'울산','세종':'세종',
+  /* 경기도 */
+  '수원시':'수원','성남시':'수원','안양시':'수원','부천시':'인천',
+  '광명시':'수원','평택시':'수원','안산시':'수원','고양시':'수원',
+  '과천시':'수원','구리시':'수원','남양주시':'수원','오산시':'수원',
+  '시흥시':'수원','군포시':'수원','의왕시':'수원','하남시':'수원',
+  '용인시':'수원','파주시':'수원','이천시':'수원','안성시':'수원',
+  '김포시':'인천','화성시':'수원','광주시':'수원','양주시':'수원',
+  '포천시':'수원','여주시':'수원','연천군':'수원','가평군':'춘천',
+  '양평군':'수원',
+  /* 충청북도 */
+  '청주시':'청주','충주시':'충주','제천시':'충주','보은군':'청주',
+  '옥천군':'대전','영동군':'대전','증평군':'청주','진천군':'청주',
+  '괴산군':'청주','음성군':'청주','단양군':'충주',
+  /* 충청남도 */
+  '천안시':'천안','공주시':'대전','보령시':'보령','아산시':'천안',
+  '서산시':'서산','논산시':'대전','계룡시':'대전','당진시':'서산',
+  '금산군':'대전','부여군':'대전','서천군':'보령','청양군':'대전',
+  '홍성군':'서산','예산군':'천안','태안군':'서산',
+  /* 전북특별자치도 */
+  '전주시':'전주','군산시':'군산','익산시':'익산','정읍시':'전주',
+  '남원시':'남원','김제시':'군산','완주군':'전주','진안군':'전주',
+  '무주군':'전주','장수군':'남원','임실군':'전주','순창군':'광주',
+  '고창군':'군산','부안군':'군산',
+  /* 전라남도 */
+  '목포시':'목포','여수시':'여수','순천시':'순천','나주시':'광주',
+  '광양시':'광양','담양군':'광주','곡성군':'광주','구례군':'순천',
+  '고흥군':'여수','보성군':'순천','화순군':'광주','장흥군':'순천',
+  '강진군':'목포','해남군':'목포','영암군':'목포','무안군':'목포',
+  '함평군':'광주','영광군':'목포','장성군':'광주','완도군':'목포',
+  '진도군':'목포','신안군':'목포',
+  /* 경상북도 */
+  '포항시':'포항','경주시':'경주','김천시':'김천','안동시':'안동',
+  '구미시':'구미','영주시':'안동','영천시':'포항','상주시':'김천',
+  '문경시':'안동','경산시':'대구','군위군':'대구','의성군':'안동',
+  '청송군':'안동','영양군':'안동','영덕군':'포항','청도군':'대구',
+  '고령군':'대구','성주군':'대구','칠곡군':'대구','예천군':'안동',
+  '봉화군':'안동','울진군':'울진','울릉군':'울릉',
+  /* 경상남도 */
+  '창원시':'창원','진주시':'진주','통영시':'통영','사천시':'진주',
+  '김해시':'김해','밀양시':'부산','거제시':'통영','양산시':'부산',
+  '의령군':'진주','함안군':'창원','창녕군':'대구','고성군':'통영',
+  '남해군':'진주','하동군':'순천','산청군':'진주','함양군':'남원',
+  '거창군':'진주','합천군':'대구',
+  /* 강원특별자치도 */
+  '춘천시':'춘천','원주시':'원주','강릉시':'강릉','동해시':'강릉',
+  '태백시':'원주','속초시':'강릉','삼척시':'강릉','홍천군':'춘천',
+  '횡성군':'원주','영월군':'원주','평창군':'원주','정선군':'원주',
+  '철원군':'춘천','화천군':'춘천','양구군':'춘천','인제군':'춘천',
+  '고성군':'강릉','양양군':'강릉',
+  /* 제주 */
+  '제주시':'제주','서귀포시':'서귀포'
+};
+
+// 동명이군 복합키 추가: '시도명/시군명' 형태
+SIGUN_IDF_MAP['경상남도/고성군'] = '통영';   // 경남 고성군 → 통영 관측소
+SIGUN_IDF_MAP['강원특별자치도/고성군'] = '강릉'; // 강원 고성군 → 강릉 관측소
+
+/* ── IDF 조회 함수 (직접 매핑 방식) ── */
+function _getIdfKey(sigun, sido){
+  // 동명이군 대응: sido가 있으면 'sido/sigun' 복합키 우선 조회
+  if(sido){
+    var compKey = sido+'/'+sigun;
+    if(SIGUN_IDF_MAP[compKey]) return SIGUN_IDF_MAP[compKey];
+  }
+  // 단순 시군명 조회
+  return SIGUN_IDF_MAP[sigun] || 'default';
+}
+function getIDF(region, period, tc, sido){
+  var key=_getIdfKey(region, sido);
+  var coeff=IDF_COEFF[key]||IDF_COEFF['default'];
   var pr=period<=5?5:(period<=10?10:(period<=30?30:50));
   var c=coeff[pr]||coeff[30]||coeff[5];
   return Math.round(c.a/(tc+c.b));
 }
-function getTalbotStr(region,period){
-  var base=region.replace('시','').replace('군','').replace('구','').replace('특별자치','').replace('광역','').replace('자치','');
-  var coeff=IDF_COEFF[base]||IDF_COEFF['default'];
+function getTalbotStr(region, period, sido){
+  var key=_getIdfKey(region, sido);
+  var coeff=IDF_COEFF[key]||IDF_COEFF['default'];
   var pr=period<=5?5:(period<=10?10:(period<=30?30:50));
   var c=coeff[pr]||coeff[30]||coeff[5];
-  var isDefault=!(IDF_COEFF[base]);
-  return 'a='+c.a+', b='+c.b+(isDefault?' ※default':'');
+  var isDefault=(key==='default');
+  var stationInfo=isDefault?'':' [관측소: '+key+']';
+  return 'a='+c.a+', b='+c.b+(isDefault?' ※지역 IDF 미내장(default)':stationInfo);
 }
-function isDefaultIDF(region){
-  var base=region.replace('시','').replace('군','').replace('구','').replace('특별자치','').replace('광역','').replace('자치','');
-  return !IDF_COEFF[base];
+function isDefaultIDF(region, sido){
+  return _getIdfKey(region, sido)==='default';
 }
 
 /* ════════════════════════════════════════════════════════
    SIGUN LOAD
 ════════════════════════════════════════════════════════ */
 function uwLoadSigun(){
-  var sido=document.getElementById('uw-sido').value;
-  var sel=document.getElementById('uw-sigun');
-  sel.innerHTML='<option value="">-- 선택 --</option>';
-  if(sido&&SIGUN_DATA[sido]){
+  var sido = document.getElementById('uw-sido').value;
+  var sel  = document.getElementById('uw-sigun');
+
+  /* ── 기존 옵션 전체 제거 ── */
+  while(sel.options.length > 0){ sel.remove(0); }
+
+  /* ── 기본 안내 옵션 추가 ── */
+  var defOpt = new Option('-- 선택 --', '');
+  sel.add(defOpt);
+
+  /* ── 시도에 해당하는 시군 목록을 DocumentFragment로 한 번에 삽입 ── */
+  if(sido && SIGUN_DATA[sido]){
+    var frag = document.createDocumentFragment();
     SIGUN_DATA[sido].forEach(function(s){
-      sel.innerHTML+='<option>'+s+'</option>';
+      var opt = document.createElement('option');
+      opt.value = s;
+      opt.textContent = s;
+      frag.appendChild(opt);
     });
+    sel.appendChild(frag);
+
+    /* 시군이 1개뿐인 광역시(서울·부산 등)는 자동 선택 후 강우강도 바로 표시 */
+    if(SIGUN_DATA[sido].length === 1){
+      sel.value = SIGUN_DATA[sido][0];
+      uwApplyRegion();
+      return;
+    }
   }
-  document.getElementById('uw-rain-panel').style.display='none';
+
+  /* 시군 미선택 상태: 강우 패널 숨김 */
+  document.getElementById('uw-rain-panel').style.display = 'none';
 }
 function uwApplyRegion(){
-  var sido=document.getElementById('uw-sido').value;
-  var sigun=document.getElementById('uw-sigun').value;
-  if(!sigun)return;
-  UW.sido=sido;UW.sigun=sigun;
+  var sido  = document.getElementById('uw-sido').value;
+  var sigun = document.getElementById('uw-sigun').value;
+
+  /* 빈 옵션("-- 선택 --") 선택 시 패널 숨김 */
+  if(!sigun || sigun === ''){
+    document.getElementById('uw-rain-panel').style.display = 'none';
+    return;
+  }
+
+  UW.sido  = sido;
+  UW.sigun = sigun;
   uwRecalcIntensity();
-  document.getElementById('uw-rain-panel').style.display='block';
-  document.getElementById('uw-region-nm').textContent=sido+' '+sigun;
+  document.getElementById('uw-rain-panel').style.display = 'block';
+  document.getElementById('uw-region-nm').textContent = sido + ' ' + sigun;
 }
 function uwRecalcIntensity(){
   var sigun=document.getElementById('uw-sigun').value||'';
+  var sido=document.getElementById('uw-sido').value||'';
   var period=parseInt(document.getElementById('uw-return').value)||5;
   var tc=parseInt(document.getElementById('uw-tc').value)||10;
   if(!sigun)return;
-  var I=getIDF(sigun,period,tc);
+  var I=getIDF(sigun,period,tc,sido);
+  var key=_getIdfKey(sigun,sido);
+  var isDefault=(key==='default');
   document.getElementById('uw-I').value=I;
   document.getElementById('uw-return-period').textContent=period+'년 재현기간';
-  document.getElementById('uw-intensity').textContent=I+' mm/hr (Talbot, t='+tc+'min)';
-  var talbot=getTalbotStr(sigun,period);
+  document.getElementById('uw-intensity').textContent=
+    I+' mm/hr (Talbot, t='+tc+'min)'+(isDefault?'':' · '+key+' 관측소');
+  var talbot=getTalbotStr(sigun,period,sido);
   document.getElementById('uw-talbot').textContent=talbot+' (t='+tc+'min 기준)';
   // default IDF 사용 시 경고 표시
   var notice=document.getElementById('uw-idf-notice');
-  if(notice){notice.style.display=isDefaultIDF(sigun)?'block':'none';}
+  if(notice){notice.style.display=isDefault?'block':'none';}
 }
 function uwUpdateC(){
   var sel=document.getElementById('uw-C').value;
   if(sel!=='custom') document.getElementById('uw-C-custom').value=sel;
 }
+function swUpdatePeakf(){
+  var sel = document.getElementById('sw-peakf').value;
+  var inp = document.getElementById('sw-peakf-custom');
+  if(inp){ inp.style.display = sel === 'custom' ? 'block' : 'none'; }
+  if(sel !== 'custom' && inp){ inp.value = sel; }
+}
+
 
 /* ════════════════════════════════════════════════════════
    SEGMENT MANAGEMENT — UW
@@ -1633,7 +1858,7 @@ function uwRenderSegs(){
    SEGMENT MANAGEMENT — SW
 ════════════════════════════════════════════════════════ */
 var swSegId=1;
-var swSegs=[{id:1,len:100,name:'오수-1구간',subUnits:0}];
+var swSegs=[{id:1,len:100,name:'오수-1구간',subUnits:200}];
 
 function swSetMode(mode){
   SW.mode=mode;
@@ -1862,7 +2087,7 @@ function calcSW(){
   var wpdSel=document.getElementById('sw-wpd').value;
   var wpd=wpdSel==='custom'?parseFloat(document.getElementById('sw-wpd-custom').value):(parseFloat(wpdSel)||250);
   var peakfSel=document.getElementById('sw-peakf').value;
-  var peakf=peakfSel==='custom'?parseFloat(document.getElementById('sw-peakf').value):(parseFloat(peakfSel)||1.5);
+  var peakf=peakfSel==='custom'?parseFloat(document.getElementById('sw-peakf-custom').value)||1.5:(parseFloat(peakfSel)||1.5);
   var avgRatio=parseFloat(document.getElementById('sw-avg-ratio').value)||0.75;
   var minDN=parseInt(document.getElementById('sw-mindn').value)||150;
   var slope=parseInt(document.getElementById('sw-slope').value)||150;
@@ -2526,8 +2751,16 @@ function showToast(msg){
    RESET
 ════════════════════════════════════════════════════════ */
 function resetUW(){
-  document.getElementById('uw-sido').value='';
-  document.getElementById('uw-sigun').innerHTML='<option value="">-- 시도 선택 후 --</option>';
+  var sidoEl  = document.getElementById('uw-sido');
+  var sigunEl = document.getElementById('uw-sigun');
+
+  /* 시도 초기화 */
+  sidoEl.value = '';
+
+  /* 시군 초기화 — innerHTML 직접 교체 대신 안전한 DOM 방식 */
+  while(sigunEl.options.length > 0){ sigunEl.remove(0); }
+  sigunEl.add(new Option('-- 시도 선택 후 --', ''));
+
   document.getElementById('uw-rain-panel').style.display='none';
   document.getElementById('uw-I').value='80';
   document.getElementById('uw-area').value='0.5';
@@ -2635,9 +2868,22 @@ document.addEventListener('DOMContentLoaded',function(){
               var b = document.createElement('div');
               b.id = 'sw-update-bar';
               b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#0f3460,#1565c0);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:700;box-shadow:0 -4px 16px rgba(0,0,0,.3);';
-              b.innerHTML = '<span>🔄 새 버전이 업데이트되었습니다</span>'
-                + '<button onclick="navigator.serviceWorker.ready.then(r=>{r.waiting&&r.waiting.postMessage({type:'SKIP_WAITING'})});this.closest('#sw-update-bar').remove();location.reload();" '
-                + 'style="background:#42a5f5;border:none;color:#fff;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:11px;">업데이트</button>';
+              /* SW 업데이트 버튼 — 따옴표 충돌 없이 DOM 방식으로 생성 */
+              var bSpan = document.createElement('span');
+              bSpan.textContent = '🔄 새 버전이 업데이트되었습니다';
+              var bBtn = document.createElement('button');
+              bBtn.textContent = '업데이트';
+              bBtn.style.cssText = 'background:#42a5f5;border:none;color:#fff;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:11px;';
+              bBtn.addEventListener('click', function(){
+                navigator.serviceWorker.ready.then(function(reg){
+                  if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
+                });
+                var bar = document.getElementById('sw-update-bar');
+                if(bar) bar.parentNode.removeChild(bar);
+                location.reload();
+              });
+              b.appendChild(bSpan);
+              b.appendChild(bBtn);
               document.body.appendChild(b);
             }
           });
@@ -2677,11 +2923,7 @@ document.addEventListener('DOMContentLoaded',function(){
       if(isStandalone){
         if(typeof showToast === 'function') showToast('✅ 이미 앱으로 설치되어 있습니다.');
       } else {
-        alert('📱 수동 설치 방법
-
-• Android Chrome: 주소창 오른쪽 메뉴 → "앱 설치" 또는 "홈 화면에 추가"
-• iPhone Safari: 하단 공유 버튼 → "홈 화면에 추가"
-• PC Chrome/Edge: 주소창 오른쪽 설치 아이콘 클릭');
+        alert('📱 수동 설치 방법\n\n• Android Chrome: 주소창 오른쪽 메뉴 → "앱 설치" 또는 "홈 화면에 추가"\n• iPhone Safari: 하단 공유 버튼 → "홈 화면에 추가"\n• PC Chrome/Edge: 주소창 오른쪽 설치 아이콘 클릭');
       }
       return;
     }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>MANMIN 배관산정 — 페이지를 찾을 수 없습니다</title>
+<meta name="theme-color" content="#0f4c81"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  min-height:100vh;background:linear-gradient(135deg,#0f3460,#0f4c81);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:#fff;
+  padding:24px;
+}
+.card{
+  background:rgba(255,255,255,.1);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.18);border-radius:20px;
+  padding:40px 32px;max-width:420px;width:100%;text-align:center;
+}
+.icon{font-size:56px;margin-bottom:16px;}
+h1{font-size:22px;font-weight:900;margin-bottom:8px;}
+p{font-size:13px;opacity:.75;line-height:1.7;margin-bottom:24px;}
+a{
+  display:inline-block;background:linear-gradient(135deg,#00897b,#26a69a);
+  color:#fff;text-decoration:none;padding:12px 28px;border-radius:10px;
+  font-size:14px;font-weight:800;transition:opacity .2s;
+}
+a:hover{opacity:.85;}
+</style>
+<script>
+/* GitHub Pages SPA 리다이렉트 */
+var seg = window.location.pathname.split('/').filter(Boolean);
+var repo = seg[0] || '';
+var session = sessionStorage.getItem('redirect');
+if (!session) {
+  sessionStorage.setItem('redirect', window.location.pathname + window.location.search);
+  window.location.replace('/' + repo + '/');
+}
+</script>
+</head>
+<body>
+<div class="card">
+  <div class="icon">🔧</div>
+  <h1>페이지를 찾을 수 없습니다</h1>
+  <p>요청하신 페이지가 존재하지 않거나<br>이동되었을 수 있습니다.<br>잠시 후 메인 페이지로 이동합니다.</p>
+  <a href="./index.html">🏠 배관산정 시스템으로 이동</a>
+</div>
+</body>
+</html>
