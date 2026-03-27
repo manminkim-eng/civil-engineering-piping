@@ -682,6 +682,7 @@ input[type="number"]{-moz-appearance:textfield;}
 /* 실제 화면 영역 */
 .mob-screen{
   width:100%;
+  min-height:640px;
   height:780px;
   background:#f0f5fb;
   overflow-y:auto;overflow-x:hidden;
@@ -729,10 +730,10 @@ input[type="number"]{-moz-appearance:textfield;}
 .mob-hero.teal{background:linear-gradient(135deg,#004d40,#00695c);}
 .mob-rnum{
   font-size:44px;font-weight:900;color:#fff176;
-  font-family:'JetBrains Mono','Courier New',monospace!important;line-height:1;
+  font-family:'JetBrains Mono','Courier New','Pretendard',monospace!important;line-height:1;
 }
 .mob-sgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px;}
-.mob-sc{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:9px 8px;text-align:center;box-shadow:0 1px 4px rgba(15,23,42,.06);}
+.mob-sc{background:#fff;border:1px solid #e2e8f0;border-radius:9px;padding:9px 8px;text-align:center;box-shadow:0 1px 4px rgba(15,23,42,.06);min-width:0;overflow:hidden;}
 .mob-sv{font-size:13px;font-weight:900;color:#1565c0;font-family:'JetBrains Mono',monospace!important;}
 .mob-sv.teal{color:#00897b;}
 .mob-sl{font-size:8.5px;color:#64748b;font-weight:700;margin-top:2px;}
@@ -748,7 +749,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .mob-info-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid #f0f5fb;}
 .mob-info-row:last-child{border-bottom:none;}
 .mob-ik{font-size:9.5px;font-weight:700;color:#64748b;}
-.mob-iv{font-size:10px;font-weight:900;color:#0d1f3c;font-family:'JetBrains Mono',monospace!important;}
+.mob-iv{font-size:10px;font-weight:900;color:#0d1f3c;font-family:'Pretendard','Apple SD Gothic Neo',sans-serif!important;}
 .mob-footer{font-size:8px;color:#90a4ae;text-align:center;padding:8px 10px 12px;}
 
 /* 반응형: 작은 화면 */
@@ -2568,7 +2569,7 @@ function renderMobile(){
           +'<td>'+s.area.toFixed(2)+'</td>'
           +'<td style="font-weight:900;color:#1565c0">DN'+s.dn+'</td>'
           +'<td style="color:'+(s.V>=0.6&&s.V<=3.0?'#2e7d32':'#c62828')+'">'+s.V.toFixed(2)+'</td>'
-          +'<td style="color:'+(ok?'#2e7d32':'#c62828')+'font-weight:800">'+(ok?'✓':'✗')+'</td></tr>';
+          +'<td style="color:'+(ok?'#2e7d32':'#c62828')+';font-weight:800">'+(ok?'✓':'✗')+'</td></tr>';
       });
       html+='</tbody></table>';
     }
@@ -2627,21 +2628,37 @@ var _mobJpgDataUrl=null;
 var _mobJpgFname=null;
 
 function saveMobJpg(){
-  var frame=document.getElementById('mob-device-frame');
-  if(!frame){showToast('⚠️ 기기 프레임을 찾을 수 없습니다.');return;}
+  var screen=document.getElementById('mob-screen');
+  if(!screen){showToast('⚠️ 모바일 화면을 찾을 수 없습니다.');return;}
   var btn=document.getElementById('mob-jpg-btn');
   var status=document.getElementById('mob-jpg-status');
   btn.textContent='⏳ 생성 중…';
   btn.disabled=true;
   if(status)status.textContent='이미지 생성 중...';
 
-  html2canvas(frame,{
-    scale:3,
-    useCORS:true,
-    backgroundColor:'#0a0a0a',
-    logging:false,
-    allowTaint:true
+  /* overflow:auto → visible 임시 변경 (스크롤 콘텐츠 전체 캡처) */
+  var origOverflow=screen.style.overflow;
+  var origHeight=screen.style.height;
+  screen.style.overflow='visible';
+  screen.style.height='auto';
+
+  /* 폰트 로딩 대기 후 캡처 */
+  Promise.resolve().then(function(){
+    return new Promise(function(r){setTimeout(r,300);});
+  }).then(function(){
+    return html2canvas(screen,{
+      scale:2,
+      useCORS:true,
+      backgroundColor:'#f0f5fb',
+      logging:false,
+      windowWidth:screen.scrollWidth,
+      windowHeight:screen.scrollHeight
+    });
   }).then(function(canvas){
+    /* overflow 원복 */
+    screen.style.overflow=origOverflow||'';
+    screen.style.height=origHeight||'';
+
     var dataUrl=canvas.toDataURL('image/jpeg',0.95);
     var now=new Date();
     var fname='배관산정_S24Ultra_'
@@ -2651,6 +2668,7 @@ function saveMobJpg(){
       +'_'+('0'+now.getHours()).slice(-2)
       +('0'+now.getMinutes()).slice(-2)
       +'.jpg';
+
     /* 다운로드 */
     var a=document.createElement('a');
     a.href=dataUrl;a.download=fname;a.click();
@@ -2660,17 +2678,18 @@ function saveMobJpg(){
 
     /* Web Share API 지원 여부 확인 → 공유 버튼 표시 */
     var shareBtn=document.getElementById('mob-share-btn');
-    if(shareBtn&&navigator.share){
-      shareBtn.style.display='flex';
-    }
+    if(shareBtn&&navigator.share&&navigator.canShare){shareBtn.style.display='flex';}
 
     btn.textContent='📷 JPG 저장';
     btn.disabled=false;
     if(status)status.textContent='✅ 저장 완료';
     setTimeout(function(){if(status)status.textContent='';},3000);
-    showToast('✅ Galaxy S24 Ultra JPG 저장 완료');
+    showToast('✅ 배관산정 JPG 저장 완료!');
   }).catch(function(err){
-    console.error(err);
+    /* 오류 시에도 overflow 원복 */
+    screen.style.overflow=origOverflow||'';
+    screen.style.height=origHeight||'';
+    console.error('[html2canvas]',err);
     btn.textContent='📷 JPG 저장';
     btn.disabled=false;
     if(status)status.textContent='';
