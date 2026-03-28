@@ -778,7 +778,6 @@ input[type="number"]{-moz-appearance:textfield;}
   animation:bannerUp .35s cubic-bezier(.22,.61,.36,1);
 }
 @keyframes bannerUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-
 .pwa-inner{display:flex;align-items:center;gap:12px;}
 .pwa-texts{flex:1;min-width:0;}
 .pwa-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px;}
@@ -786,6 +785,20 @@ input[type="number"]{-moz-appearance:textfield;}
 .pwa-btns{display:flex;gap:7px;flex-shrink:0;}
 .pwa-ok{background:#42a5f5;border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:12px;font-family:inherit;}
 .pwa-no{background:rgba(255,255,255,.1);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;}
+
+/*══ 삼각자 FAB 호버 ══*/
+.help-fab:hover{transform:scale(1.09)!important;filter:drop-shadow(0 6px 18px rgba(15,76,129,.6))!important;}
+.help-fab:active{transform:scale(.95)!important;}
+
+/*══ 설계기준 모달 내부 탭 ══*/
+.guide-itab{
+  flex:1;padding:9px 6px;background:none;border:none;
+  font-size:11px;font-weight:700;color:#94a3b8;
+  cursor:pointer;font-family:inherit;
+  transition:all .15s;border-bottom:2.5px solid transparent;
+}
+.guide-itab:hover{color:#1565c0;background:#f0f8ff;}
+.guide-itab.active{color:#1565c0;border-bottom-color:#1976d2;background:#f0f8ff;}
 
 </style>
 </head>
@@ -807,7 +820,6 @@ input[type="number"]{-moz-appearance:textfield;}
         <img src="./icons/brand-icon.jpg" alt="토목배관" style="width:18px;height:18px;border-radius:4px;object-fit:cover;flex-shrink:0;"/>
         <span class="btn-txt">앱 설치</span>
       </button>
-      <button class="btn-hdr" onclick="openModal('modal-guide')">📚 <span class="btn-txt">설계기준</span></button>
       <button class="btn-hdr" onclick="resetAll()">🔄 <span class="btn-txt">초기화</span></button>
       <button class="btn-hdr-acc" onclick="doPrint()">🖨️ <span class="btn-txt">인쇄</span></button>
     </div>
@@ -821,7 +833,7 @@ input[type="number"]{-moz-appearance:textfield;}
     <button class="tb" onclick="showTab('tab-sw',this)"><div class="tb-dot teal"></div>🚽 <span class="tb-lbl">오수 배관산정</span></button>
     <button class="tb" onclick="showTab('tab-report',this)"><div class="tb-dot green"></div>📋 <span class="tb-lbl">A4 결과보고서</span></button>
     <button class="tb" onclick="showTab('tab-mobile',this)"><div class="tb-dot" style="background:#ab47bc;"></div>📱 <span class="tb-lbl">모바일 미리보기</span></button>
-    <button class="tb" onclick="showTab('tab-ref',this)"><div class="tb-dot amber"></div>📐 <span class="tb-lbl">설계기준 참조</span></button>
+  </div>
 </nav>
 
 <!-- ══════════════════════════════════════
@@ -1405,81 +1417,6 @@ input[type="number"]{-moz-appearance:textfield;}
     </div>
   </div>
 </div>
-<div id="tab-ref" class="tab-panel">
-  <div class="two-col">
-    <div>
-      <div class="card">
-        <div class="card-head">
-          <div class="card-ico blue">📚</div>
-          <span class="card-tit">관련 법규 및 설계기준 체계</span>
-        </div>
-        <div class="card-body">
-          <div class="nb blue"><div class="nb-tit">🏛️ 최상위 법규</div><div class="nb-txt"><strong>하수도법 및 시행규칙</strong> — 배수설비 설치·관리, 방류수 수질기준<br><strong>주택건설기준 등에 관한 규정 제43조</strong> — 주택단지 급·배수시설 설치 의무<br><strong>건축물의 설비기준 등에 관한 규칙</strong> — 배수 계통 상세 구조 기준</div></div>
-          <div class="nb teal"><div class="nb-tit">📐 핵심 기술기준 (KDS)</div><div class="nb-txt"><strong>KDS 61 10 00</strong> — 하수도 설계기준 (2022~2025 개정 반영)<br><strong>KDS 61 00 00</strong> — 하수도 일반설계기준<br><strong>KDS 31 30 35 : 2021</strong> — 건축물 우수관경 기준</div></div>
-          <div class="nb amber"><div class="nb-tit">🌱 2026년 신규 트렌드</div><div class="nb-txt"><strong>LID (저영향개발)</strong> — 투수성 포장, 침투 측구, 단지내 저류지 의무화/권장<br><strong>오·우수 분리 배출</strong> — 신규단지 분류식 설계 원칙<br><strong>총인(T-P) 기준 강화</strong> — 2025년 말 하수도법 시행규칙 개정<br><strong>스마트 하수도</strong> — 수위센서, 역류방지 밸브 설계 반영</div></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div class="card-ico blue">📏</div>
-          <span class="card-tit">우수관 표준 허용 유량표 (Manning — 만관 기준)</span>
-          <span class="cbadge blue">n=0.013, S=1/150</span>
-        </div>
-        <div class="card-body">
-          <div class="twrap">
-            <table class="rtbl">
-              <thead><tr><th>관경 DN (mm)</th><th>단면적 A (m²)</th><th>경심 R (m)</th><th>유속 V (m/s)</th><th>유량 Q (m³/s)</th><th>유량 (ℓ/s)</th></tr></thead>
-              <tbody id="ref-pipe-tbl-uw"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div class="card">
-        <div class="card-head">
-          <div class="card-ico teal">📏</div>
-          <span class="card-tit">오수관 허용 유량표 (Manning — 60% 충만도)</span>
-          <span class="cbadge teal">n=0.013, S=1/150, d/D=0.6</span>
-        </div>
-        <div class="card-body">
-          <div class="twrap">
-            <table class="rtbl teal">
-              <thead><tr><th>관경 DN (mm)</th><th>유수면적 (m²)</th><th>수리반경 R (m)</th><th>유속 V (m/s)</th><th>유량 Q (m³/s)</th><th>유량 (ℓ/s)</th><th>적정유속</th></tr></thead>
-              <tbody id="ref-pipe-tbl-sw"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <div class="card-ico amber">💡</div>
-          <span class="card-tit">단지내 설계 핵심 수치 요약</span>
-        </div>
-        <div class="card-body">
-          <div class="twrap">
-            <table class="rtbl">
-              <thead><tr><th>항목</th><th>우수관</th><th>오수관</th><th>비고</th></tr></thead>
-              <tbody>
-                <tr><td>최소 관경</td><td style="font-weight:800;color:#1565c0">DN 200mm</td><td style="font-weight:800;color:#00897b">DN 150mm</td><td>KDS 61 10 00</td></tr>
-                <tr><td>최소 유속</td><td>0.6 m/s</td><td>0.6 m/s</td><td>퇴적 방지</td></tr>
-                <tr><td>최대 유속</td><td>3.0 m/s</td><td>3.0 m/s</td><td>관 손상 방지</td></tr>
-                <tr><td>최적 유속</td><td>1.0~1.5 m/s</td><td>0.8~1.2 m/s</td><td>권장</td></tr>
-                <tr><td>충만도</td><td>—</td><td>60% 이하</td><td>오수관 기준</td></tr>
-                <tr><td>최소 경사</td><td>1/300</td><td>1/300~1/200</td><td>자연 유하</td></tr>
-                <tr><td>재현기간</td><td>5~30년</td><td>—</td><td>단지 규모별</td></tr>
-                <tr><td>유출계수</td><td>0.80~0.90</td><td>—</td><td>아파트 단지</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 </main><!-- /main-wrap -->
 
@@ -1487,37 +1424,138 @@ input[type="number"]{-moz-appearance:textfield;}
 <div id="bottom-bar-uw" class="bottom-bar no-print">
   <div class="bottom-bar-inner">
     <button class="btn-calc" onclick="calcUW()">🌧️ <span>우수 배관 계산 실행</span></button>
-    <button class="btn-secondary" onclick="openModal('modal-guide')">📚 <span class="btn-stxt">기준</span></button>
     <button class="btn-secondary" onclick="resetUW()">🔄 <span class="btn-stxt">초기화</span></button>
   </div>
 </div>
 <div id="bottom-bar-sw" class="bottom-bar no-print" style="display:none;">
   <div class="bottom-bar-inner">
     <button class="btn-calc teal" onclick="calcSW()">🚽 <span>오수 배관 계산 실행</span></button>
-    <button class="btn-secondary" onclick="openModal('modal-guide')">📚 <span class="btn-stxt">기준</span></button>
     <button class="btn-secondary" onclick="resetSW()">🔄 <span class="btn-stxt">초기화</span></button>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- ══ TOAST ══ -->
 <div class="toast" id="toast"></div>
 
-<!-- ══ MODAL: 설계기준 안내 ══ -->
-<div class="modal-ov" id="modal-guide" style="display:none;" onclick="if(event.target===this)closeModal('modal-guide')">
-  <div class="modal-box">
-    <div class="modal-head">
-      <div class="modal-head-ico blue">📐</div>
-      <span class="modal-tit">단지내 우수·오수 설계 기준 안내</span>
-      <button class="modal-cls" onclick="closeModal('modal-guide')">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="nb blue"><div class="nb-tit">🌧️ 우수 배관 — 합리식 (Rational Formula)</div><div class="nb-txt"><strong>Q = C·I·A / 360</strong> (단위: m³/s)<br>C: 유출계수 | I: 강우강도(mm/hr) | A: 유역면적(ha)<br><br>Manning 공식으로 관경 역산: <strong>D = {(Qn) / (K·S^½)}^(3/8)</strong><br>K = (π/4)^(5/8) × (1/π)^(2/3) ≈ 0.3117 (원형 만관)</div></div>
-      <div class="nb teal"><div class="nb-tit">🚽 오수 배관 — 계획오수량 산정</div><div class="nb-txt">시간최대오수량(Q_max) = 1일최대오수량 × (1/24hr) × 시간변동계수(1.3~1.8)<br>1일최대오수량 = 계획인구 × 1인1일오수량<br>계획인구 = 세대 수 × 세대당 인원<br><br>Manning 역산으로 필요 관경 결정 — 충만도 60% 기준 적용</div></div>
-      <div class="nb amber"><div class="nb-tit">📋 관경 선정 기준 (단지내)</div><div class="nb-txt">① 최소 관경: 우수 DN200, 오수 DN150 이상<br>② 유속 범위: 0.6~3.0 m/s (퇴적·침식 방지)<br>③ 경사: 최소 1/300 (자연유하), 권장 1/150~1/100<br>④ 오수관 충만도: 최대 60% (여유 확보)<br>⑤ 재현기간: 일반 5~10년, 간선 10~30년</div></div>
-      <div class="nb grn"><div class="nb-tit">⚡ 2026 최신 설계 트렌드</div><div class="nb-txt">· LID 투수성 포장 — 유출계수 저감 (C: 0.4~0.6 적용 가능)<br>· 신규 단지: 분류식 배수 원칙 (오수·우수 분리)<br>· 총인(T-P) 강화 기준 반영 (2025 하수도법 개정)<br>· 스마트 하수도: 수위센서·역류방지밸브 설계 반영</div></div>
-    </div>
-  </div>
+<!-- ══ 삼각자 FAB (우측 하단) ══ -->
+<div class="no-print">
+  <svg class="help-fab" id="help-fab" onclick="toggleGuide()" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" style="position:fixed;right:18px;bottom:calc(80px + env(safe-area-inset-bottom,0px));z-index:150;width:52px;height:52px;cursor:pointer;filter:drop-shadow(0 4px 12px rgba(15,76,129,.45));transition:transform .2s,filter .2s;-webkit-tap-highlight-color:transparent;">
+    <defs>
+      <linearGradient id="fabGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" style="stop-color:#1976d2;stop-opacity:1"/>
+        <stop offset="100%" style="stop-color:#0d47a1;stop-opacity:1"/>
+      </linearGradient>
+    </defs>
+    <!-- 삼각자 몸체 -->
+    <polygon points="4,48 48,48 4,4" fill="url(#fabGrad)"/>
+    <!-- 직각 표시 -->
+    <rect x="4" y="40" width="8" height="8" fill="none" stroke="#90caf9" stroke-width="1.5"/>
+    <!-- 눈금 -->
+    <line x1="8" y1="44" x2="8" y2="36" stroke="#90caf9" stroke-width="1"/>
+    <line x1="8" y1="44" x2="16" y2="44" stroke="#90caf9" stroke-width="1"/>
+    <line x1="8" y1="40" x2="12" y2="40" stroke="#90caf9" stroke-width="0.7"/>
+    <!-- 📐 아이콘 텍스트 -->
+    <text x="30" y="44" font-family="sans-serif" font-size="13" font-weight="900" fill="white" text-anchor="middle">📐</text>
+  </svg>
 </div>
+
+<!-- ══ 설계기준 중앙 모달 오버레이 ══ -->
+<div id="guide-overlay" onclick="handleGuideOverlay(event)" style="
+  display:none;position:fixed;inset:0;
+  background:rgba(13,31,60,.55);
+  z-index:300;
+  align-items:center;justify-content:center;
+  padding:16px;
+  backdrop-filter:blur(3px);
+">
+  <div id="guide-panel" style="
+    background:#fff;
+    border-radius:18px;
+    width:min(620px,calc(100vw - 32px));
+    max-height:min(760px,calc(100vh - 80px));
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 24px 64px rgba(13,31,60,.35);
+    border:1px solid #bbdefb;
+    transform:scale(.94) translateY(12px);
+    opacity:0;
+    transition:transform .25s cubic-bezier(.34,1.56,.64,1),opacity .2s;
+  ">
+    <!-- 헤더 -->
+    <div style="background:linear-gradient(135deg,#0f3460,#0f4c81);padding:14px 18px;display:flex;align-items:center;gap:10px;flex-shrink:0;">
+      <span style="font-size:22px;">📐</span>
+      <div style="flex:1;min-width:0;">
+        <div style="color:#fff;font-size:13px;font-weight:900;">단지내 우수·오수 설계 기준</div>
+        <div style="color:#90caf9;font-size:9px;font-weight:700;margin-top:2px;">KDS 61 10 00 / 하수도설계기준 / MANMIN Ver2.0</div>
+      </div>
+      <button onclick="toggleGuide()" style="width:28px;height:28px;background:rgba(255,255,255,.15);border:none;border-radius:8px;color:#fff;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:background .15s;">✕</button>
+    </div>
+    <!-- 내부 탭 -->
+    <div style="display:flex;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
+      <button class="guide-itab active" id="gitab-formula"  onclick="switchGuideTab('formula')">계산식</button>
+      <button class="guide-itab"        id="gitab-law"      onclick="switchGuideTab('law')">법규·기준</button>
+      <button class="guide-itab"        id="gitab-design"   onclick="switchGuideTab('design')">설계기준</button>
+      <button class="guide-itab"        id="gitab-pipe"     onclick="switchGuideTab('pipe')">관경표</button>
+    </div>
+    <!-- 탭 콘텐츠 -->
+    <div style="overflow-y:auto;flex:1;padding:14px 16px;">
+
+      <!-- 계산식 탭 -->
+      <div id="gitab-panel-formula">
+        <div class="nb blue" style="margin-bottom:10px;"><div class="nb-tit">🌧️ 우수 — 합리식 (Rational Formula)</div><div class="nb-txt"><strong>Q = C · I · A / 360</strong> &nbsp; (단위: m³/s)<br>C: 유출계수 &nbsp;|&nbsp; I: 강우강도 (mm/hr) &nbsp;|&nbsp; A: 유역면적 (ha)<br><br><strong>Manning 역산 관경:</strong>&nbsp; D = { (Q·n) / (K·S^½) }^(3/8)<br>K ≈ 0.3117 (원형 만관) &nbsp;|&nbsp; n: Manning 계수 &nbsp;|&nbsp; S: 동수경사</div></div>
+        <div class="nb teal" style="margin-bottom:10px;"><div class="nb-tit">🚽 오수 — 계획오수량 산정</div><div class="nb-txt">시간최대오수량 Q_max = 1일최대오수량 × (1/24) × 시간변동계수 (1.3~1.8)<br>1일최대오수량 = 계획인구 × 1인1일오수량 (ℓ/인/일)<br>계획인구 = 세대 수 × 세대당 인원<br><br>Manning 역산 — 충만도 <strong>60% (d/D=0.6)</strong> 기준 적용<br>θ = 2·arccos(1−2f), &nbsp;A = (D²/8)·(θ−sinθ), &nbsp;P = D·θ/2</div></div>
+        <div class="nb amber"><div class="nb-tit">📐 강우강도 (Talbot형 IDF)</div><div class="nb-txt"><strong>I = a / (t + b)</strong> &nbsp; mm/hr<br>a, b: 지역별 Talbot 계수 (지자체 하수도정비기본계획 준용)<br>t: 유달시간 (min) &nbsp;|&nbsp; 재현기간별 계수 별도 적용<br><br>참조: K-IDF (www.k-idf.re.kr) / 국가수자원관리종합정보시스템</div></div>
+      </div>
+
+      <!-- 법규·기준 탭 -->
+      <div id="gitab-panel-law" style="display:none;">
+        <div class="nb blue" style="margin-bottom:10px;"><div class="nb-tit">🏛️ 최상위 법규</div><div class="nb-txt"><strong>하수도법 및 시행규칙</strong> — 배수설비 설치·관리, 방류수 수질기준<br><strong>주택건설기준 등에 관한 규정 제43조</strong> — 주택단지 급·배수시설 설치 의무<br><strong>건축물의 설비기준 등에 관한 규칙</strong> — 배수 계통 상세 구조 기준</div></div>
+        <div class="nb teal" style="margin-bottom:10px;"><div class="nb-tit">📐 핵심 기술기준 (KDS)</div><div class="nb-txt"><strong>KDS 61 10 00</strong> — 하수도 설계기준 (2022~2025 개정 반영)<br><strong>KDS 61 00 00</strong> — 하수도 일반설계기준<br><strong>KDS 31 30 35 : 2021</strong> — 건축물 우수관경 기준<br><strong>KDS 61 35 00</strong> — 하수도 관로시설 설계기준</div></div>
+        <div class="nb amber"><div class="nb-tit">🌱 2026 신규 트렌드</div><div class="nb-txt"><strong>LID (저영향개발)</strong> — 투수성 포장, 침투 측구, 단지내 저류지 의무화/권장<br><strong>오·우수 분리 배출</strong> — 신규단지 분류식 설계 원칙<br><strong>총인(T-P) 강화 기준</strong> — 2025년 말 하수도법 시행규칙 개정<br><strong>스마트 하수도</strong> — 수위센서, 역류방지 밸브 설계 반영</div></div>
+        <div class="nb grn"><div class="nb-tit">⚡ 2026 최신 설계 동향</div><div class="nb-txt">· LID 투수성 포장 — 유출계수 저감 (C: 0.4~0.6 적용 가능)<br>· 신규 단지: 분류식 배수 원칙 (오수·우수 분리)<br>· 총인(T-P) 강화 기준 반영 (2025 하수도법 개정)<br>· 스마트 하수도: 수위센서·역류방지밸브 설계 반영</div></div>
+      </div>
+
+      <!-- 설계기준 탭 -->
+      <div id="gitab-panel-design" style="display:none;">
+        <div class="nb blue" style="margin-bottom:10px;"><div class="nb-tit">📋 관경 선정 기준 (단지내)</div><div class="nb-txt">① 최소 관경: 우수 <strong>DN200mm</strong>, 오수 <strong>DN150mm</strong> 이상<br>② 유속 범위: <strong>0.6~3.0 m/s</strong> (퇴적·침식 방지)<br>③ 경사: 최소 1/300 (자연유하), 권장 1/150~1/100<br>④ 오수관 충만도: <strong>최대 60%</strong> (여유 확보)<br>⑤ 재현기간: 일반 5~10년, 간선 10~30년</div></div>
+        <div class="twrap" style="margin-bottom:10px;">
+          <table class="rtbl">
+            <thead><tr><th>항목</th><th>우수관</th><th>오수관</th><th>비고</th></tr></thead>
+            <tbody>
+              <tr><td>최소 관경</td><td style="font-weight:900;color:#1565c0">DN 200mm</td><td style="font-weight:900;color:#00897b">DN 150mm</td><td>KDS 61 10 00</td></tr>
+              <tr><td>최소 유속</td><td>0.6 m/s</td><td>0.6 m/s</td><td>퇴적 방지</td></tr>
+              <tr><td>최대 유속</td><td>3.0 m/s</td><td>3.0 m/s</td><td>관 손상 방지</td></tr>
+              <tr><td>최적 유속</td><td>1.0~1.5 m/s</td><td>0.8~1.2 m/s</td><td>권장</td></tr>
+              <tr><td>충만도</td><td>—</td><td>60% 이하</td><td>오수관 기준</td></tr>
+              <tr><td>최소 경사</td><td>1/300</td><td>1/300~1/200</td><td>자연 유하</td></tr>
+              <tr><td>재현기간</td><td>5~30년</td><td>—</td><td>단지 규모별</td></tr>
+              <tr><td>유출계수</td><td>0.80~0.90</td><td>—</td><td>아파트 단지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 관경표 탭 -->
+      <div id="gitab-panel-pipe" style="display:none;">
+        <div style="font-size:10.5px;font-weight:800;color:#1565c0;margin-bottom:7px;padding:4px 8px;background:#e3f2fd;border-left:3px solid #1976d2;border-radius:0 5px 5px 0;">🌧️ 우수관 허용유량표 (Manning n=0.013, S=1/150, 만관)</div>
+        <div class="twrap" style="margin-bottom:12px;">
+          <table class="rtbl" id="guide-pipe-tbl-uw">
+            <thead><tr><th>DN (mm)</th><th>A (m²)</th><th>R (m)</th><th>V (m/s)</th><th>Q (m³/s)</th><th>Q (ℓ/s)</th></tr></thead>
+            <tbody id="guide-uw-tbody"></tbody>
+          </table>
+        </div>
+        <div style="font-size:10.5px;font-weight:800;color:#00695c;margin-bottom:7px;padding:4px 8px;background:#e0f2f1;border-left:3px solid #00897b;border-radius:0 5px 5px 0;">🚽 오수관 허용유량표 (Manning n=0.013, S=1/150, d/D=0.6)</div>
+        <div class="twrap">
+          <table class="rtbl teal" id="guide-pipe-tbl-sw">
+            <thead><tr><th>DN (mm)</th><th>A (m²)</th><th>R (m)</th><th>V (m/s)</th><th>Q (m³/s)</th><th>Q (ℓ/s)</th><th>적정유속</th></tr></thead>
+            <tbody id="guide-sw-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /scroll area -->
+  </div><!-- /guide-panel -->
+</div><!-- /guide-overlay -->
 
 </div><!-- /root-app -->
 
@@ -2736,7 +2774,6 @@ function showTab(id,btn){
   document.getElementById('bottom-bar-uw').style.display=id==='tab-uw'?'block':'none';
   document.getElementById('bottom-bar-sw').style.display=id==='tab-sw'?'block':'none';
   if(id==='tab-report'){scaleA4();}
-  if(id==='tab-ref'){renderRefTables();}
   if(id==='tab-mobile'){renderMobile();startMobClock();}
 }
 function uwUpdateSteps(active){
@@ -2760,6 +2797,88 @@ function swUpdateSteps(active){
     else{c.className='sc';l.className='sl';}
     if(i<4){var d=document.getElementById('sw-div'+i);if(d)d.className='sdiv'+(i<active?' done':'');}
   }
+}
+
+/* ════════════════════════════════════════════════════════
+   삼각자 설계기준 모달
+════════════════════════════════════════════════════════ */
+var _guideOpen = false;
+var _guideScrollY = 0;
+var _guidePipeBuilt = false;
+
+function toggleGuide(){
+  _guideOpen = !_guideOpen;
+  var overlay = document.getElementById('guide-overlay');
+  var panel   = document.getElementById('guide-panel');
+  if(_guideOpen){
+    _guideScrollY = window.scrollY || 0;
+    overlay.style.display = 'flex';
+    requestAnimationFrame(function(){
+      panel.style.transform = 'scale(1) translateY(0)';
+      panel.style.opacity   = '1';
+    });
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top      = '-' + _guideScrollY + 'px';
+    document.body.style.width    = '100%';
+    if(!_guidePipeBuilt){ buildGuidePipeTables(); _guidePipeBuilt = true; }
+  } else {
+    panel.style.transform = 'scale(.94) translateY(12px)';
+    panel.style.opacity   = '0';
+    setTimeout(function(){ overlay.style.display = 'none'; }, 230);
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top      = '';
+    document.body.style.width    = '';
+    window.scrollTo(0, _guideScrollY);
+  }
+}
+function handleGuideOverlay(e){
+  if(e.target === document.getElementById('guide-overlay')) toggleGuide();
+}
+function switchGuideTab(name){
+  ['formula','law','design','pipe'].forEach(function(t){
+    var btn = document.getElementById('gitab-'+t);
+    var pnl = document.getElementById('gitab-panel-'+t);
+    if(btn) btn.classList.toggle('active', t === name);
+    if(pnl) pnl.style.display = (t === name) ? 'block' : 'none';
+  });
+  if(name === 'pipe' && !_guidePipeBuilt){ buildGuidePipeTables(); _guidePipeBuilt = true; }
+}
+function buildGuidePipeTables(){
+  var DNS = [150,200,250,300,350,400,450,500,600,700,800,900,1000];
+  // 우수 만관
+  var uwHtml = '';
+  DNS.forEach(function(dn){
+    var r = manningQ_full(dn, 0.013, 150);
+    uwHtml += '<tr>'
+      + '<td><strong>DN' + dn + '</strong></td>'
+      + '<td>' + (r.A * 10000).toFixed(1) + ' cm²</td>'
+      + '<td>' + r.R.toFixed(4) + '</td>'
+      + '<td>' + r.V.toFixed(3) + '</td>'
+      + '<td>' + r.Q.toFixed(4) + '</td>'
+      + '<td>' + (r.Q * 1000).toFixed(1) + '</td>'
+      + '</tr>';
+  });
+  var uwEl = document.getElementById('guide-uw-tbody');
+  if(uwEl) uwEl.innerHTML = uwHtml;
+  // 오수 60% 충만도
+  var swHtml = '';
+  DNS.forEach(function(dn){
+    var r = manningQ_partial(dn, 0.013, 150, 0.6);
+    var vOk = (r.V >= 0.6 && r.V <= 3.0);
+    swHtml += '<tr>'
+      + '<td><strong>DN' + dn + '</strong></td>'
+      + '<td>' + (r.A * 10000).toFixed(2) + ' cm²</td>'
+      + '<td>' + r.R.toFixed(4) + '</td>'
+      + '<td style="font-weight:900;color:' + (vOk ? '#00897b' : '#c62828') + '">' + r.V.toFixed(3) + '</td>'
+      + '<td>' + r.Q.toFixed(4) + '</td>'
+      + '<td>' + (r.Q * 1000).toFixed(1) + '</td>'
+      + '<td style="font-weight:900;color:' + (vOk ? '#2e7d32' : '#c62828') + '">' + (vOk ? '✓ 적정' : '✗ 검토') + '</td>'
+      + '</tr>';
+  });
+  var swEl = document.getElementById('guide-sw-tbody');
+  if(swEl) swEl.innerHTML = swHtml;
 }
 
 /* ════════════════════════════════════════════════════════
@@ -2874,6 +2993,11 @@ document.addEventListener('DOMContentLoaded',function(){
 
   // A4 resize
   setTimeout(scaleA4,200);
+
+  // ESC 키: 설계기준 모달 닫기
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape' && _guideOpen) toggleGuide();
+  });
 });
 
 /* ════════════════════════════════════════════════════════
