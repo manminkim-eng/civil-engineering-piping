@@ -443,10 +443,10 @@ input[type="number"]{-moz-appearance:textfield;}
 /*══════════════════════════════════════
   A4 REPORT  
 ══════════════════════════════════════*/
-.a4-wrap{background:#78909c;padding:20px;min-height:calc(100vh - 130px);overflow-x:hidden;overflow-y:auto;position:relative;display:flex;justify-content:center;align-items:flex-start;}
-.a4-scale-wrap{display:block;transform-origin:top center;width:794px;flex-shrink:0;}
+.a4-wrap{background:#78909c;padding:20px 0;min-height:calc(100vh - 130px);overflow-x:hidden;overflow-y:auto;position:relative;display:block;}
+.a4-scale-wrap{display:block;transform-origin:top left;width:794px;flex-shrink:0;}
 @media(max-width:860px){
-  .a4-wrap{padding:8px;justify-content:flex-start;align-items:flex-start;}
+  .a4-wrap{padding:8px 0;}
   .a4-scale-wrap{transform-origin:top left;}
 }
 .a4-page{background:#fff;width:794px;min-height:1122px;margin:0 auto;padding:16px 24px 30px;box-shadow:0 8px 40px rgba(0,0,0,.28);font-size:11px;color:#0d1f3c;display:inline-block;}
@@ -565,6 +565,30 @@ input[type="number"]{-moz-appearance:textfield;}
 
   /* inline style break-inside:avoid 는 페이지 분할 허용으로 오버라이드 */
   /* (Hero 박스·헤더는 .a4-no-break 클래스로 제어) */
+
+  /* ⑦ 인쇄 시 scale transform 완전 해제 — 위치·크기 원복 */
+  .a4-scale-wrap{
+    transform:none!important;
+    transform-origin:unset!important;
+    width:100%!important;
+    margin:0!important;
+  }
+  .a4-wrap{
+    padding:0!important;
+    min-height:auto!important;
+    background:transparent!important;
+    display:block!important;
+  }
+  /* ⑧ 인쇄 시 .a4-page 여백·크기 정규화 */
+  .a4-page{
+    width:100%!important;
+    box-shadow:none!important;
+    margin:0!important;
+    padding:10mm 12mm!important;
+    box-sizing:border-box!important;
+    font-size:10px!important;
+    min-height:auto!important;
+  }
 }
 
 /*══════════════════════════════════════
@@ -2480,20 +2504,37 @@ function renderA4Report(){
 }
 
 function scaleA4(){
-  var wrap=document.getElementById('a4-scale');
-  if(!wrap)return;
-  var container=wrap.parentElement;
-  if(!container)return;
-  var avail=container.clientWidth-40;
-  if(avail<=0)return;
-  var scale=Math.min(1,avail/794);
-  wrap.style.transform='scale('+scale+')';
-  // 스케일 축소 시 남는 여백 보정 (음수 마진으로 공백 제거)
-  var contentH=wrap.offsetHeight||1122;
-  var diff=contentH*scale-contentH;
-  wrap.style.marginBottom=diff+'px';
+  var wrap = document.getElementById('a4-scale');
+  if(!wrap) return;
+  var container = wrap.parentElement;
+  if(!container) return;
+
+  var A4W    = 794;
+  /* getBoundingClientRect: 소수점 포함 실제 렌더 너비 (padding 오차 없음) */
+  var outerW = container.getBoundingClientRect().width;
+  if(outerW <= 0) return;
+
+  var scale   = Math.min(1, outerW / A4W);
+  var scaledW = A4W * scale;
+  /* 수학적 정중앙: (전체너비 - 축소된너비) / 2 */
+  var offset  = Math.max(0, (outerW - scaledW) / 2);
+
+  wrap.style.transformOrigin = 'top left';
+  wrap.style.transform = 'translateX('+offset+'px) scale('+scale+')';
+  wrap.style.marginBottom = '';
+
+  /* 높이 보정: scale된 실제 높이 + 상하 여백 */
+  requestAnimationFrame(function(){
+    var scaledH = wrap.scrollHeight * scale;
+    container.style.minHeight = (scaledH + 40) + 'px';
+  });
 }
-window.addEventListener('resize',function(){if(document.getElementById('tab-report').classList.contains('active'))scaleA4();});
+(function(){
+  var _rt = null;
+  function _rs(){ clearTimeout(_rt); _rt = setTimeout(scaleA4, 80); }
+  window.addEventListener('resize', _rs);
+  window.addEventListener('orientationchange', function(){ setTimeout(scaleA4, 300); });
+})();
 
 /* ════════════════════════════════════════════════════════
    REFERENCE TABLE RENDER
