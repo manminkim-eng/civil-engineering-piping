@@ -174,7 +174,7 @@ input[type="number"]{-moz-appearance:textfield;}
   FORM  
 ══════════════════════════════════════*/
 .flbl{font-size:9.5px;font-weight:700;color:#546e7a;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;display:block;}
-.finput{width:100%;padding:8px 11px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:12.5px;font-weight:600;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;}
+.finput{width:100%;padding:8px 11px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:12.5px;font-weight:600;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;height:38px;box-sizing:border-box;}
 .finput:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.1);background:#fff;}
 /* iOS 자동 줌인 방지: 터치 디바이스에서 font-size 16px 보장 */
 @media(max-width:768px){
@@ -563,6 +563,9 @@ input[type="number"]{-moz-appearance:textfield;}
   @page{size:A4 portrait;margin:14mm 12mm 22mm 14mm;}
 }
 </style>
+<style id="mm-r1">/* R1 (2026-09-04 · 지시서 §20-1 · S10 소급) — 인쇄 PDF 하단 각인 MANMIN · Ver 비표시. 버전은 A4 푸터 [MANMIN-Ver5.0] 이 담당 */
+#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}
+@media print{#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}}</style>
 </head>
 <body>
 <div id="root-app">
@@ -2539,7 +2542,6 @@ document.addEventListener('DOMContentLoaded',function(){
 
 </script>
 
-<div id="dev-stamp">MANMIN · Ver-5.0</div>
 <script>
 /* ═══════════════ v5.0 — A4 페이지 단위 JPG + 저장 시트 (§3-5 · §14-2 · §17-7) ═══════════════
    22 냉온배관 v5.0 엔진 이식. 통짜 1장 캡처 → A4 비율(794×1123) 쪽 분할 + 미리보기 시트. */
@@ -2752,5 +2754,7 @@ window.exportA4Jpg = function(){
 })();
 </script>
 </div><!-- /root-app -->
+<script>/* R26 (2026-09-04 · 지시서 §20-15 ③ · S10 소급) — 인쇄 중 문서 제목을 비워 PDF 머리글의 페이지 제목을 지운다. 쪽번호·URL 은 브라우저 옵션 */
+(function(){var t=null;window.addEventListener('beforeprint',function(){if(t===null){t=document.title;}document.title=' ';});window.addEventListener('afterprint',function(){if(t!==null){document.title=t;t=null;}});})();</script>
 </body>
 </html>
