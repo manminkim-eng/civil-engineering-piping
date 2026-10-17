@@ -1,7 +1,7 @@
 {
-  "name": "토목배관 — 단지내 우수·오수 배관산정 시스템 · MANMIN Ver-5.0",
+  "name": "토목배관 — 단지내 우수·오수 배관산정 시스템 · MANMIN Ver-5.1",
   "short_name": "토목배관",
-  "description": "단지내 토목 우수·오수 배관 산정 — KDS 61 10 00 / 하수도설계기준 / 합리식 — CIVIL ENGINEER KIM MANMIN",
+  "description": "단지내 토목 우수·오수 배관 산정 — KDS 61 40 00 · 61 10 00 / 합리식 · Manning — CIVIL ENGINEER KIM MANMIN",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

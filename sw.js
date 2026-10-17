@@ -1,4 +1,5 @@
 /* ═══════════════════════════════════════════════════
+   v5.1.0 회차 2026-10-17 — KDS 61 40 00 · 61 10 00 (2025. 10. 1.) 원문 대조 판정 엔진 CEPENG · 매뉴얼(/manual/ 캐시 제외) · 캐시명 v5.1.0
    S6 회차 2026-09-05 — R24①② 표 선 separate·mono 한글 폴백 소급 동반 캐시명 v5.0.5
    S5 회차 2026-09-04 — R23② JPG 엔진 행 나눔 소급 동반 캐시명 v5.0.4
    S3-0 회차 2026-09-04 — R27 html2canvas 클론 정화 동반 캐시명 v5.0.3
@@ -36,7 +37,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE  = 'tobog-v5.0.5';   /* 2026-09-03 v5.0 디자인 통일 */
+const CACHE  = 'tobog-v5.1.0';   /* v5.1.0 : KDS 원문 대조 판정 엔진 */
 const ORPHAN = ['tobog-v2.0'];
 const ASSETS = [
   './',
@@ -87,6 +88,8 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   if (!e.request.url.startsWith('http')) return;
+  /* v5.1.0 — 사용자 매뉴얼(/manual/)은 온라인 전용 · 캐시하지 않음 */
+  if (new URL(e.request.url).pathname.indexOf('/manual/') !== -1) return;
 
   /* ══ ⛔ 핵심 ══ HTML 문서는 Network-first.
      네트워크가 되면 항상 최신을 보여주고, 끊겼을 때만 캐시로 떨어진다. */
