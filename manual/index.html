@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>단지내 우수·오수 배관 산정 시스템 사용자 매뉴얼 Ver-5.1 · MANMIN</title>
+<meta name="description" content="단지내 우수·오수 배관 산정 시스템 MANMIN Ver-5.1 사용자 매뉴얼 — KDS 61 40 00 · 61 10 00 기준 우수 · 오수 관경 · 유속 판정 해설">
+<meta name="author" content="김만민 건축사 · ㈜대성건축사사무소">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&family=Orbitron:wght@700;900&display=swap">
+<link rel="stylesheet" href="./assets/fonts/manmin-fonts.css">
+<style>
+:root{
+  --navy:#2D3A8C;--navy-d:#1F2A6B;--navy-l:#E9ECF8;--accent:#F4A261;--accent-d:#C97A3A;--accent-l:#FDF1E7;
+  --bg:#F8F9FA;--card:#FFFFFF;--text:#1A1A2E;--text2:#4A4F66;--line:#DDE1EA;--ok:#0F766E;--ng:#B42318;
+  --r:12px;--pad:24px;--shadow:0 4px 20px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-sans);font-size:16px;line-height:1.75;word-break:keep-all;overflow-wrap:anywhere}
+a{color:var(--navy)}a:hover{color:var(--accent-d)}
+code,kbd,.mono{font-family:var(--font-mono);font-size:.9em}
+code{background:var(--navy-l);color:var(--navy-d);padding:1px 6px;border-radius:5px}
+kbd{border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 6px;background:#fff}
+/* 상단 */
+.top{background:linear-gradient(135deg,var(--navy-d),var(--navy));color:#fff}
+.top-in{max-width:1240px;margin:0 auto;padding:44px 24px 36px}
+.eyebrow{font-family:var(--font-brand);font-weight:700;font-size:12px;letter-spacing:.18em;opacity:.85}
+.top h1{font-size:28px;font-weight:900;margin:8px 0 6px;line-height:1.35}
+.top .sub{opacity:.9;margin:0}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 12px;font-size:13px}
+a.badge{color:#fff;text-decoration:none}a.badge:hover{background:rgba(255,255,255,.24);color:#fff}
+.badge.acc{background:var(--accent);border-color:var(--accent);color:#1A1A2E;font-weight:700}
+/* 레이아웃 */
+.wrap{max-width:1240px;margin:0 auto;padding:28px 24px 80px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:32px}
+nav.toc{position:sticky;top:16px;align-self:start;max-height:calc(100vh - 32px);overflow:auto;background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 16px;font-size:14px}
+nav.toc h2{font-size:13px;letter-spacing:.12em;color:var(--text2);margin:0 0 8px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li a{display:block;padding:5px 8px;border-radius:8px;text-decoration:none;color:var(--text)}
+nav.toc li a:hover,nav.toc li a.on{background:var(--navy-l);color:var(--navy)}
+nav.toc li.sub a{padding-left:20px;font-size:13px;color:var(--text2)}
+main{min-width:0}
+section.ch{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:var(--pad) calc(var(--pad) + 8px);margin-bottom:28px}
+section.ch>h2{font-size:24px;font-weight:700;color:var(--navy);margin:0 0 4px;display:flex;align-items:baseline;gap:10px}
+section.ch>h2 .n{font-family:var(--font-brand);font-weight:700;font-size:14px;color:#fff;background:var(--navy);border-radius:8px;padding:2px 9px}
+section.ch>.lead{color:var(--text2);margin:0 0 18px}
+h3{font-size:19px;color:var(--navy-d);margin:34px 0 10px;padding-top:6px;border-top:1px solid var(--line)}
+h3:first-of-type{border-top:0}
+h4{font-size:16px;margin:22px 0 8px}
+p{margin:8px 0}
+ul,ol{padding-left:22px}
+.note,.tip,.warn{border-radius:10px;padding:12px 16px;margin:14px 0;font-size:15px}
+.note{background:var(--navy-l);border-left:4px solid var(--navy)}
+.tip{background:var(--accent-l);border-left:4px solid var(--accent)}
+.warn{background:#FEF3F2;border-left:4px solid var(--ng)}
+.note b:first-child,.tip b:first-child,.warn b:first-child{margin-right:6px}
+/* 표 */
+.tbl{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;font-size:14px;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--navy-l);color:var(--navy-d);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-family:var(--font-mono);white-space:nowrap}
+.ok{color:var(--ok);font-weight:700}.ng{color:var(--ng);font-weight:700}
+/* 그림 */
+figure.shot{margin:18px 0 26px}
+figure.shot .frame{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;cursor:zoom-in}
+figure.shot img{display:block;width:100%;height:auto}
+figure.narrow{max-width:420px}
+.pin{position:absolute;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:var(--accent);color:#1A1A2E;font:700 13px/26px var(--font-mono);text-align:center;box-shadow:0 0 0 3px #fff,0 2px 8px rgba(0,0,0,.35);pointer-events:none}
+figcaption{font-size:14px;color:var(--text2);margin-top:8px}
+.fno{font-family:var(--font-mono);font-size:11px;background:var(--navy);color:#fff;border-radius:6px;padding:1px 7px;margin-right:8px}
+ol.legend{list-style:none;padding:0;margin:10px 0 0;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:6px 16px;font-size:14px}
+ol.legend li{display:flex;gap:8px;align-items:flex-start}
+ol.legend b{flex:0 0 22px;height:22px;border-radius:50%;background:var(--accent);font:700 12px/22px var(--font-mono);text-align:center}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+/* 단계 */
+.steps{counter-reset:st;list-style:none;padding:0;margin:16px 0}
+.steps>li{counter-increment:st;position:relative;padding:4px 0 18px 54px;border-left:2px solid var(--line);margin-left:18px}
+.steps>li:last-child{border-left-color:transparent}
+.steps>li::before{content:counter(st);position:absolute;left:-19px;top:0;width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;font:700 15px/36px var(--font-mono);text-align:center;box-shadow:0 0 0 4px var(--bg)}
+.steps>li>b.t{display:block;font-size:17px;color:var(--navy-d);margin-bottom:2px}
+/* 수식 */
+.eq{font-family:var(--font-mono);background:#0F1630;color:#E8ECFF;border-radius:10px;padding:14px 18px;margin:12px 0;overflow-x:auto;font-size:14px;line-height:1.9;white-space:pre}
+.eq .c{color:#9AA6D6}
+.svgbox{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin:14px 0;overflow-x:auto}
+.svgbox svg{display:block;width:100%;min-width:640px;height:auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:14px 0}
+.card{border:1px solid var(--line);border-radius:var(--r);padding:16px;background:#fff}
+.card h5{margin:0 0 4px;font-size:15px;color:var(--navy)}
+.card p{margin:0;font-size:14px;color:var(--text2)}
+footer.foot{max-width:1240px;margin:0 auto;padding:0 24px 40px;color:var(--text2);font-size:13px}
+/* 라이트박스 */
+#lb{position:fixed;inset:0;background:rgba(10,14,30,.88);display:none;align-items:center;justify-content:center;z-index:99;cursor:zoom-out;padding:16px}
+#lb.open{display:flex}#lb img{max-width:100%;max-height:100%;border-radius:8px;background:#fff}
+.totop{position:fixed;right:18px;bottom:18px;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:0;font-size:18px;box-shadow:var(--shadow);cursor:pointer}
+/* 반응형 5단계 */
+@media (max-width:1240px){.wrap{grid-template-columns:230px minmax(0,1fr);gap:24px}}
+@media (max-width:1024px){.wrap{grid-template-columns:1fr}nav.toc{position:static;max-height:none}nav.toc ol{columns:2}}
+@media (max-width:760px){.pair{grid-template-columns:1fr}section.ch{padding:20px 18px}.top h1{font-size:24px}}
+@media (max-width:640px){nav.toc ol{columns:1}body{font-size:15px}}
+@media (max-width:480px){.wrap,.top-in{padding-left:16px;padding-right:16px}.pin{width:22px;height:22px;font-size:11px;line-height:22px}}
+@media (max-width:400px){section.ch>h2{font-size:20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* A4 인쇄 */
+@page{size:A4;margin:14mm 12mm 14mm}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;font-size:10.5pt}
+  nav.toc,.totop,#lb{display:none!important}
+  .wrap{display:block;padding:0}
+  section.ch{box-shadow:none;padding:0 0 8mm;margin:0;break-before:page}
+  main{padding-bottom:8mm}
+  section.ch:first-of-type{break-before:auto}
+  figure.shot,.tbl,.eq,.svgbox,.note,.tip,.warn,.steps>li{break-inside:avoid}
+  h3,h4{break-after:avoid}
+  .top{border-radius:0}
+  .pfoot{position:fixed;bottom:0;left:0;right:0;height:6mm;background:#fff;font-size:8pt;color:#666;border-top:1px solid #ccc;padding-top:1.5mm;display:flex;justify-content:space-between}
+}
+.pfoot{display:none}
+@media print{.pfoot{display:flex}}
+/* ── 좁은 화면 대응(r1 · 2026-10-12) : 화면 전용 — 인쇄·PDF에는 영향 없음 ── */
+@media screen and (max-width:640px){
+  .k1 td:first-child,.k1 th:first-child{white-space:normal}
+  /* 글 표(숫자 칸 없는 표) → 행마다 카드로 쌓기 */
+  .tbl.stack{border:0;border-radius:0;overflow:visible}
+  .tbl.stack table,.tbl.stack tbody,.tbl.stack tr,.tbl.stack td{display:block;width:auto}
+  .tbl.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tbl.stack table{background:transparent}
+  .tbl.stack tr{border:1px solid var(--line);border-radius:10px;background:#fff;margin:0 0 10px;overflow:hidden}
+  .tbl.stack td{border-bottom:1px solid var(--line);padding:8px 12px}
+  .tbl.stack tr td:last-child{border-bottom:0}
+  .tbl.stack td:first-child{background:var(--navy-l);color:var(--navy-d);font-weight:700}
+  .tbl.stack td[data-th]:not(:first-child)::before{content:attr(data-th);display:block;font-size:12px;font-weight:700;color:var(--text2);margin-bottom:2px}
+  .tbl.stack.c2 td[data-th]:not(:first-child)::before{display:none}
+  .tbl.stack td:empty{display:none}
+  /* 숫자 표 → 표 모양 유지, 글자·여백 축소, 넘치면 좌우로 밀기(오른쪽 그림자로 표시) */
+  .tbl:not(.stack){background:linear-gradient(to right,#fff 30%,rgba(255,255,255,0)) left/40px 100% no-repeat local,linear-gradient(to left,#fff 30%,rgba(255,255,255,0)) right/40px 100% no-repeat local,radial-gradient(farthest-side at 100% 50%,rgba(26,26,46,.22),transparent) right/12px 100% no-repeat scroll,#fff}
+  .tbl:not(.stack) table{font-size:13px;background:transparent}
+  .tbl:not(.stack) th,.tbl:not(.stack) td{padding:7px 8px}
+  /* 수식 → 줄바꿈 허용 */
+  .eq{white-space:pre-wrap;word-break:keep-all;font-size:13px;line-height:1.75;padding:12px 14px}
+  .eq .c{display:block;padding-left:1em}
+  .svgbox{position:relative}
+  .svgbox::after{content:"← 좌우로 밀어서 보기 →";display:block;text-align:center;font-size:12px;color:var(--text2);margin-top:6px;position:sticky;left:0}
+  ol.legend{grid-template-columns:1fr}
+  .steps>li{padding-left:34px;margin-left:14px}
+}
+.rev{white-space:nowrap}
+@media print{.rev{display:none}}
+</style>
+</head><body>
+<header class="top"><div class="top-in">
+<div class="eyebrow">MANMIN ENGINEERING · USER MANUAL</div>
+<h1>단지내 우수·오수 배관 산정 시스템 사용자 매뉴얼</h1>
+<p class="sub">강우 · 유역 · 세대 → 계획유량 → 만류 관경 → 최소관경 · 유속 판정 → A4 결과서</p>
+<div class="badges"><span class="badge acc">매뉴얼 <span style="font-family:var(--font-brand)">Ver-5.1</span></span><a class="badge" href="../index.html">▶ 산정 시스템 열기</a><a class="badge" href="단지내우수오수배관산정시스템_사용자매뉴얼_Ver-5.1.pdf" download>⤓ PDF</a><span class="badge">2026-10-17</span><span class="badge">김만민 건축사 · ㈜대성건축사사무소</span></div>
+</div></header>
+<div class="wrap"><nav class="toc" aria-label="목차"><h2>목차</h2><ol><li><a href="#ch0">0. 이 매뉴얼에 대하여</a></li><li><a href="#ch1">1. 한눈에 보기</a></li><li class="sub"><a href="#s1-1">화면 구성</a></li><li class="sub"><a href="#s1-2">탭 · 판정 기준</a></li><li><a href="#ch2">2. 1분 따라하기</a></li><li><a href="#ch3">3. 화면별 기능</a></li><li class="sub"><a href="#s3-1">머리 · 매뉴얼</a></li><li class="sub"><a href="#s3-2">지역 · 강우 조건</a></li><li class="sub"><a href="#s3-3">유역 · 지표 조건</a></li><li class="sub"><a href="#s3-4">배관 구간</a></li><li class="sub"><a href="#s3-5">우수 결과</a></li><li class="sub"><a href="#s3-6">관경별 비교표</a></li><li class="sub"><a href="#s3-7">우수 계산 과정</a></li><li class="sub"><a href="#s3-8">사례 — 배수설비 기준</a></li><li class="sub"><a href="#s3-9">계획 오수량</a></li><li class="sub"><a href="#s3-10">오수 배관 조건</a></li><li class="sub"><a href="#s3-11">오수 결과 · 계산 과정</a></li><li class="sub"><a href="#s3-12">사례 — 경사 1/200</a></li><li class="sub"><a href="#s3-13">A4 결과보고서</a></li><li class="sub"><a href="#s3-14">설계기준 안내창</a></li><li class="sub"><a href="#s3-15">휴대전화 화면</a></li><li><a href="#ch4">4. 기준 해설</a></li><li class="sub"><a href="#s4-1">근거 체계</a></li><li class="sub"><a href="#s4-2">계획우수량 · 설계빈도</a></li><li class="sub"><a href="#s4-3">계획오수량</a></li><li class="sub"><a href="#s4-4">Manning · 조도계수 · 만류</a></li><li class="sub"><a href="#s4-5">유속 기준</a></li><li class="sub"><a href="#s4-6">최소관경</a></li><li class="sub"><a href="#s4-7">공공관로 · 배수설비 선택</a></li><li class="sub"><a href="#s4-8">v5.1.0 정정</a></li><li><a href="#ch5">5. 실무 작업 방법</a></li><li class="sub"><a href="#s5-1">검토 절차</a></li><li class="sub"><a href="#s5-2">문제 해결 · FAQ</a></li><li><a href="#ch6">부록</a></li><li class="sub"><a href="#a1">버전 변경 내역</a></li><li class="sub"><a href="#a2">용어</a></li></ol></nav><main><style>
+#fig-s17_help_formula,#fig-s18_help_law,#fig-s19_help_design,#fig-s20_help_pipe{max-width:640px}
+#fig-s16_a4page{max-width:620px}
+#fig-s03_uw_rain,#fig-s04_uw_basin,#fig-s05_uw_seg,#fig-s10_sw_qty,#fig-s11_sw_cond{max-width:440px}
+.k1 td:first-child,.k1 th:first-child{white-space:nowrap}
+.pair>div{min-width:0}
+.tri{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.tri{grid-template-columns:1fr}}
+@media print{
+  figure.shot{max-width:none!important}
+  figure.shot .frame{width:fit-content;max-width:100%}
+  figure.shot img{width:auto;height:auto;max-width:100%;max-height:118mm}
+  figure.narrow img{max-height:105mm}
+  #fig-s16_a4page img,#fig-s20_help_pipe img{max-height:200mm}
+  .pair{grid-template-columns:1fr 1fr}.tri{grid-template-columns:repeat(2,1fr)}
+  .brk .tbl{break-inside:auto}.brk tr{break-inside:avoid}.brk thead{display:table-header-group}
+}
+</style><section class="ch" id="ch0"><h2><span class="n">00</span>이 매뉴얼에 대하여</h2>
+<p class="lead">단지내 우수·오수 배관 산정 시스템는 단지 안 우수관 · 오수관의 설계유량을 합리식과 계획오수량으로 구하고, Manning 식 만류 통수능으로 관경을 고른 뒤 최소관경 · 유속을 국가건설기준 조항대로 판정해 A4 결과보고서로 정리하는 웹도구입니다.</p>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">내용</th></tr></thead><tbody><tr><td class="">대상 프로그램</td><td class="">단지내 우수·오수 배관 산정 시스템 <b>MANMIN Ver-5.1</b>(v5.1.0)</td></tr><tr><td class="">접속 주소</td><td class=""><a href="https://manminkim-eng.github.io/civil-engineering-piping/" target="_blank" rel="noopener">manminkim-eng.github.io/civil-engineering-piping</a></td></tr><tr><td class="">매뉴얼 판</td><td class=""><b>Ver-5.1</b> (화면 표기와 같은 판 번호, 초판) · 2026-10-17 · 작성 김만민 건축사(㈜대성건축사사무소)</td></tr><tr><td class="">내려받기</td><td class=""><a href="단지내우수오수배관산정시스템_사용자매뉴얼_Ver-5.1.pdf" download>PDF(A4)</a> · <a href="../index.html">산정 시스템 열기</a></td></tr><tr><td class="">근거</td><td class="">KDS 61 40 00 관로시설 설계기준 · KDS 61 10 00 하수도설계 일반사항 (2025. 10. 1. 개정) — 국가건설기준센터(kcsc.re.kr) 원문 대조(2026-10-17)</td></tr><tr><td class="">범위</td><td class="">자연유하 원형관의 관경 · 유속 판정 — 하수도정비기본계획의 강우강도식 · 원단위, 지자체 조례, 펌프 압송 · 맨홀 · 연결관 상세는 따로 확인합니다</td></tr></tbody></table></div></div>
+<div class="note"><b>표기</b>그림 위 주황색 번호(①②…)는 그림 아래 범례 번호와 같습니다. 그림을 누르면 크게 볼 수 있습니다.</div>
+<div class="warn"><b>v5.0 사용자 주의</b>v5.0은 근거를 「KDS 61 10 00 (하수도 설계기준)」 하나로 적고 우수 · 오수 모두 유속 0.6 ~ 3.0 m/s · 최소관경 우수 200 · 오수 150 mm로 고정했으며, 출처가 없는 지역별 강우강도 계수표를 썼습니다(대전 5년 · 10분 −44 %). <b>v5.0으로 뽑은 결과서는 다시 산정하십시오</b>(<a href="#s4-8">4-8</a>).</div>
+<div class="warn"><b>책임 한계</b>설계 초기 검토용입니다. 실제 관경은 해당 지역 하수도정비기본계획 · 인허가 협의로 확정하십시오.</div>
+</section>
+<section class="ch" id="ch1"><h2><span class="n">01</span>한눈에 보기</h2>
+<p class="lead">설치 없이 브라우저에서 바로 열리는 단일 페이지(PWA)입니다. 입력값은 브라우저 안에서만 계산하고 서버로 보내지 않습니다.</p>
+<h3 id="s1-1">1-1. 화면 구성</h3>
+<figure class="shot" id="fig-s01_overview"><div class="frame"><img src="images/s01_overview.webp" width="1440" height="900" loading="lazy" alt="첫 화면 — 왼쪽 입력 · 오른쪽 결과(예제 A 계산 후)"><span class="pin" style="left:6.93%;top:13.93%">1</span><span class="pin" style="left:87.88%;top:13.93%">2</span><span class="pin" style="left:5.26%;top:19.93%">3</span><span class="pin" style="left:2.76%;top:32.69%">4</span><span class="pin" style="left:34.29%;top:32.69%">5</span></div><figcaption><span class="fno">S01</span>첫 화면 — 왼쪽 입력 · 오른쪽 결과(예제 A 계산 후)</figcaption><ol class="legend"><li><b>1</b><span>탭 3개</span></li><li><b>2</b><span>📘 매뉴얼</span></li><li><b>3</b><span>요약 바</span></li><li><b>4</b><span>입력</span></li><li><b>5</b><span>결과</span></li></ol></figure>
+<h3 id="s1-2">1-2. 탭 · 판정 기준</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">구분</th><th class="">내용</th></tr></thead><tbody><tr><td class="">🌧️ 우수 배관산정</td><td class="">강우 · 유역 조건 → 계획우수량 → 추천 관경 · 유속 판정</td></tr><tr><td class="">🚽 오수 배관산정</td><td class="">세대 · 오수량 조건 → 계획시간최대오수량 → 추천 관경 · 유속 판정</td></tr><tr><td class="">📄 A4 결과보고서</td><td class="">우수 · 오수 결과와 적용 조항 — 인쇄 / PDF · JPG 저장</td></tr><tr><td class="">공공관로 기준</td><td class="">KDS 61 40 00 1.3 유속 · 2.3 최소관경 — 공공하수관로에 준해 설계할 때</td></tr><tr><td class="">배수설비 기준</td><td class="">KDS 61 40 00 15.2 — 개인하수도인 배수설비(부지 안 배수관)로 설계할 때</td></tr></tbody></table></div></div>
+</section>
+<section class="ch" id="ch2"><h2><span class="n">02</span>1분 따라하기</h2>
+<p class="lead">예제 A — 만민 아파트 신축공사(입력값은 예시).</p>
+<ol class="steps">
+<li><b class="t">① 판정 기준</b>우수 · 오수 모두 「공공관로 기준」.</li>
+<li><b class="t">② 강우</b>참고 지점 「대전(133)」 · 재현 10년 · t = 10분 → I = 137.2 mm/hr(직접 입력도 가능).</li>
+<li><b class="t">③ 유역</b>A = 0.5 ha · C = 0.85 · 경사 1/150 · 철근콘크리트관 n = 0.013 · 여유율 10 %.</li>
+<li><b class="t">④ 우수 결과</b>「우수 배관 계산 실행」 → 설계유량 0.1782 m³/s → <b>DN 450</b> · 계획우수량 유속 1.58 m/s(0.8 ~ 3.0 ✓).</li>
+<li><b class="t">⑤ 오수</b>200세대 × 2.5인 · 1인1일최대 250 ℓ · 지하수량 10 % · 변동계수 1.5 · 경사 1/100 · n = 0.011 · 여유율 10 % → 계획1일최대 137.5 m³/일 → <b>DN 200</b> · 유속 0.68 m/s(0.6 ~ 3.0 ✓).</li>
+<li><b class="t">⑥ A4 결과보고서</b>「📄 A4 결과보고서」 탭 → 「인쇄 / PDF 저장」 또는 「JPG 저장」.</li>
+</ol>
+</section>
+<section class="ch" id="ch3"><h2><span class="n">03</span>화면별 기능</h2>
+<h3 id="s3-1">3-1. 머리 · 매뉴얼</h3>
+<figure class="shot" id="fig-s02_header"><div class="frame"><img src="images/s02_header.webp" width="1440" height="182" loading="lazy" alt="머리 · 탭 막대"><span class="pin" style="left:6.84%;top:26.05%">1</span><span class="pin" style="left:86.69%;top:67.87%">2</span><span class="pin" style="left:81.87%;top:13.98%">3</span><span class="pin" style="left:5.19%;top:65.68%">4</span></div><figcaption><span class="fno">S02</span>머리 · 탭 막대</figcaption><ol class="legend"><li><b>1</b><span>도구 이름 · Ver-5.1</span></li><li><b>2</b><span>📘 매뉴얼 — 탭 막대 끝</span></li><li><b>3</b><span>KDS 61 40 00 · 61 10 00 (2025. 10. 1.)</span></li><li><b>4</b><span>탭 3개</span></li></ol></figure>
+<p>탭 막대 오른쪽 끝의 「📘 매뉴얼」은 이 문서를 새 창으로 엽니다(온라인 전용). 오른쪽 근거 블록은 적용 기준과 개정일입니다.</p>
+<h3 id="s3-2">3-2. 지역 · 강우 조건</h3>
+<div class="pair"><div><figure class="shot" id="fig-s03_uw_rain"><div class="frame"><img src="images/s03_uw_rain.webp" width="460" height="491" loading="lazy" alt="1. 지역 및 강우 조건"><span class="pin" style="left:5.83%;top:33.15%">1</span><span class="pin" style="left:51.38%;top:33.15%">2</span><span class="pin" style="left:5.83%;top:45.17%">3</span><span class="pin" style="left:51.38%;top:45.17%">4</span><span class="pin" style="left:5.83%;top:58.01%">5</span><span class="pin" style="left:5.83%;top:69.42%">6</span></div><figcaption><span class="fno">S03</span>1. 지역 및 강우 조건</figcaption><ol class="legend"><li><b>1</b><span>판정 기준 — 공공관로 / 배수설비</span></li><li><b>2</b><span>참고 지점 — 대전 · 임실</span></li><li><b>3</b><span>재현기간 — 지선 10년</span></li><li><b>4</b><span>도달시간 t</span></li><li><b>5</b><span>참고 표 값</span></li><li><b>6</b><span>강우강도 I 입력</span></li></ol></figure></div><div><div class="k1"><div class="tbl"><table><thead><tr><th class="">칸</th><th class="">쓰임</th></tr></thead><tbody><tr><td class="">판정 기준</td><td class="">공공관로(1.3 · 2.3) / 배수설비(15.2) — 최소관경 · 유속 범위가 바뀜(<a href="#s4-7">4-7</a>)</td></tr><tr><td class="">참고 지점</td><td class="">사용자 참고자료 엑셀의 대전(133) · 임실(244) 지속기간별 표 — 5 ~ 120분 사이는 log-log 보간</td></tr><tr><td class="">재현기간</td><td class="">지선관로 최소 10년 · 간선관로 30년(KDS 61 10 00 1.5.1(3))</td></tr><tr><td class="">강우강도 I</td><td class="">설계에는 해당 지역 IDF 또는 확률강우량도(www.k-idf.re.kr) 값을 입력</td></tr></tbody></table></div></div></div></div>
+<h3 id="s3-3">3-3. 유역 · 지표 조건</h3>
+<div class="pair"><div><figure class="shot" id="fig-s04_uw_basin"><div class="frame"><img src="images/s04_uw_basin.webp" width="460" height="366" loading="lazy" alt="2. 유역 및 지표 조건"><span class="pin" style="left:5.83%;top:46.41%">1</span><span class="pin" style="left:36.19%;top:46.41%">2</span><span class="pin" style="left:5.83%;top:61.98%">3</span><span class="pin" style="left:51.38%;top:61.98%">4</span><span class="pin" style="left:5.83%;top:78.11%">5</span><span class="pin" style="left:51.38%;top:78.11%">6</span></div><figcaption><span class="fno">S04</span>2. 유역 및 지표 조건</figcaption><ol class="legend"><li><b>1</b><span>유역면적 A</span></li><li><b>2</b><span>유출계수 C</span></li><li><b>3</b><span>관로 경사</span></li><li><b>4</b><span>여유율 (MANMIN)</span></li><li><b>5</b><span>관 재질</span></li><li><b>6</b><span>조도계수 n — KDS 표준</span></li></ol></figure></div><div><div class="k1"><div class="tbl"><table><thead><tr><th class="">칸</th><th class="">쓰임</th></tr></thead><tbody><tr><td class="">유역면적 A</td><td class="">ha 단위 — 합리식 Q = C·I·A/360</td></tr><tr><td class="">유출계수 C</td><td class="">토지이용도별 기초유출계수로부터 총괄유출계수(1.5.1(2)) — 목록은 MANMIN 참고값</td></tr><tr><td class="">여유율</td><td class="">MANMIN 적용 — 설계유량 = 계획우수량 × (1 + 여유율)</td></tr><tr><td class="">조도계수 n</td><td class="">철근콘크리트관 · 도관 0.013 / 경질염화비닐관 · 강화플라스틱복합관 0.011(KDS 61 40 00 1.2(2)②)</td></tr></tbody></table></div></div></div></div>
+<h3 id="s3-4">3-4. 배관 구간</h3>
+<div class="pair"><div><figure class="shot" id="fig-s05_uw_seg"><div class="frame"><img src="images/s05_uw_seg.webp" width="460" height="325" loading="lazy" alt="3. 배관 구간 설정 — 다중 구간"><span class="pin" style="left:5.83%;top:23.26%">1</span><span class="pin" style="left:5.83%;top:38.08%">2</span><span class="pin" style="left:5.83%;top:85.72%">3</span></div><figcaption><span class="fno">S05</span>3. 배관 구간 설정 — 다중 구간</figcaption><ol class="legend"><li><b>1</b><span>단일 · 다중 구간</span></li><li><b>2</b><span>구간명 · 길이 · 유역</span></li><li><b>3</b><span>구간 추가</span></li></ol></figure></div><div><p>다중 구간은 구간마다 상류 유역면적(우수) · 세대수(오수)를 넣어 구간별 관경을 따로 판정합니다. 경사 · 조도계수 · 판정 기준은 공통입니다.</p></div></div>
+<h3 id="s3-5">3-5. 우수 결과</h3>
+<figure class="shot" id="fig-s06_uw_hero"><div class="frame"><img src="images/s06_uw_hero.webp" width="938" height="327" loading="lazy" alt="추천 관경 · 요약 — 예제 A"><span class="pin" style="left:3.39%;top:15.52%">1</span><span class="pin" style="left:1.50%;top:77.47%">2</span><span class="pin" style="left:34.34%;top:77.47%">3</span><span class="pin" style="left:67.21%;top:77.47%">4</span></div><figcaption><span class="fno">S06</span>추천 관경 · 요약 — 예제 A</figcaption><ol class="legend"><li><b>1</b><span>추천 관경 DN 450</span></li><li><b>2</b><span>설계유량</span></li><li><b>3</b><span>계획유량 유속</span></li><li><b>4</b><span>계획유량 수심비</span></li></ol></figure>
+<p>추천 관경은 최소관경 이상에서 만류 통수능이 설계유량 이상인 가장 작은 규격입니다. 유속은 계획우수량이 흐를 때의 수심(예제 A 수심비 61 %)에서 구합니다.</p>
+<h3 id="s3-6">3-6. 관경별 비교표</h3>
+<figure class="shot" id="fig-s07_uw_dn"><div class="frame"><img src="images/s07_uw_dn.webp" width="938" height="355" loading="lazy" alt="관경별 만류 통수능 비교"><span class="pin" style="left:3.23%;top:63.19%">1</span><span class="pin" style="left:3.23%;top:29.39%">2</span></div><figcaption><span class="fno">S07</span>관경별 만류 통수능 비교</figcaption><ol class="legend"><li><b>1</b><span>추천 — 만류 ≥ 설계유량</span></li><li><b>2</b><span>최소관경부터 비교</span></li></ol></figure>
+<h3 id="s3-7">3-7. 우수 계산 과정</h3>
+<figure class="shot" id="fig-s08_uw_steps"><div class="frame"><img src="images/s08_uw_steps.webp" width="938" height="277" loading="lazy" alt="계산 과정 (합리식)"><span class="pin" style="left:4.24%;top:48.81%">1</span><span class="pin" style="left:4.24%;top:63.98%">2</span><span class="pin" style="left:4.24%;top:71.92%">3</span><span class="pin" style="left:4.24%;top:80.58%">4</span></div><figcaption><span class="fno">S08</span>계산 과정 (합리식)</figcaption><ol class="legend"><li><b>1</b><span>합리식 Q = C·I·A/360</span></li><li><b>2</b><span>최소관경 — 근거 조항</span></li><li><b>3</b><span>만류 통수능 ≥ 설계유량</span></li><li><b>4</b><span>계획유량 유속 판정</span></li></ol></figure>
+<h3 id="s3-8">3-8. 사례 — 배수설비 기준</h3>
+<figure class="shot" id="fig-s09_uw_drain"><div class="frame"><img src="images/s09_uw_drain.webp" width="938" height="229" loading="lazy" alt="같은 조건을 배수설비 기준으로 판정"><span class="pin" style="left:3.39%;top:13.02%">1</span><span class="pin" style="left:1.50%;top:74.24%">2</span></div><figcaption><span class="fno">S09</span>같은 조건을 배수설비 기준으로 판정</figcaption><ol class="legend"><li><b>1</b><span>배수설비 기준</span></li><li><b>2</b><span>유속 1.5 m/s 초과 — 검토</span></li></ol></figure>
+<p>배수설비 기준은 유속 범위가 0.6 ~ 1.5 m/s(15.2(3))라 예제 A의 1.58 m/s는 「최대 초과」로 나옵니다. 경사를 완만하게 하거나 관로를 나눠 검토하십시오.</p>
+<h3 id="s3-9">3-9. 계획 오수량</h3>
+<div class="pair"><div><figure class="shot" id="fig-s10_sw_qty"><div class="frame"><img src="images/s10_sw_qty.webp" width="460" height="625" loading="lazy" alt="1. 계획 오수량 산정"><span class="pin" style="left:5.83%;top:34.37%">1</span><span class="pin" style="left:36.19%;top:34.37%">2</span><span class="pin" style="left:66.56%;top:34.37%">3</span><span class="pin" style="left:51.38%;top:44.77%">4</span><span class="pin" style="left:5.83%;top:59.02%">5</span><span class="pin" style="left:5.83%;top:76.15%">6</span></div><figcaption><span class="fno">S10</span>1. 계획 오수량 산정</figcaption><ol class="legend"><li><b>1</b><span>세대 수</span></li><li><b>2</b><span>세대당 인원</span></li><li><b>3</b><span>1인1일최대오수량</span></li><li><b>4</b><span>시간변동계수 1.3 ~ 1.8</span></li><li><b>5</b><span>지하수량 ≤ 20 %</span></li><li><b>6</b><span>일평균 / 일최대</span></li></ol></figure></div><div><div class="k1"><div class="tbl"><table><thead><tr><th class="">칸</th><th class="">쓰임</th></tr></thead><tbody><tr><td class="">1인1일최대오수량</td><td class="">지역 상수도계획 · 하수도정비기본계획 값 우선(KDS 61 10 00 1.7.2(1))</td></tr><tr><td class="">지하수량</td><td class="">1인1일최대오수량의 20 % 이하(1.7.2(3)) — 계획1일최대에 더함</td></tr><tr><td class="">시간변동계수</td><td class="">계획시간최대 = 1일최대 ÷ 24 × 1.3 ~ 1.8(1.7.2(6))</td></tr><tr><td class="">일평균 비율</td><td class="">1일평균 = 1일최대 × 70 ~ 80 %(1.7.2(5))</td></tr></tbody></table></div></div></div></div>
+<h3 id="s3-10">3-10. 오수 배관 조건</h3>
+<div class="pair"><div><figure class="shot" id="fig-s11_sw_cond"><div class="frame"><img src="images/s11_sw_cond.webp" width="460" height="408" loading="lazy" alt="2. 배관 설계 조건"><span class="pin" style="left:5.83%;top:46.58%">1</span><span class="pin" style="left:51.38%;top:46.58%">2</span><span class="pin" style="left:5.83%;top:64.50%">3</span><span class="pin" style="left:5.83%;top:78.97%">4</span><span class="pin" style="left:51.38%;top:78.97%">5</span></div><figcaption><span class="fno">S11</span>2. 배관 설계 조건</figcaption><ol class="legend"><li><b>1</b><span>판정 기준 · 국지 150</span></li><li><b>2</b><span>관 경사</span></li><li><b>3</b><span>조도계수 0.011</span></li><li><b>4</b><span>여유율 (1.1(5))</span></li><li><b>5</b><span>만류 단면</span></li></ol></figure></div><div><div class="k1"><div class="tbl"><table><thead><tr><th class="">칸</th><th class="">쓰임</th></tr></thead><tbody><tr><td class="">판정 기준</td><td class="">공공관로 — 최소 200 mm(초기관로 국지 150 선택) / 배수설비 — 배수인구별 표 1.15.1</td></tr><tr><td class="">여유율</td><td class="">계획하수량에 여유율(1.1(5)) — 설계유량 = 시간최대 × (1 + 여유율)</td></tr><tr><td class="">단면 산정</td><td class="">원형거는 만류로 단면 결정(1.2(2)④) — v5.0의 「수심 60 %」 방식 폐지</td></tr></tbody></table></div></div></div></div>
+<h3 id="s3-11">3-11. 오수 결과 · 계산 과정</h3>
+<figure class="shot" id="fig-s12_sw_hero"><div class="frame"><img src="images/s12_sw_hero.webp" width="938" height="327" loading="lazy" alt="추천 관경 · 요약 — 예제 A"><span class="pin" style="left:3.39%;top:15.52%">1</span><span class="pin" style="left:34.34%;top:52.86%">2</span><span class="pin" style="left:67.21%;top:52.86%">3</span><span class="pin" style="left:34.34%;top:77.47%">4</span></div><figcaption><span class="fno">S12</span>추천 관경 · 요약 — 예제 A</figcaption><ol class="legend"><li><b>1</b><span>추천 관경 DN 200</span></li><li><b>2</b><span>계획1일최대</span></li><li><b>3</b><span>계획시간최대</span></li><li><b>4</b><span>계획유량 유속</span></li></ol></figure>
+<figure class="shot" id="fig-s13_sw_steps"><div class="frame"><img src="images/s13_sw_steps.webp" width="938" height="299" loading="lazy" alt="계산 과정 (계획오수량)"><span class="pin" style="left:4.24%;top:45.28%">1</span><span class="pin" style="left:4.24%;top:59.66%">2</span><span class="pin" style="left:4.24%;top:66.69%">3</span><span class="pin" style="left:4.24%;top:82.07%">4</span></div><figcaption><span class="fno">S13</span>계산 과정 (계획오수량)</figcaption><ol class="legend"><li><b>1</b><span>지하수량 포함</span></li><li><b>2</b><span>여유율</span></li><li><b>3</b><span>최소관경 근거</span></li><li><b>4</b><span>유속 판정</span></li></ol></figure>
+<h3 id="s3-12">3-12. 사례 — 경사 1/200</h3>
+<figure class="shot" id="fig-s14_sw_low"><div class="frame"><img src="images/s14_sw_low.webp" width="938" height="229" loading="lazy" alt="오수관 경사 1/200 — 유속 미달"><span class="pin" style="left:3.39%;top:52.30%">1</span><span class="pin" style="left:1.50%;top:74.24%">2</span></div><figcaption><span class="fno">S14</span>오수관 경사 1/200 — 유속 미달</figcaption><ol class="legend"><li><b>1</b><span>1/200 — 유속 미달</span></li><li><b>2</b><span>경사 상향 · 시점부 5 ‰</span></li></ol></figure>
+<p>경사만 1/200으로 낮추면 계획시간최대 유속이 0.54 m/s로 최소 0.6 m/s에 못 미칩니다. 관경을 키우면 오히려 유속이 더 떨어지므로 경사를 높입니다(시점부는 최소경사 5 ‰ 이상, 1.3(1)③).</p>
+<h3 id="s3-13">3-13. A4 결과보고서</h3>
+<figure class="shot" id="fig-s15_a4bar"><div class="frame"><img src="images/s15_a4bar.webp" width="1440" height="900" loading="lazy" alt="A4 결과보고서 탭"><span class="pin" style="left:2.76%;top:24.60%">1</span><span class="pin" style="left:8.43%;top:25.82%">2</span><span class="pin" style="left:17.78%;top:25.82%">3</span></div><figcaption><span class="fno">S15</span>A4 결과보고서 탭</figcaption><ol class="legend"><li><b>1</b><span>A4 출력 막대</span></li><li><b>2</b><span>인쇄 · PDF</span></li><li><b>3</b><span>JPG 저장</span></li></ol></figure>
+<figure class="shot" id="fig-s16_a4page"><div class="frame"><img src="images/s16_a4page.webp" width="814" height="1175" loading="lazy" alt="A4 결과서 — 예제 A"></div><figcaption><span class="fno">S16</span>A4 결과서 — 예제 A</figcaption></figure>
+<h3 id="s3-14">3-14. 설계기준 안내창</h3>
+<div class="tri"><div><figure class="shot" id="fig-s17_help_formula"><div class="frame"><img src="images/s17_help_formula.webp" width="800" height="440" loading="lazy" alt="계산식"></div><figcaption><span class="fno">S17</span>계산식</figcaption></figure></div><div><figure class="shot" id="fig-s18_help_law"><div class="frame"><img src="images/s18_help_law.webp" width="800" height="296" loading="lazy" alt="법규 · 기준"></div><figcaption><span class="fno">S18</span>법규 · 기준</figcaption></figure></div><div><figure class="shot" id="fig-s19_help_design"><div class="frame"><img src="images/s19_help_design.webp" width="800" height="382" loading="lazy" alt="설계기준 — 두 기준 비교"></div><figcaption><span class="fno">S19</span>설계기준 — 두 기준 비교</figcaption></figure></div><div><figure class="shot" id="fig-s20_help_pipe"><div class="frame"><img src="images/s20_help_pipe.webp" width="800" height="868" loading="lazy" alt="관경표"></div><figcaption><span class="fno">S20</span>관경표</figcaption></figure></div></div>
+<p>오른쪽 아래 「📐 설계기준」 버튼으로 엽니다.</p>
+<h3 id="s3-15">3-15. 휴대전화 화면</h3>
+<div class="tri"><div><figure class="shot narrow" id="fig-s21_mobile_main"><div class="frame"><img src="images/s21_mobile_main.webp" width="390" height="844" loading="lazy" alt="첫 화면"></div><figcaption><span class="fno">S21</span>첫 화면</figcaption></figure></div><div><figure class="shot narrow" id="fig-s22_mobile_result"><div class="frame"><img src="images/s22_mobile_result.webp" width="390" height="844" loading="lazy" alt="우수 결과"></div><figcaption><span class="fno">S22</span>우수 결과</figcaption></figure></div></div>
+</section>
+<section class="ch" id="ch4"><h2><span class="n">04</span>기준 해설</h2>
+<h3 id="s4-1">4-1. 근거 체계</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">기준</th><th class="">이 도구에서 쓰는 조항</th></tr></thead><tbody><tr><td class="">KDS 61 10 00 하수도설계 일반사항</td><td class="">2025. 10. 1. 개정 — 1.5.1 계획우수량(합리식 · 유출계수 · 설계빈도 · 강우강도) · 1.7.2 계획오수량</td></tr><tr><td class="">KDS 61 40 00 관로시설 설계기준</td><td class="">2025. 10. 1. 개정 — 1.1 계획하수량 · 1.2 유량계산 · 1.3 유속 및 경사 · 2.3 최소관경 · 15 배수설비</td></tr><tr><td class="">출처</td><td class="">국가건설기준센터 kcsc.re.kr 원문 대조(2026-10-17)</td></tr></tbody></table></div></div>
+<h3 id="s4-2">4-2. 계획우수량 · 설계빈도</h3>
+<div class="eq">Q = C · I · A / 360      <span class="c">Q: m³/s · I: mm/hr · A: ha</span></div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">조항</th><th class="">내용</th></tr></thead><tbody><tr><td class="">1.5.1(1)</td><td class="">최대계획우수유출량은 합리식 원칙 — 수정합리식 등도 사용 가능</td></tr><tr><td class="">1.5.1(2)</td><td class="">유출계수는 토지이용도별 기초유출계수로부터 총괄유출계수를 구하는 것이 원칙</td></tr><tr><td class="">1.5.1(3)</td><td class="">최소 설계빈도 지선관로 10년 · 간선관로 30년 · 빗물펌프장 30년(강화 시 30 · 50 · 50년) — 20년 이상 자료 지역은 IDF, 부족 · 미계측은 확률강우량도</td></tr><tr><td class="">1.5.1(4)</td><td class="">도달시간 = 유입시간 + 유하시간</td></tr></tbody></table></div></div>
+<h3 id="s4-3">4-3. 계획오수량</h3>
+<div class="eq">계획1일최대 = 계획인구 × (1인1일최대오수량 + 지하수량)
+계획시간최대 = 계획1일최대 ÷ 24 × (1.3 ~ 1.8)</div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">조항</th><th class="">내용</th></tr></thead><tbody><tr><td class="">1.7.2(3)</td><td class="">지하수량은 1인1일최대오수량의 20 % 이하</td></tr><tr><td class="">1.7.2(5)</td><td class="">계획1일평균오수량은 계획1일최대오수량의 70 ~ 80 % 표준</td></tr><tr><td class="">1.7.2(6)</td><td class="">계획시간최대오수량은 계획1일최대오수량의 1시간당 수량의 1.3 ~ 1.8배 표준</td></tr><tr><td class="">61 10 00 1.6.1(1)</td><td class="">오수관로는 계획시간최대오수량을 기준으로 계획</td></tr></tbody></table></div></div>
+<h3 id="s4-4">4-4. Manning · 조도계수 · 만류</h3>
+<div class="eq">Q = A · V ,  V = (1/n) · R^(2/3) · I^(1/2)      <span class="c">R = A/P (경심)</span></div>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">조항</th><th class="">내용</th></tr></thead><tbody><tr><td class="">1.2(2)②</td><td class="">조도계수 — 철근콘크리트관 · 도관 0.013, 경질염화비닐관 · 강화플라스틱복합관 0.011 표준</td></tr><tr><td class="">1.2(2)④</td><td class="">관로 단면적은 유량과 경사로 구하며 수심 결정 시 원형거는 만류</td></tr><tr><td class="">1.1(5)</td><td class="">오수관로 관경 결정 시 지역실정에 따라 계획하수량에 여유율을 둘 수 있음</td></tr><tr><td class="">MANMIN 적용</td><td class="">유속은 계획유량이 흐를 때의 수심(부분만류, 이분법)에서 구해 1.3 범위와 비교</td></tr></tbody></table></div></div>
+<h3 id="s4-5">4-5. 유속 기준</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">구분</th><th class="">기준</th></tr></thead><tbody><tr><td class="">공공 오수관로</td><td class="">계획시간최대오수량에 대해 0.6 ~ 3.0 m/s(1.3(1)①) — 시점부 최소유속 확보 불가 시 최소경사 5 ‰(1.3(1)③)</td></tr><tr><td class="">공공 우수 · 합류관로</td><td class="">계획우수량에 대해 0.8 ~ 3.0 m/s(1.3(2)①)</td></tr><tr><td class="">배수설비</td><td class="">관내 유속 0.6 ~ 1.5 m/s가 되도록 경사(15.2(3))</td></tr></tbody></table></div></div>
+<h3 id="s4-6">4-6. 최소관경</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">구분</th><th class="">최소관경</th></tr></thead><tbody><tr><td class="">공공 오수관로</td><td class="">200 mm 표준 — 장래 증가 없으면 초기관로에 국지적으로 150 mm 제한 사용(2.3(1)·(3))</td></tr><tr><td class="">공공 우수 · 합류관로</td><td class="">250 mm 표준(2.3(2))</td></tr><tr><td class="">배수설비 오수관 (표 1.15.1)</td><td class="">배수인구 150명 이하 100 · 300명 이하 150 · 600명 이하 200 · 1,000명 이하 250 mm 이상</td></tr><tr><td class="">배수설비 우수 · 합류관 (표 1.15.2)</td><td class="">배수면적 200 ㎡ 미만 100 · 600 ㎡ 미만 150 · 1,200 ㎡ 미만 200 mm 이상 · 1,200 ㎡ 이상은 지름 또는 개수 증가(MANMIN: 250 mm 이상 + 수리계산)</td></tr><tr><td class="">배수량이 특히 많은 곳 (표 1.15.3)</td><td class="">1,000 ㎥/일 미만 150 · 2,000 미만 200 · 4,000 미만 250 · 6,000 미만 300 mm 이상</td></tr><tr><td class="">연결관</td><td class="">최소 150 mm · 경사 1 % 이상(14.5)</td></tr></tbody></table></div></div></div>
+<h3 id="s4-7">4-7. 공공관로 · 배수설비 선택</h3>
+<p>배수설비는 개인하수도의 일종(15.1)입니다. 단지 안 관로를 배수설비로 설치하면 「배수설비 기준」, 공공하수관로로 이관하거나 공공관로 기준으로 설계하라는 협의가 있으면 「공공관로 기준」을 고릅니다. 예제 A 오수관은 두 기준 모두 DN 200이지만, 우수관은 배수설비 기준에서 유속 상한(1.5 m/s)에 걸립니다.</p>
+<h3 id="s4-8">4-8. v5.1.0 정정 (2026-10-17)</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">항목</th><th class="">기존(v5.0)</th><th class="">정정(v5.1.0)</th></tr></thead><tbody><tr><td class="">근거 표기</td><td class="">「KDS 61 10 00 (하수도 설계기준) · 2022~2025 개정」 · 주택건설기준 제43조</td><td class="">KDS 61 40 00 관로시설 · 61 10 00 하수도설계 일반사항(2025. 10. 1.) — 제43조는 주택 안 급 · 배수 배관 규정이라 삭제</td></tr><tr><td class="">판정 기준</td><td class="">유속 0.6 ~ 3.0 · 최소관경 우수 200 · 오수 150 고정</td><td class="">공공관로 / 배수설비 선택(<a href="#s4-7">4-7</a>)</td></tr><tr><td class="">강우강도</td><td class="">시군별 Talbot 계수(출처 미상, 대전 5년 · 10분 69.8 mm/h — 참고자료 123.9 대비 −44 %)</td><td class="">직접 입력 · 참고 지점 대전 · 임실</td></tr><tr><td class="">설계빈도 기본값</td><td class="">5년</td><td class="">10년(지선관로 최소)</td></tr><tr><td class="">오수 단면</td><td class="">수심 60 % 부분만관</td><td class="">만류 + 여유율 · 지하수량 추가</td></tr><tr><td class="">유속 판정</td><td class="">만류(또는 수심 60 %) 유속</td><td class="">계획유량 수심에서의 유속</td></tr><tr><td class="">조도계수 라벨</td><td class="">0.013 = PVC관</td><td class="">0.013 철근콘크리트관 · 도관 / 0.011 경질염화비닐관 · 강화플라스틱복합관</td></tr></tbody></table></div></div></div>
+<p>규칙을 파이썬으로 따로 옮긴 계산과 앱 엔진을 무작위 · 경계값 20,000건으로 대조해 불일치 0, 일부러 넣은 오류 4종을 모두 검출했습니다(<code>manual/_tools/verify_cep.py</code>).</p>
+</section>
+<section class="ch" id="ch5"><h2><span class="n">05</span>실무 작업 방법</h2>
+<h3 id="s5-1">5-1. 검토 절차</h3>
+<ol class="steps">
+<li><b class="t">① 기준 확정</b>공공관로 · 배수설비 중 어느 기준으로 설계할지 인허가 협의 · 지자체 기준으로 정함.</li>
+<li><b class="t">② 강우</b>해당 지역 하수도정비기본계획의 강우강도식 또는 확률강우량도 값 · 설계빈도(지선 10년 이상) 확인.</li>
+<li><b class="t">③ 유역 · 인구</b>배수구역별 면적 · 총괄유출계수 · 세대수 · 원단위를 정리.</li>
+<li><b class="t">④ 산정</b>구간별로 계산 — 유속 ✗가 나오면 경사 · 관로 분할을 조정.</li>
+<li><b class="t">⑤ 상세</b>맨홀 간격 · 흙두께 · 연결관(150 mm · 1 %) · 관 기초는 KDS 61 40 00 3 · 4 · 7 · 14로 확인.</li>
+<li><b class="t">⑥ 기록</b>A4 결과보고서를 설계도서 · 인허가 검토 자료에 첨부.</li>
+</ol>
+<h3 id="s5-2">5-2. 문제 해결 · FAQ</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">증상</th><th class="">해결</th></tr></thead><tbody><tr><td class="">예전 결과와 관경이 달라요</td><td class="">v5.1.0에서 기준을 원문대로 바꿨습니다(<a href="#s4-8">4-8</a>) — 다시 산정하십시오</td></tr><tr><td class="">유속이 「최소 미달」로 나와요</td><td class="">관경을 키우면 더 느려집니다 — 경사를 높이십시오</td></tr><tr><td class="">배수설비 기준에서 우수관이 「최대 초과」예요</td><td class="">배수설비는 1.5 m/s가 상한 — 경사를 완만하게 하거나 공공관로 기준 협의</td></tr><tr><td class="">강우강도 지역 목록이 없어졌어요</td><td class="">출처가 없는 계수표라 삭제했습니다 — 확률강우량도(k-idf.re.kr) 값을 입력하십시오</td></tr><tr><td class="">화면이 예전 판이에요</td><td class="">새로 고침(Ctrl+F5) — v5.1.0부터 캐시 이름이 tobog-v5.1.0입니다</td></tr></tbody></table></div></div>
+</section>
+<section class="ch" id="ch6"><h2><span class="n">부록</span></h2>
+<h3 id="a1">A1. 버전 변경 내역</h3>
+<div class="k1"><div class="tbl"><table><thead><tr><th class="">버전</th><th class="">내용</th></tr></thead><tbody><tr><td class="">Ver-5.1 · v5.1.0 (2026-10-17)</td><td class="">KDS 61 40 00 · 61 10 00 원문 대조 판정 엔진 CEPENG · 두 기준 선택 · 강우강도 직접 입력 · 오수 만류 + 여유율 · 「📘 매뉴얼」 · sw v5.1.0</td></tr><tr><td class="">Ver-5.0 (2026-09-03 ~ 09-05)</td><td class="">MANMIN 디자인 통일 · A4 규격 · JPG 저장 · sw 정비</td></tr><tr><td class="">Ver-2.0</td><td class="">초판 PWA</td></tr></tbody></table></div></div>
+<h3 id="a2">A2. 용어</h3>
+<div class="brk"><div class="k1"><div class="tbl"><table><thead><tr><th class="">용어</th><th class="">뜻</th></tr></thead><tbody><tr><td class="">계획우수량</td><td class="">합리식 Q = C·I·A/360으로 구한 관로별 우수유출량</td></tr><tr><td class="">계획시간최대오수량</td><td class="">계획1일최대오수량의 1시간당 수량 × 1.3 ~ 1.8</td></tr><tr><td class="">만류</td><td class="">관 단면이 물로 가득 찬 상태 — 원형관 단면 결정 기준</td></tr><tr><td class="">수심비</td><td class="">관 안 수심 ÷ 관경 — 계획유량이 흐를 때의 값</td></tr><tr><td class="">배수설비</td><td class="">건물 · 부지 안 하수를 공공하수도로 보내는 개인하수도 시설(KDS 61 40 00 15.1)</td></tr><tr><td class="">확률강우량도</td><td class="">환경부 · 한국건설기술연구원 확률강우량 정보(www.k-idf.re.kr)</td></tr></tbody></table></div></div></div>
+</section></main></div>
+<footer class="foot">© 2026 김만민 건축사 · ㈜대성건축사사무소 · 단지내 우수·오수 배관 산정 시스템 사용자 매뉴얼 Ver-5.1 · KDS 61 40 00 · KDS 61 10 00 (2025. 10. 1. 개정) <span class="rev">· 화면 대응 개정 2026-10-17</span></footer>
+<div class="pfoot"><span>단지내 우수·오수 배관 산정 시스템 사용자 매뉴얼 Ver-5.1</span><span>2026-10-17</span></div>
+<div id="lb" role="dialog" aria-label="그림 확대"><img alt=""></div>
+<button class="totop" aria-label="맨 위로">↑</button>
+<script>
+(function(){
+  var lb=document.getElementById('lb'),li=lb.querySelector('img');
+  document.querySelectorAll('figure.shot .frame').forEach(function(f){f.addEventListener('click',function(){li.src=f.querySelector('img').src;li.alt=f.querySelector('img').alt;lb.classList.add('open');});});
+  lb.addEventListener('click',function(){lb.classList.remove('open');li.removeAttribute('src');});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('open');});
+  document.querySelector('.totop').addEventListener('click',function(){window.scrollTo(0,0);});
+  var links=[].slice.call(document.querySelectorAll('nav.toc a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'0px 0px -70% 0px'});
+    document.querySelectorAll('section.ch,h3[id]').forEach(function(s){io.observe(s);});
+  }
+})();
+/* 좁은 화면 표 쌓기 준비: 숫자 칸이 없는 표에 stack 표시, 각 칸에 머리글(data-th) 복사 */
+(function(){document.querySelectorAll('.tbl').forEach(function(t){var tb=t.querySelector('table');if(!tb||!tb.tHead)return;
+ if(tb.querySelector('td.num,th.num'))return;var hs=[].map.call(tb.tHead.rows[0].cells,function(c){return c.textContent.trim()});
+ [].forEach.call(tb.tBodies[0].rows,function(r){[].forEach.call(r.cells,function(c,i){if(hs[i])c.setAttribute('data-th',hs[i])})});t.classList.add('stack');if(hs.length===2)t.classList.add('c2')})})();
+</script>
+</body></html>
