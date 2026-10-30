@@ -23,7 +23,7 @@
 <meta name="twitter:description" content="단지내 토목 우수·오수 배관 산정 — KDS 61 40 00 관로시설 · KDS 61 10 00 (2025. 10. 1.) · 합리식 · Manning — CIVIL ENGINEER KIM MANMIN">
 <meta name="twitter:image" content="https://manminkim-eng.github.io/civil-engineering-piping/og-card.jpg">
 <meta name="description" content="단지내 토목 우수·오수 배관 산정 — KDS 61 40 00 관로시설 · KDS 61 10 00 (2025. 10. 1.) · 합리식 · Manning — CIVIL ENGINEER KIM MANMIN"/>
-<meta name="theme-color" content="#b45309"/>
+<meta name="theme-color" content="#0f766e"/>
 <!-- PWA Manifest -->
 <link rel="manifest" href="./manifest.json"/>
 <!-- iOS PWA -->
@@ -39,7 +39,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="./icons/icon-32x32.png"/>
 <link rel="icon" type="image/png" sizes="16x16" href="./icons/icon-16x16.png"/>
 <!-- Windows Tile -->
-<meta name="msapplication-TileColor" content="#0f4c81"/>
+<meta name="msapplication-TileColor" content="#0f766e"/>
 <meta name="msapplication-TileImage" content="./icons/icon-144x144.png"/>
 <!-- OG / SNS -->
 <link rel="stylesheet" href="./assets/fonts/manmin-fonts.css"/><!-- v5.0 로컬 폴백 폰트 — CDN 차단·오프라인 대비. CDN link 보다 먼저 로드되어야 한다 -->
@@ -53,7 +53,7 @@
 html,body,button,input,select,textarea,table,th,td,div,span,p,h1,h2,h3,h4,h5,h6,li,label,strong,em,small
   {font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR Local','Malgun Gothic',sans-serif;}
 html,body{min-height:100vh;background:#f0f5fb;color:#0d1f3c;}
-:root{
+:root{--d:#2dd4bf;--d-deep:#0f766e;--d-lt:#99f6e4;--d-tint:#ccfbf1;--d-rgb:45,212,191;--fs-badge:11px;--fs-cap:11.5px;--fs-sm:12.5px;--fs-desc:13px;--fs-body:14px;--fs-sec:16px;--fs-card:17px;--fs-stat:20px;
   --blue-dark:#0f4c81;
   --blue:#1565c0;
   --blue-mid:#1976d2;
@@ -86,7 +86,7 @@ html,body{min-height:100vh;background:#f0f5fb;color:#0d1f3c;}
 }
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:var(--gray-100);}
-::-webkit-scrollbar-thumb{background:#bbdefb;border-radius:10px;}
+::-webkit-scrollbar-thumb{background:#99f6e4;border-radius:10px;}
 input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 input[type="number"]{-moz-appearance:textfield;}
 .mono{font-family:'JetBrains Mono','Courier New',monospace!important;}
@@ -94,8 +94,8 @@ input[type="number"]{-moz-appearance:textfield;}
 /* ── HEADER ── */
 /* v5.0 — 헤더+탭바를 하나의 그라데이션 면으로 통합한다(§3-2-1). sticky 금지(§3-1).
    v5.0-HDR (2026-09-02 확정 §18-1) — 줄높이 px 고정 · flex-start · 활성탭 단색+바 · 헤더 버튼 0개 */
-.hdr-shell{background:linear-gradient(135deg,#431407 0%,#b45309 50%,#d97706 100%);
-  box-shadow:0 2px 20px rgba(180,83,9,.35);}
+.hdr-shell{background:linear-gradient(135deg,#042f2e 0%,#134e4a 50%,#0f766e 100%);
+  box-shadow:0 2px 20px rgba(15,118,110,.35);}
 .app-header{background:transparent;color:#fff;}
 .header-inner{max-width:1300px;margin:0 auto;padding:20px 24px 16px;
   display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;}
@@ -106,13 +106,13 @@ input[type="number"]{-moz-appearance:textfield;}
 .hdr-h1{font-size:26px;font-weight:900;color:#fff;letter-spacing:.04em;line-height:1.2;}
 .hdr-sub{font-size:11px;margin-top:8px;color:#fff;opacity:.85;letter-spacing:.02em;line-height:17px;}
 .hdr-manmin{font-family:'Orbitron',sans-serif!important;font-weight:900;font-size:12px;
-  color:#fcd34d;letter-spacing:.08em;text-shadow:0 0 8px rgba(252,211,77,.6);
+  color:#99f6e4;letter-spacing:.08em;text-shadow:0 0 8px rgba(153,246,228,.6);
   white-space:nowrap;display:inline-block;line-height:17px;vertical-align:top;}
 .hdr-right-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:6px;
   padding-bottom:2px;flex-shrink:0;}
 .hdr-right{text-align:right;opacity:.75;color:#fff;font-size:11px;line-height:16px;}   /* 4줄 13/11/11/10 = 70px ≤ 78.2 */
 .hdr-right strong{font-size:13px;font-weight:700;line-height:19px;}
-.hdr-right em{font-size:10px;color:#fcd34d;font-style:normal;display:block;margin-top:4px;line-height:15px;}
+.hdr-right em{font-size:11px;color:#99f6e4;font-style:normal;display:block;margin-top:4px;line-height:15px;}
 @media(max-width:768px){ .hdr-right{display:none;} .hdr-right-wrap{gap:0;} }
 @media(max-width:640px){
   .hdr-h1{font-size:18px;}
@@ -132,13 +132,13 @@ input[type="number"]{-moz-appearance:textfield;}
   transition:all .15s;display:flex;align-items:center;gap:5px;
   white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;}
 .tb:hover{color:#fff;background:rgba(255,255,255,.09);}
-.tb.active{color:#fff;background:#b45309;border-bottom-color:#fcd34d;}
+.tb.active{color:#fff;background:#0f766e;border-bottom-color:#99f6e4;}
 .tb.tb-manual{margin-left:auto;text-decoration:none;color:rgba(255,255,255,.85);}  /* v5.1.0 — 매뉴얼 버튼 탭 막대 끝(§4) */
 /* v5.0-HDR — 요약 스트립 (헤더 3층) */
 .sum-bar-wrap{background:#0f172a;padding:10px 0;}
 .sum-bar{max-width:1300px;margin:0 auto;padding:0 24px;display:flex;flex-wrap:wrap;gap:14px;}
 .sum-item{font-size:12px;color:#94a3b8;line-height:18px;}
-.sum-item b{font-family:'JetBrains Mono','Noto Sans KR',monospace;font-weight:700;color:#fcd34d;}
+.sum-item b{font-family:'JetBrains Mono','Pretendard Variable',Pretendard,'Noto Sans KR',monospace;font-weight:700;color:#99f6e4;}
 @media(max-width:640px){.sum-bar{padding:0 14px;}.sum-item{font-size:11px;}}
 /* ⛔ v5.0 — 모바일 계산 후 문서폭 471px 넘침(§2⑤ 배포본 실측). 그리드 자식 min-width:auto 가 표 폭만큼 벌어진다 → 20 건물우수 §7 처방 */
 .two-col>*{min-width:0;}
@@ -176,7 +176,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .card-ico{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
 .card-ico.blue{background:#e3f2fd;}.card-ico.teal{background:#e0f2f1;}.card-ico.amber{background:#fff8e1;}
 .card-tit{font-size:11.5px;font-weight:800;color:#0d1f3c;letter-spacing:.03em;flex:1;}
-.cbadge{font-size:9px;font-weight:800;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
+.cbadge{font-size:11px;font-weight:800;padding:2px 8px;border-radius:20px;white-space:nowrap;flex-shrink:0;}
 .cbadge.blue{background:#e3f2fd;color:#1565c0;border:1px solid var(--blue-border);}
 .cbadge.teal{background:#e0f2f1;color:#00695c;border:1px solid var(--teal-border);}
 .cbadge.amber{background:#fff8e1;color:#f57c00;border:1px solid var(--amber-border);}
@@ -188,16 +188,16 @@ input[type="number"]{-moz-appearance:textfield;}
 /*══════════════════════════════════════
   FORM  
 ══════════════════════════════════════*/
-.flbl{font-size:9.5px;font-weight:700;color:#546e7a;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;display:block;}
+.flbl{font-size:11px;font-weight:700;color:#546e7a;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;display:block;}
 .finput{width:100%;padding:8px 11px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:12.5px;font-weight:600;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;height:38px;box-sizing:border-box;}
-.finput:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.1);background:#fff;}
+.finput:focus{border-color:#1ea596;box-shadow:0 0 0 3px rgba(30,165,150,.1);background:#fff;}
 /* iOS 자동 줌인 방지: 터치 디바이스에서 font-size 16px 보장 */
 @media(max-width:768px){
   .finput{font-size:16px;padding:9px 11px;}
   .fselect{font-size:16px;padding:9px 26px 9px 10px;}
 }
 .fselect{width:100%;padding:8px 26px 8px 10px;background:#f8fafd;border:1.5px solid #dde3ed;border-radius:8px;color:#0d1f3c;font-size:11.5px;font-weight:700;font-family:inherit;outline:none;cursor:pointer;transition:border-color .15s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%231565c0' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;}
-.fselect:focus{border-color:#1976d2;box-shadow:0 0 0 3px rgba(25,118,210,.1);}
+.fselect:focus{border-color:#1ea596;box-shadow:0 0 0 3px rgba(30,165,150,.1);}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:9px;}
 /* 태블릿 세로·모바일: 단열 */
 @media(max-width:640px){.frow{grid-template-columns:1fr;}}
@@ -208,13 +208,13 @@ input[type="number"]{-moz-appearance:textfield;}
 .fgrp.full{grid-column:1/-1;}
 .input-sfx{display:flex;}
 .input-sfx .finput{border-radius:8px 0 0 8px;}
-.sfx{padding:8px 10px;background:#e3f2fd;border:1.5px solid #dde3ed;border-left:none;border-radius:0 8px 8px 0;font-size:11.5px;font-weight:700;color:#1565c0;white-space:nowrap;display:flex;align-items:center;}
+.sfx{padding:8px 10px;background:#ccfbf1;border:1.5px solid #dde3ed;border-left:none;border-radius:0 8px 8px 0;font-size:11.5px;font-weight:700;color:#0f766e;white-space:nowrap;display:flex;align-items:center;}
 .fdivider{height:1px;background:linear-gradient(90deg,transparent,var(--gray-200),transparent);margin:12px 0;}
 
 /*══════════════════════════════════════
   SECTION TITLE  
 ══════════════════════════════════════*/
-.sec-title{font-size:10.5px;font-weight:800;color:#1565c0;padding:5px 10px;background:#e3f2fd;border-radius:6px;margin-bottom:9px;display:flex;align-items:center;gap:5px;border-left:3px solid #1976d2;}
+.sec-title{font-size:11px;font-weight:800;color:#0f766e;padding:5px 10px;background:#ccfbf1;border-radius:6px;margin-bottom:9px;display:flex;align-items:center;gap:5px;border-left:3px solid #1ea596;}
 .sec-title.teal{color:#00695c;background:#e0f2f1;border-left-color:#00897b;}
 .sec-title.amber{color:#f57c00;background:#fff8e1;border-left-color:#ffa726;}
 
@@ -227,9 +227,9 @@ input[type="number"]{-moz-appearance:textfield;}
 .nb.amber{background:#fff8e1;border:1.5px solid var(--amber-border);}
 .nb.red{background:var(--red-light);border:1.5px solid #ef9a9a;}
 .nb.grn{background:var(--green-light);border:1.5px solid #a5d6a7;}
-.nb-tit{font-size:10.5px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.nb-tit{font-size:11px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
 .nb.blue .nb-tit{color:#1565c0;}.nb.teal .nb-tit{color:#00695c;}.nb.amber .nb-tit{color:#f57c00;}.nb.red .nb-tit{color:#c62828;}.nb.grn .nb-tit{color:#2e7d32;}
-.nb-txt{font-size:10.5px;line-height:1.8;word-break:keep-all;overflow-wrap:break-word;}
+.nb-txt{font-size:11px;line-height:1.8;word-break:keep-all;overflow-wrap:break-word;}
 .nb.blue .nb-txt{color:#1a3a6b;}.nb.teal .nb-txt{color:#004d40;}.nb.amber .nb-txt{color:#4a2c00;}.nb.red .nb-txt{color:#7f0000;}.nb.grn .nb-txt{color:#1b5e20;}
 
 /*══════════════════════════════════════
@@ -239,11 +239,11 @@ input[type="number"]{-moz-appearance:textfield;}
 .result-hero.blue{background:linear-gradient(135deg,#0d47a1,#1565c0);}
 .result-hero.teal{background:linear-gradient(135deg,#004d40,#00695c);}
 .result-hero::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:rgba(255,255,255,.05);border-radius:50%;}
-.rh-label{font-size:9.5px;opacity:.65;margin-bottom:2px;font-weight:700;letter-spacing:.05em;}
+.rh-label{font-size:11px;opacity:.65;margin-bottom:2px;font-weight:700;letter-spacing:.05em;}
 .rh-num{font-size:52px;font-weight:900;color:#fff176;line-height:1;font-family:'JetBrains Mono',monospace!important;}
 @media(max-width:420px){.rh-num{font-size:38px;}}
 .rh-unit{font-size:13px;font-weight:700;opacity:.8;margin-top:3px;}
-.rh-note{font-size:9.5px;opacity:.65;margin-top:7px;line-height:1.5;}
+.rh-note{font-size:11px;opacity:.65;margin-top:7px;line-height:1.5;}
 
 /*══════════════════════════════════════
   STAT GRID  
@@ -252,65 +252,65 @@ input[type="number"]{-moz-appearance:textfield;}
 @media(max-width:480px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
 .sbox{background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:10px;text-align:center;box-shadow:var(--shadow-sm);}
 .sico{font-size:15px;margin-bottom:3px;}
-.sval{font-size:16px;font-weight:900;color:#1565c0;font-family:'JetBrains Mono',monospace!important;line-height:1.1;word-break:break-all;}
+.sval{font-size:16px;font-weight:900;color:#0f766e;font-family:'JetBrains Mono',monospace!important;line-height:1.1;word-break:break-all;}
 .sval.teal{color:#00897b;}
-.slbl{font-size:9px;color:#64748b;font-weight:700;margin-top:2px;}
+.slbl{font-size:11px;color:#64748b;font-weight:700;margin-top:2px;}
 
 /*══════════════════════════════════════
   TABLE  
 ══════════════════════════════════════*/
 .twrap{overflow-x:auto;border-radius:9px;border:1px solid var(--gray-200);-webkit-overflow-scrolling:touch;}
 .rtbl{width:100%;border-collapse:collapse;font-size:11px;}
-.rtbl th{background:#e3f2fd;padding:7px 8px;text-align:center;font-weight:800;color:#1565c0;border:1px solid var(--blue-border);font-size:10px;}
+.rtbl th{background:#ccfbf1;padding:7px 8px;text-align:center;font-weight:800;color:#0f766e;border:1px solid #99f6e4;font-size:11px;}
 .rtbl.teal th{background:#e0f2f1;color:#00695c;border-color:#80cbc4;}
 .rtbl td{padding:7px 8px;text-align:center;border:1px solid var(--gray-200);color:#0d1f3c;font-weight:600;}
 .rtbl tr:nth-child(even) td{background:#f8fafd;}
-.rtbl tfoot td{background:#e3f2fd!important;font-weight:900;}
+.rtbl tfoot td{background:#ccfbf1!important;font-weight:900;}
 .rtbl.teal tfoot td{background:#e0f2f1!important;}
 .pc-tbl{width:100%;border-collapse:collapse;font-size:11.5px;}
-@media(max-width:480px){.pc-tbl{font-size:9.5px;}}
-.pc-tbl th{background:#e3f2fd;padding:7px 8px;text-align:center;font-weight:800;color:#1565c0;border:1px solid var(--blue-border);font-size:10px;white-space:nowrap;}
+@media(max-width:480px){.pc-tbl{font-size:11px;}}
+.pc-tbl th{background:#ccfbf1;padding:7px 8px;text-align:center;font-weight:800;color:#0f766e;border:1px solid #99f6e4;font-size:11px;white-space:nowrap;}
 .pc-tbl.teal th{background:#e0f2f1;color:#00695c;border-color:#80cbc4;}
 .pc-tbl td{padding:6px 8px;text-align:center;border:1px solid var(--gray-200);color:#0d1f3c;font-weight:600;white-space:nowrap;}
 .pc-tbl .pc-rec td{background:#fff8e1!important;border-color:#ffe082;}
 .pc-tbl .pc-dim td{opacity:.3;}
-.pc-dn-cell{font-size:13px;font-weight:900;color:#1565c0;font-family:'JetBrains Mono',monospace!important;}
+.pc-dn-cell{font-size:13px;font-weight:900;color:#0f766e;font-family:'JetBrains Mono',monospace!important;}
 .pc-dn-cell.teal{color:#00897b;}
 
 /*══════════════════════════════════════
   CALC BOX  
 ══════════════════════════════════════*/
 .cbox{background:#f8fafd;border:1px solid var(--gray-200);border-radius:8px;padding:10px;margin-top:9px;}
-.cbox-tit{font-size:9.5px;font-weight:800;color:#64748b;letter-spacing:.06em;margin-bottom:7px;}
-.crow{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;font-size:10.5px;padding:3px 0;border-bottom:1px dashed var(--gray-200);}
+.cbox-tit{font-size:11px;font-weight:800;color:#64748b;letter-spacing:.06em;margin-bottom:7px;}
+.crow{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;font-size:11px;padding:3px 0;border-bottom:1px dashed var(--gray-200);}
 .ck{color:#546e7a;font-weight:600;flex-shrink:0;}
 .cv{font-weight:700;font-family:'JetBrains Mono',monospace!important;text-align:right;}
-.crow:last-child{border-bottom:none;font-weight:800;color:#1565c0;}
+.crow:last-child{border-bottom:none;font-weight:800;color:#0f766e;}
 
 /*══════════════════════════════════════
   REGION SELECTOR  
 ══════════════════════════════════════*/
 .rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:5px;}
 .rcard{border:1.5px solid var(--gray-200);border-radius:8px;padding:7px 5px;cursor:pointer;transition:all .15s;text-align:center;background:#f8fafd;}
-.rcard:hover{border-color:#bbdefb;background:#e3f2fd;}
-.rcard.sel{border-color:#1976d2;background:#e3f2fd;box-shadow:0 0 0 2px rgba(25,118,210,.12);}
+.rcard:hover{border-color:#99f6e4;background:#ccfbf1;}
+.rcard.sel{border-color:#1ea596;background:#ccfbf1;box-shadow:0 0 0 2px rgba(30,165,150,.12);}
 .rcard-nm{font-size:11.5px;font-weight:800;color:#0d1f3c;}
-.rcard-ri{font-size:9px;color:#1565c0;font-weight:700;font-family:'JetBrains Mono',monospace!important;margin-top:1px;}
+.rcard-ri{font-size:11px;color:#0f766e;font-weight:700;font-family:'JetBrains Mono',monospace!important;margin-top:1px;}
 
 /*══════════════════════════════════════
   RAIN INFO PANEL  
 ══════════════════════════════════════*/
-.rain-info{background:linear-gradient(135deg,var(--blue-light),#e8f4fd);border:1.5px solid var(--blue-border);border-radius:10px;padding:12px;margin-top:9px;}
-.rain-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(187,222,251,.4);}
+.rain-info{background:linear-gradient(135deg,#ccfbf1,#f0fdfa);border:1.5px solid #99f6e4;border-radius:10px;padding:12px;margin-top:9px;}
+.rain-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(153,246,228,.4);}
 .rain-row:last-child{border-bottom:none;}
-.rain-key{font-size:10.5px;color:#455a64;font-weight:700;}
-.rain-val{font-size:11px;font-weight:900;color:#1565c0;font-family:'JetBrains Mono',monospace!important;word-break:break-all;}
+.rain-key{font-size:11px;color:#455a64;font-weight:700;}
+.rain-val{font-size:11px;font-weight:900;color:#0f766e;font-family:'JetBrains Mono',monospace!important;word-break:break-all;}
 
 /*══════════════════════════════════════
   PIPE SELECTOR TOGGLE  
 ══════════════════════════════════════*/
 .pipe-toggle{display:flex;gap:0;border:1.5px solid var(--gray-200);border-radius:8px;overflow:hidden;margin-bottom:9px;}
-.pipe-toggle-btn{flex:1;padding:7px 5px;border:none;background:#f8fafd;color:#546e7a;font-size:10.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;text-align:center;}
+.pipe-toggle-btn{flex:1;padding:7px 5px;border:none;background:#f8fafd;color:#546e7a;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s;text-align:center;}
 .pipe-toggle-btn:not(:last-child){border-right:1.5px solid var(--gray-200);}
 .pipe-toggle-btn.active.blue{background:#1976d2;color:#fff;}
 .pipe-toggle-btn.active.teal{background:#00897b;color:#fff;}
@@ -341,10 +341,10 @@ input[type="number"]{-moz-appearance:textfield;}
 /*══════════════════════════════════════
   BOTTOM ACTION BAR  
 ══════════════════════════════════════*/
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#0d47a1,#0f4c81);border-top:1px solid rgba(255,255,255,.1);padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));z-index:100;box-shadow:0 -4px 20px rgba(13,31,60,.3);}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;background:linear-gradient(135deg,#134e4a,#115e59);border-top:1px solid rgba(255,255,255,.1);padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px));z-index:100;box-shadow:0 -4px 20px rgba(13,31,60,.3);}
 .bottom-bar-inner{max-width:1400px;margin:0 auto;display:flex;gap:8px;align-items:center;}
-.btn-calc{flex:1;background:linear-gradient(135deg,#1976d2,#42a5f5);color:#fff;border:none;padding:12px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 3px 12px rgba(25,118,210,.4);display:flex;align-items:center;justify-content:center;gap:6px;}
-.btn-calc:hover{background:linear-gradient(135deg,#1565c0,#1976d2);transform:translateY(-1px);}
+.btn-calc{flex:1;background:linear-gradient(135deg,#1ea596,#46e0c9);color:#fff;border:none;padding:12px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;transition:all .2s;box-shadow:0 3px 12px rgba(30,165,150,.4);display:flex;align-items:center;justify-content:center;gap:6px;}
+.btn-calc:hover{background:linear-gradient(135deg,#0f766e,#1ea596);transform:translateY(-1px);}
 .btn-calc:active{transform:translateY(0);}
 .btn-calc.teal{background:linear-gradient(135deg,var(--teal),#26c6da);box-shadow:0 3px 12px rgba(0,137,123,.4);}
 .btn-calc.teal:hover{background:linear-gradient(135deg,var(--teal-dark),var(--teal));}
@@ -361,13 +361,13 @@ input[type="number"]{-moz-appearance:textfield;}
 .step-bar{display:flex;align-items:center;margin-bottom:13px;background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:8px 12px;overflow-x:auto;gap:0;scrollbar-width:none;}
 .step-bar::-webkit-scrollbar{display:none;}
 .step-item{display:flex;align-items:center;gap:5px;flex-shrink:0;}
-.sc{width:22px;height:22px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#94a3b8;flex-shrink:0;transition:all .2s;}
+.sc{width:22px;height:22px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#94a3b8;flex-shrink:0;transition:all .2s;}
 .sc.done{background:#43a047;color:#fff;}
-.sc.active{background:#1976d2;color:#fff;box-shadow:0 0 0 3px rgba(25,118,210,.22);}
+.sc.active{background:#1ea596;color:#fff;box-shadow:0 0 0 3px rgba(30,165,150,.22);}
 .sc.active.teal{background:#00897b;box-shadow:0 0 0 3px rgba(0,137,123,.22);}
-.sl{font-size:10.5px;font-weight:700;color:#94a3b8;white-space:nowrap;}
+.sl{font-size:11px;font-weight:700;color:#94a3b8;white-space:nowrap;}
 @media(max-width:420px){.sl{display:none;}}
-.sl.active{color:#1565c0;}.sl.done{color:#2e7d32;}
+.sl.active{color:#0f766e;}.sl.done{color:#2e7d32;}
 .sdiv{width:16px;height:2px;background:#e2e8f0;margin:0 3px;flex-shrink:0;transition:background .2s;}
 .sdiv.done{background:#43a047;}
 
@@ -377,14 +377,14 @@ input[type="number"]{-moz-appearance:textfield;}
 .seg-row{display:grid;grid-template-columns:auto 1fr 1fr 1fr 1fr 28px;gap:7px;align-items:center;padding:8px 10px;background:#f8fafd;border:1px solid var(--gray-200);border-radius:9px;margin-bottom:7px;}
 @media(max-width:768px){
   .seg-row{grid-template-columns:1fr 1fr;grid-template-rows:auto auto;row-gap:5px;}
-  .seg-lbl{grid-column:1/3;font-size:10.5px;}
+  .seg-lbl{grid-column:1/3;font-size:11px;}
   .seg-del{grid-column:2;grid-row:2;justify-self:end;}
 }
-.seg-lbl{font-size:10px;font-weight:800;color:#1565c0;white-space:nowrap;}
+.seg-lbl{font-size:11px;font-weight:800;color:#0f766e;white-space:nowrap;}
 .seg-del{width:25px;height:25px;border:none;background:#ffebee;border-radius:6px;color:#c62828;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;}
 .seg-del:hover{background:#c62828;color:#fff;}
-.seg-add-btn{padding:5px 12px;border-radius:8px;border:1.5px solid var(--blue-border);background:#e3f2fd;color:#1565c0;font-size:10.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s;}
-.seg-add-btn:hover{background:#1976d2;color:#fff;}
+.seg-add-btn{padding:5px 12px;border-radius:8px;border:1.5px solid #99f6e4;background:#ccfbf1;color:#0f766e;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .15s;}
+.seg-add-btn:hover{background:#1ea596;color:#fff;}
 .seg-add-btn.teal{border-color:#80cbc4;background:#e0f2f1;color:#00695c;}
 .seg-add-btn.teal:hover{background:#00897b;color:#fff;}
 
@@ -396,7 +396,7 @@ input[type="number"]{-moz-appearance:textfield;}
   padding:9px 16px;border-radius:9px;font-size:12px;font-weight:800;cursor:pointer;
   border:none;font-family:inherit;white-space:nowrap;line-height:1.2;min-height:38px;
   transition:background .15s,box-shadow .15s,transform .1s;}
-.mm-btn-print{background:#b45309;color:#fff;}
+.mm-btn-print{background:#0f766e;color:#fff;}
 .mm-btn-jpg{background:#7e22ce;color:#fff;}
 /* ⛔ width:100% 는 출력바 안으로 한정한다(§16-5). 전역이면 저장 시트 닫기 버튼까지 100% 를 먹는다. */
 @media(max-width:480px){ .a4-export-bar{flex-direction:column;align-items:stretch;}
@@ -409,17 +409,17 @@ input[type="number"]{-moz-appearance:textfield;}
 .a4-page{background:#fff;width:794px;min-height:1122px;margin:0;padding:53px 45px 83px 53px;box-shadow:0 8px 40px rgba(0,0,0,.28);font-size:11px;color:#111827;display:block;position:relative;
   font-family:'Noto Sans KR Local','Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;}
 .a4-page .mono,.a4-page code{font-family:'JetBrains Mono','Noto Sans KR Local',monospace;}
-.a4-tit{font-size:22px;font-weight:900;color:#431407;text-align:center;border-bottom:2.5px solid #b45309;padding-bottom:9px;margin-bottom:12px;letter-spacing:-.02em;}
+.a4-tit{font-size:22px;font-weight:900;color:#042f2e;text-align:center;border-bottom:2.5px solid #0f766e;padding-bottom:9px;margin-bottom:12px;letter-spacing:-.02em;}
 .a4-head2{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px;}
 .a4-head2 .a4-proj{font-size:12px;font-weight:800;color:#111827;}
 .a4-head2 .a4-meta{font-size:9px;color:#64748b;text-align:right;line-height:1.6;font-weight:600;}
-.a4-sub{font-size:13px;font-weight:800;color:#b45309;margin-bottom:4px;margin-top:9px;padding-left:7px;border-left:3px solid #b45309;text-align:left;}
+.a4-sub{font-size:13px;font-weight:800;color:#0f766e;margin-bottom:4px;margin-top:9px;padding-left:7px;border-left:3px solid #0f766e;text-align:left;}
 .a4-tbl{width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:8px;}
-.a4-tbl th{background:#e3f2fd;padding:5px 7px;text-align:center;font-weight:800;color:#1565c0;border:1px solid #bbdefb;}
+.a4-tbl th{background:#ccfbf1;padding:5px 7px;text-align:center;font-weight:800;color:#0f766e;border:1px solid #99f6e4;}
 .a4-tbl.teal th{background:#e0f2f1;color:#00695c;border-color:#80cbc4;}
 .a4-tbl td{padding:5px 7px;text-align:left;border:1px solid #e2e8f0;font-weight:600;color:#111827;}
 .a4-tbl tr:nth-child(even) td{background:#f8fafd;}
-.a4-tbl tfoot td{background:#e3f2fd!important;font-weight:900;}
+.a4-tbl tfoot td{background:#ccfbf1!important;font-weight:900;}
 .a4-tbl.teal tfoot td{background:#e0f2f1!important;}
 /* 섹션 소제목 — 우수 blue · 오수 teal 의미색 변형 */
 .a4-sub.blue{color:#1565c0;border-left-color:#1976d2;}
@@ -439,7 +439,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .mm-sheet-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:14px 18px;border-bottom:1px solid #e2e8f0;}
 .mm-sheet-title{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;
-  letter-spacing:.12em;color:#b45309;text-transform:uppercase;}
+  letter-spacing:.12em;color:#0f766e;text-transform:uppercase;}
 .mm-sheet-note{font-size:11px;color:#64748b;margin-top:4px;}
 .mm-sheet-body{padding:16px 18px;overflow-y:auto;display:grid;
   grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
@@ -461,10 +461,10 @@ input[type="number"]{-moz-appearance:textfield;}
   .mm-sheet-body.multi{grid-template-columns:repeat(2,1fr);}
   .mm-sheet-foot{justify-content:stretch;} .mm-sheet-foot .btn-export{flex:1;}
   .mm-sheet-head{padding:12px 14px;gap:8px;}
-  .mm-sheet-title{font-size:10px;}
-  .mm-sheet-note{font-size:10px;line-height:1.45;}
+  .mm-sheet-title{font-size:11px;}
+  .mm-sheet-note{font-size:11px;line-height:1.45;}
   .mm-sheet-head .btn-export{padding:6px 9px!important;min-height:28px!important;
-    font-size:10.5px!important;align-self:flex-start;}
+    font-size:11px!important;align-self:flex-start;}
   .mm-shot{padding:7px;} .mm-shot-btn{padding:6px;font-size:11px;}
   .mm-shot img{max-height:46vh;object-fit:contain;}
 }
@@ -475,15 +475,15 @@ input[type="number"]{-moz-appearance:textfield;}
   GUIDE REFERENCE BOX  
 ══════════════════════════════════════*/
 .ref-box{background:#f8fafd;border:1px solid var(--gray-200);border-radius:9px;padding:12px;margin-top:12px;}
-.ref-tit{font-size:10.5px;font-weight:800;color:#455a64;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
-.ref-item{font-size:10px;color:#546e7a;line-height:1.9;display:flex;gap:5px;}
+.ref-tit{font-size:11px;font-weight:800;color:#455a64;margin-bottom:7px;display:flex;align-items:center;gap:5px;}
+.ref-item{font-size:11px;color:#546e7a;line-height:1.9;display:flex;gap:5px;}
 .ref-item::before{content:'▸';color:#90a4ae;flex-shrink:0;}
 
 /* PWA Banner */
 #pwa-banner{
   display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
-  background:linear-gradient(135deg,#0d2a4a,#0f4c81);
-  border-top:2px solid rgba(66,165,245,.5);
+  background:linear-gradient(135deg,#042f2e,#115e59);
+  border-top:2px solid rgba(70,224,201,.5);
   padding:14px 18px;border-radius:18px 18px 0 0;
   box-shadow:0 -8px 32px rgba(13,31,60,.6);
   animation:bannerUp .35s cubic-bezier(.22,.61,.36,1);
@@ -492,7 +492,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .pwa-inner{display:flex;align-items:center;gap:12px;}
 .pwa-texts{flex:1;min-width:0;}
 .pwa-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:2px;}
-.pwa-desc{font-size:10px;color:#90caf9;}
+.pwa-desc{font-size:11px;color:#5eead4;}
 .pwa-btns{display:flex;gap:7px;flex-shrink:0;}
 .pwa-ok{background:#42a5f5;border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:12px;font-family:inherit;}
 .pwa-no{background:rgba(255,255,255,.1);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;}
@@ -501,20 +501,20 @@ input[type="number"]{-moz-appearance:textfield;}
 #fab-group{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));right:18px;   /* 하단 계산바 위 (도구 특이) */z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
 .help-fab{
   position:relative;z-index:auto;
-  background:linear-gradient(135deg,#431407 0%,#b45309 55%,#d97706 100%);
-  border:1px solid rgba(252,211,77,.3);
+  background:linear-gradient(135deg,#042f2e 0%,#0f766e 55%,#1ea596 100%);
+  border:1px solid rgba(153,246,228,.3);
   color:#fff;border-radius:16px;padding:11px 8px;width:72px;min-width:72px;cursor:pointer;font-family:inherit;   /* 두 버튼 폭·높이 완전 동일 (§16-18 취지 · MIN 2026-09-03) */
-  box-shadow:0 4px 20px rgba(180,83,9,.65);
+  box-shadow:0 4px 20px rgba(15,118,110,.65);
   display:flex;flex-direction:column;align-items:center;gap:2px;
   line-height:1.3;transition:transform .15s,box-shadow .15s;
   animation:fabIn .55s cubic-bezier(.34,1.56,.64,1) forwards;
 }
 @keyframes fabIn{from{opacity:0;transform:scale(.3) rotate(-20deg);}to{opacity:1;transform:scale(1) rotate(0);}}
-.help-fab:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(180,83,9,.65);}
+.help-fab:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(15,118,110,.65);}
 .help-fab:active{transform:translateY(0);}
 .help-fab .fab-icon{font-size:20px;line-height:1;}
-.help-fab .fab-lbl{font-size:10px;font-weight:800;letter-spacing:.04em;color:#fff;}
-.help-fab .fab-sub{font-size:9px;opacity:.8;}
+.help-fab .fab-lbl{font-size:11px;font-weight:800;letter-spacing:.04em;color:#fff;}
+.help-fab .fab-sub{font-size:11px;opacity:.8;}
 
 /* 통합 모달 — 중앙 다이얼로그 (§18-11 overlay·box·head·close·tab·body) */
 .master-modal-ov{position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.65);backdrop-filter:blur(5px);
@@ -525,10 +525,10 @@ input[type="number"]{-moz-appearance:textfield;}
   max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden;
   box-shadow:0 30px 80px rgba(0,0,0,.4);animation:slideUp .25s cubic-bezier(.34,1.5,.64,1);}
 @keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:none;opacity:1;}}
-.master-modal-hd{background:linear-gradient(135deg,#431407,#b45309,#d97706);color:#fff;padding:18px 22px 0;flex-shrink:0;}
+.master-modal-hd{background:linear-gradient(135deg,#042f2e,#0f766e,#1ea596);color:#fff;padding:18px 22px 0;flex-shrink:0;}
 .master-modal-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:13px;gap:10px;}
 .master-modal-tit{font-size:14px;font-weight:900;color:#fff;letter-spacing:.04em;margin-bottom:3px;}
-.master-modal-sub{font-size:10px;color:#fcd34d;font-weight:500;margin-top:1px;}
+.master-modal-sub{font-size:11px;color:#99f6e4;font-weight:500;margin-top:1px;}
 .master-modal-cls{width:34px;height:34px;border:none;background:rgba(255,255,255,.13);color:#fff;border-radius:50%;
   cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;}
 .master-modal-cls:hover{background:rgba(255,255,255,.26);}
@@ -536,11 +536,11 @@ input[type="number"]{-moz-appearance:textfield;}
 .master-modal-tabs::-webkit-scrollbar{display:none;}
 .mm-mtab{padding:9px 18px;border:none;background:transparent;color:rgba(255,255,255,.6);font-size:12px;font-weight:700;
   font-family:inherit;cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;transition:all .15s;flex-shrink:0;}
-.mm-mtab.active{color:#fff;border-bottom-color:#fcd34d;}
+.mm-mtab.active{color:#fff;border-bottom-color:#99f6e4;}
 .mm-mtab:hover:not(.active){color:rgba(255,255,255,.88);}
 .master-modal-body{padding:20px 22px 26px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch;}
 .master-modal-body::-webkit-scrollbar{width:5px;}
-.master-modal-body::-webkit-scrollbar-thumb{background:#fcd34d;border-radius:3px;}
+.master-modal-body::-webkit-scrollbar-thumb{background:#99f6e4;border-radius:3px;}
 @media(max-width:540px){
   .master-modal-ov{padding:0;align-items:flex-end;}
   .master-modal-box{border-radius:20px 20px 0 0;max-height:92vh;}
@@ -583,13 +583,22 @@ input[type="number"]{-moz-appearance:textfield;}
 @media print{#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}}</style>
 <style id="mm-r24b">/* R24 ①② (2026-09-05 · S10 3-B 소급 · 지시서 §21-1 R24) — 인쇄 시 collapse 표의 우측 세로선 소실 → separate + 셀 자체 선. 화면·JPG·PDF 동일 DOM(§2②). 선색은 기존 값 유지. */
 .a4-tbl{border-collapse:separate;border-spacing:0;border:0;}
-.a4-tbl th{border:0;border-right:1px solid #bbdefb;border-bottom:1px solid #bbdefb;}
-.a4-tbl th:first-child{border-left:1px solid #bbdefb;}
-.a4-tbl tr:first-child th{border-top:1px solid #bbdefb;}
+.a4-tbl th{border:0;border-right:1px solid #99f6e4;border-bottom:1px solid #99f6e4;}
+.a4-tbl th:first-child{border-left:1px solid #99f6e4;}
+.a4-tbl tr:first-child th{border-top:1px solid #99f6e4;}
 .a4-tbl td{border:0;border-right:1px solid #e2e8f0;border-bottom:1px solid #e2e8f0;}
 .a4-tbl td:first-child{border-left:1px solid #e2e8f0;}
 .a4-tbl tr:first-child td{border-top:1px solid #e2e8f0;}
 .a4-tbl.teal th,.a4-tbl.teal th:first-child{border-color:#80cbc4;}
+</style>
+<style id="mm-foot-css">/* 하단 버전 표시 — 건축 도구와 같은 형식 · 화면 폭 전체 (2026-10-31) */
+footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;background:#fff;padding:20px;margin-top:10px;width:100%;box-sizing:border-box;align-self:stretch;font-family:'Pretendard Variable',Pretendard,'Noto Sans KR',sans-serif}
+.mm-foot .foot-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.mm-foot .foot-nm{font-weight:900;font-size:13px;color:#0f766e;letter-spacing:.06em}
+.mm-foot .foot-desc{font-size:11px;color:#64748b;line-height:1.6}
+.mm-foot .foot-copy{font-size:11px;color:#64748b;font-family:'DM Mono',ui-monospace,monospace}
+@media screen{sub,sup{font-size:max(.75em,11px)}[class*="a4"] sub,[class*="a4"] sup,#report-zone sub,#report-zone sup{font-size:smaller}}
+@media print{footer.mm-foot{display:none!important}}
 </style>
 </head>
 <body>
@@ -721,7 +730,7 @@ input[type="number"]{-moz-appearance:textfield;}
               </div>
             </div>
           </div>
-          <div id="uw-ref-note" style="display:none;margin:-2px 0 9px;padding:6px 9px;background:#fff8e1;border:1.5px solid #ffe082;border-radius:7px;font-size:9.5px;color:#8d6e00;font-weight:700;"></div>
+          <div id="uw-ref-note" style="display:none;margin:-2px 0 9px;padding:6px 9px;background:#fff8e1;border:1.5px solid #ffe082;border-radius:7px;font-size:11px;color:#8d6e00;font-weight:700;"></div>
           <div class="frow">
             <div class="fgrp">
               <label class="flbl">강우강도 I (입력)</label>
@@ -1038,7 +1047,7 @@ input[type="number"]{-moz-appearance:textfield;}
                 <option value="public" selected>공공관로 기준 — 1.3 · 2.3</option>
                 <option value="drain">배수설비 기준 — 15.2</option>
               </select>
-              <label id="sw-l150-wrap" style="display:flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:#00695c;margin-top:5px;"><input type="checkbox" id="sw-l150"/> 초기관로 국지 150 mm (2.3(3))</label>
+              <label id="sw-l150-wrap" style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#00695c;margin-top:5px;"><input type="checkbox" id="sw-l150"/> 초기관로 국지 150 mm (2.3(3))</label>
             </div>
             <div class="fgrp">
               <label class="flbl">관 경사 (1/n)</label>
@@ -1144,7 +1153,7 @@ input[type="number"]{-moz-appearance:textfield;}
     <span class="bar-lbl">📄 A4 출력 :</span>
     <button class="mm-btn mm-btn-print" onclick="doPrint()">🖨️ 인쇄 / PDF 저장</button>
     <button class="mm-btn mm-btn-jpg" id="btn-jpg" onclick="exportA4Jpg()">🖼️ JPG 저장</button>
-    <span style="font-size:10px;color:#64748b;margin-left:4px;">※ 계산 후 보고서가 자동 생성됩니다 · 인쇄 대화상자에서 "PDF로 저장" 가능</span>
+    <span style="font-size:11px;color:#64748b;margin-left:4px;">※ 계산 후 보고서가 자동 생성됩니다 · 인쇄 대화상자에서 "PDF로 저장" 가능</span>
   </div>
   <div class="a4-wrap" id="a4Wrap">
     <div class="a4-scale-wrap" id="a4-scale">
@@ -1244,14 +1253,14 @@ input[type="number"]{-moz-appearance:textfield;}
 
       <!-- 관경표 탭 -->
       <div id="gitab-panel-pipe" style="display:none;">
-        <div style="font-size:10.5px;font-weight:800;color:#1565c0;margin-bottom:7px;padding:4px 8px;background:#e3f2fd;border-left:3px solid #1976d2;border-radius:0 5px 5px 0;">🌧️ 우수관 허용유량표 (Manning n=0.013, S=1/150, 만관)</div>
+        <div style="font-size:11px;font-weight:800;color:#1565c0;margin-bottom:7px;padding:4px 8px;background:#e3f2fd;border-left:3px solid #1976d2;border-radius:0 5px 5px 0;">🌧️ 우수관 허용유량표 (Manning n=0.013, S=1/150, 만관)</div>
         <div class="twrap" style="margin-bottom:12px;">
           <table class="rtbl" id="guide-pipe-tbl-uw">
             <thead><tr><th>DN (mm)</th><th>A (m²)</th><th>R (m)</th><th>V (m/s)</th><th>Q (m³/s)</th><th>Q (ℓ/s)</th></tr></thead>
             <tbody id="guide-uw-tbody"></tbody>
           </table>
         </div>
-        <div style="font-size:10.5px;font-weight:800;color:#00695c;margin-bottom:7px;padding:4px 8px;background:#e0f2f1;border-left:3px solid #00897b;border-radius:0 5px 5px 0;">🚽 오수관 만류 통수능표 (Manning n=0.011, S=1/100, 만류)</div>
+        <div style="font-size:11px;font-weight:800;color:#00695c;margin-bottom:7px;padding:4px 8px;background:#e0f2f1;border-left:3px solid #00897b;border-radius:0 5px 5px 0;">🚽 오수관 만류 통수능표 (Manning n=0.011, S=1/100, 만류)</div>
         <div class="twrap">
           <table class="rtbl teal" id="guide-pipe-tbl-sw">
             <thead><tr><th>DN (mm)</th><th>A (m²)</th><th>R (m)</th><th>V (m/s)</th><th>Q (m³/s)</th><th>Q (ℓ/s)</th><th>만류 유속 0.6 ~ 3.0</th></tr></thead>
@@ -1273,11 +1282,11 @@ input[type="number"]{-moz-appearance:textfield;}
       <img src="./icons/brand-icon.jpg" alt="토목배관" style="width:52px;height:52px;object-fit:cover;border-radius:12px;display:block;"/>
       <div style="flex:1;min-width:0;">
         <div style="font-size:13px;font-weight:900;color:#fff;margin-bottom:3px;">📲 토목배관 앱으로 설치!</div>
-        <div style="font-size:10px;color:#90caf9;line-height:1.5;">홈 화면에 추가하면 오프라인에서도 사용 가능합니다<br/>CIVIL ENGINEER KIM MANMIN · 단지내 배관산정</div>
+        <div style="font-size:11px;color:#90caf9;line-height:1.5;">홈 화면에 추가하면 오프라인에서도 사용 가능합니다<br/>CIVIL ENGINEER KIM MANMIN · 단지내 배관산정</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
-        <button onclick="pwaTriggerInstall('banner')" style="background:linear-gradient(135deg,#42a5f5,#1976d2);border:none;color:#fff;padding:9px 18px;border-radius:10px;cursor:pointer;font-weight:900;font-size:12px;font-family:inherit;box-shadow:0 3px 10px rgba(66,165,245,.4);white-space:nowrap;">설치하기</button>
-        <button onclick="pwaDismissBanner()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:5px 14px;border-radius:8px;cursor:pointer;font-size:10px;font-family:inherit;white-space:nowrap;">나중에</button>
+        <button onclick="pwaTriggerInstall('banner')" style="background:linear-gradient(135deg,#46e0c9,#1ea596);border:none;color:#fff;padding:9px 18px;border-radius:10px;cursor:pointer;font-weight:900;font-size:12px;font-family:inherit;box-shadow:0 3px 10px rgba(70,224,201,.4);white-space:nowrap;">설치하기</button>
+        <button onclick="pwaDismissBanner()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.7);padding:5px 14px;border-radius:8px;cursor:pointer;font-size:11px;font-family:inherit;white-space:nowrap;">나중에</button>
       </div>
     </div>
   </div>
@@ -1454,7 +1463,7 @@ function uwRenderSegs(){
   uwSegs.forEach(function(s){
     html+='<div class="seg-row" id="uwseg-'+s.id+'">'
       +'<span class="seg-lbl">'+s.name+'</span>'
-      +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="uwSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'uwseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:10.5px;"/></div>'
+      +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="uwSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'uwseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:11px;"/></div>'
       +'<div class="fgrp"><label class="flbl">관 길이(m)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="uwSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
       +'<div class="fgrp"><label class="flbl">구간 유역(ha)</label><input class="finput" type="number" value="'+(s.upArea||0.3)+'" min="0.01" step="0.01" oninput="uwSegs.find(x=>x.id==='+s.id+').upArea=+this.value;" style="font-size:11px;"/></div>'
       +'<button class="seg-del" onclick="uwDelSeg('+s.id+')">✕</button>'
@@ -1499,7 +1508,7 @@ function swRenderSegs(){
   swSegs.forEach(function(s){
     html+='<div class="seg-row" id="swseg-'+s.id+'">'
       +'<span class="seg-lbl">'+s.name+'</span>'
-      +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="swSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'swseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:10.5px;"/></div>'
+      +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="swSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'swseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:11px;"/></div>'
       +'<div class="fgrp"><label class="flbl">관 길이(m)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="swSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
       +'<div class="fgrp"><label class="flbl">구간 세대수</label><input class="finput" type="number" value="'+(s.subUnits||50)+'" min="0" oninput="swSegs.find(x=>x.id==='+s.id+').subUnits=+this.value;" style="font-size:11px;"/></div>'
       +'<button class="seg-del" onclick="swDelSeg('+s.id+')">✕</button>'
@@ -1574,13 +1583,13 @@ function dnTable(R,kind){
   var list=PIPE_DN.filter(function(d){return d>=Math.min(R.minDN,R.dn)&&d<=Math.max(R.dn+150,R.minDN+150);});
   list.forEach(function(dn){
     var f=CEPENG.full(dn,R.n,R.slope),d=CEPENG.depth(R.Q,dn,R.n,R.slope),cap=f.Q>=R.Qcap,vok=d&&d.V>=vr[0]&&d.V<=vr[1],under=dn<R.minDN;
-    h+='<tr class="'+(dn===R.dn?'pc-rec':'')+(dn<R.dn?' pc-dim':'')+'"><td class="pc-dn-cell'+(kind==='uw'?'':' teal')+'">DN '+dn+(under?' <span style="font-size:9px;color:#c62828">(최소 미만)</span>':'')+'</td>'
+    h+='<tr class="'+(dn===R.dn?'pc-rec':'')+(dn<R.dn?' pc-dim':'')+'"><td class="pc-dn-cell'+(kind==='uw'?'':' teal')+'">DN '+dn+(under?' <span style="font-size:11px;color:#c62828">(최소 미만)</span>':'')+'</td>'
       +'<td class="mono">'+f.Q.toFixed(4)+'</td><td class="mono">'+f.V.toFixed(2)+'</td>'
       +'<td class="mono">'+(d?(d.f*100).toFixed(0)+' %':'—')+'</td><td class="mono" style="color:'+okC(vok)+'">'+(d?d.V.toFixed(2):'—')+'</td>'
       +'<td style="font-weight:700;color:'+okC(cap)+'">'+(cap?'+'+((f.Q/R.Qcap-1)*100).toFixed(0)+' %':'부족')+'</td>'
       +'<td style="font-weight:800;color:'+okC(cap&&vok&&!under)+'">'+(cap&&vok&&!under?'✓':'✗')+'</td></tr>';
   });
-  return h+'</tbody></table></div><div style="font-size:10px;color:#64748b;margin-top:6px">단면은 만류 통수능 ≥ 설계유량(KDS 61 40 00 1.2(2)④) · 유속은 계획유량이 흐를 때의 수심에서 판정(1.3) — 판정 범위 '+vr[0].toFixed(1)+' ~ '+vr[1].toFixed(1)+' m/s</div></div></div>';
+  return h+'</tbody></table></div><div style="font-size:11px;color:#64748b;margin-top:6px">단면은 만류 통수능 ≥ 설계유량(KDS 61 40 00 1.2(2)④) · 유속은 계획유량이 흐를 때의 수심에서 판정(1.3) — 판정 범위 '+vr[0].toFixed(1)+' ~ '+vr[1].toFixed(1)+' m/s</div></div></div>';
 }
 
 function advice(R,kind){
@@ -1735,9 +1744,9 @@ function renderA4Report(){
       uwSeg+='</tbody></table>';
     }
     uwBox='<div class="a4-no-break" style="background:linear-gradient(135deg,#0d47a1,#1565c0);border-radius:8px;padding:10px 14px 8px;text-align:center;margin:6px 0 10px;">'
-      +'<div style="font-size:9px;color:rgba(255,255,255,.7);margin-bottom:3px;">추천 우수관 관경 — '+(R.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
+      +'<div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:3px;">추천 우수관 관경 — '+(R.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
       +'<div style="font-size:42px;font-weight:900;color:#fff176;'+M+';line-height:1;">DN '+R.dn+' mm</div>'
-      +'<div style="font-size:9.5px;color:rgba(255,255,255,.8);margin-top:4px;">설계유량 '+fx(R.Qcap,4)+' m³/s · 유속 '+vTxt(R)+' · '+(R.capOk&&R.vOk?'✓ 적합':'✗ 검토 필요')+'</div></div>';
+      +'<div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:4px;">설계유량 '+fx(R.Qcap,4)+' m³/s · 유속 '+vTxt(R)+' · '+(R.capOk&&R.vOk?'✓ 적합':'✗ 검토 필요')+'</div></div>';
   }
   var swMain='<p style="color:#90a4ae;text-align:center;padding:10px 0;">오수 배관 계산 결과가 없습니다.</p>',swBox='',swSeg='';
   if(SW.hasResult&&SW.result){
@@ -1758,9 +1767,9 @@ function renderA4Report(){
       swSeg+='</tbody></table>';
     }
     swBox='<div class="a4-no-break" style="background:linear-gradient(135deg,#004d40,#00695c);border-radius:8px;padding:10px 14px 8px;text-align:center;margin:6px 0 10px;">'
-      +'<div style="font-size:9px;color:rgba(255,255,255,.7);margin-bottom:3px;">추천 오수관 관경 — '+(S.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
+      +'<div style="font-size:11px;color:rgba(255,255,255,.7);margin-bottom:3px;">추천 오수관 관경 — '+(S.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
       +'<div style="font-size:42px;font-weight:900;color:#fff176;'+M+';line-height:1;">DN '+S.dn+' mm</div>'
-      +'<div style="font-size:9.5px;color:rgba(255,255,255,.8);margin-top:4px;">설계유량 '+fx(S.Qcap,5)+' m³/s · 유속 '+vTxt(S)+' · '+(S.capOk&&S.vOk?'✓ 적합':'✗ 검토 필요')+'</div></div>';
+      +'<div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:4px;">설계유량 '+fx(S.Qcap,5)+' m³/s · 유속 '+vTxt(S)+' · '+(S.capOk&&S.vOk?'✓ 적합':'✗ 검토 필요')+'</div></div>';
   }
   el.innerHTML=''
   +'<div class="a4-tit">단지내 우수·오수 배관 산정 결과서</div>'
@@ -1778,7 +1787,7 @@ function renderA4Report(){
   +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00</td><td style="text-align:center">1.3 · 2.3</td><td>공공관로 — 유속 오수 0.6 ~ 3.0 · 우수 0.8 ~ 3.0 m/s · 최소관경 오수 200 · 우수 250 mm</td></tr>'
   +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00</td><td style="text-align:center">15.2</td><td>배수설비 — 표 1.15.1 ~ 1.15.3 최소관경 · 유속 0.6 ~ 1.5 m/s · 최소토피 20 cm</td></tr>'
   +'</tbody></table>'
-  +'<div style="font-size:9px;color:#64748b;margin-top:6px;line-height:1.5">※ 강우강도 · 1인1일최대오수량은 해당 지역 하수도정비기본계획 · 확률강우량도 값을 우선합니다. 여유율(우수)은 MANMIN 적용 사항입니다.</div>'
+  +'<div style="font-size:11px;color:#64748b;margin-top:6px;line-height:1.5">※ 강우강도 · 1인1일최대오수량은 해당 지역 하수도정비기본계획 · 확률강우량도 값을 우선합니다. 여유율(우수)은 MANMIN 적용 사항입니다.</div>'
   +'<div class="a4-footer">'
   +'<span>단지내 우수·오수 배관산정 시스템 [MANMIN-Ver5.1]</span>'
   +'<span>KDS 61 40 00 · 61 10 00 (2025. 10. 1.)</span>'
@@ -2056,13 +2065,13 @@ document.addEventListener('DOMContentLoaded',function(){
               /* 새 버전 알림 배너 */
               var b = document.createElement('div');
               b.id = 'sw-update-bar';
-              b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#0f3460,#1565c0);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:700;box-shadow:0 -4px 16px rgba(0,0,0,.3);';
+              b.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:9999;background:linear-gradient(135deg,#134e4a,#0f766e);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:700;box-shadow:0 -4px 16px rgba(0,0,0,.3);';
               /* SW 업데이트 버튼 — 따옴표 충돌 없이 DOM 방식으로 생성 */
               var bSpan = document.createElement('span');
               bSpan.textContent = '🔄 새 버전이 업데이트되었습니다';
               var bBtn = document.createElement('button');
               bBtn.textContent = '업데이트';
-              bBtn.style.cssText = 'background:#42a5f5;border:none;color:#fff;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:11px;';
+              bBtn.style.cssText = 'background:#46e0c9;border:none;color:#fff;padding:6px 14px;border-radius:8px;cursor:pointer;font-weight:800;font-size:11px;';
               bBtn.addEventListener('click', function(){
                 navigator.serviceWorker.ready.then(function(reg){
                   if(reg.waiting) reg.waiting.postMessage({type:'SKIP_WAITING'});
@@ -2367,5 +2376,15 @@ window.exportA4Jpg = function(){
 <style>#mm-ios-tip{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:99999;display:none;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;background:#0B1B2E;color:#F4F1EA;border:1px solid rgba(255,255,255,.18);box-shadow:0 8px 28px rgba(0,0,0,.35);font:600 13px/1.5 'Pretendard','Noto Sans KR',system-ui,sans-serif;max-width:560px;margin:0 auto}#mm-ios-tip b{color:#86efac}#mm-ios-tip button{flex:none;margin-left:auto;padding:7px 12px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#F4F1EA;font:inherit;cursor:pointer}@media print{#mm-ios-tip{display:none!important}}</style>
 <div id="mm-ios-tip" role="dialog" aria-label="홈 화면에 앱 설치 안내"><span style="font-size:20px">📲</span><span>홈 화면에 앱으로 설치 — Safari <b>공유</b> 단추 → <b>홈 화면에 추가</b></span><button type="button" aria-label="설치 안내 닫기">닫기</button></div>
 <script>(function(){try{var n=navigator,ios=/iphone|ipad|ipod/i.test(n.userAgent)||(n.platform==='MacIntel'&&n.maxTouchPoints>1),sa=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||n.standalone===true;if(!ios||sa)return;try{if(sessionStorage.getItem('mm-ios-tip'))return}catch(e){}var t=document.getElementById('mm-ios-tip');if(!t)return;t.querySelector('button').addEventListener('click',function(){t.style.display='none';try{sessionStorage.setItem('mm-ios-tip','1')}catch(e){}});setTimeout(function(){t.style.display='flex'},2500)}catch(e){}})();</script>
+<!-- ══ FOOTER (하단 버전 표시) ══ -->
+<footer class="mm-foot no-print">
+  <div class="foot-inner">
+    <div>
+      <div class="foot-nm">MANMIN Ver-5.1</div>
+      <div class="foot-desc">단지내 우수 · 오수 배관 산정 시스템 | KDS 61 40 00 · 합리식 · Manning</div>
+    </div>
+    <div class="foot-copy">ARCHITECT KIM MANMIN © 2026</div>
+  </div>
+</footer>
 </body>
 </html>
