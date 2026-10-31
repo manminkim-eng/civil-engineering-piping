@@ -37,7 +37,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE  = 'tobog-v5.1.3';   /* v5.1.0 : KDS 원문 대조 판정 엔진 */
+const CACHE  = 'tobog-v5.1.4';   /* v5.1.0 : KDS 원문 대조 판정 엔진 */
 const ORPHAN = ['tobog-v2.0'];
 const ASSETS = [
   './',
