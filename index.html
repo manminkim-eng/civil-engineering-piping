@@ -498,7 +498,7 @@ input[type="number"]{-moz-appearance:textfield;}
 .pwa-no{background:rgba(255,255,255,.1);border:none;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:14px;font-family:inherit;}
 
 /* ══ FAB · 모달 (v5.0 §18-11 — 09 제연 기준본 규격 · 색만 기계 토큰) ══ */
-#fab-group{position:fixed;bottom:calc(80px + env(safe-area-inset-bottom,0px));right:18px;   /* 하단 계산바 위 (도구 특이) */z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+#fab-group{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));right:18px;   /* v5.1.6 — 하단 계산바 삭제(§25-6-31) → 다른 도구와 같은 높이 */z-index:1200;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
 .help-fab{
   position:relative;z-index:auto;
   background:linear-gradient(135deg,#042f2e 0%,#0f766e 55%,#1ea596 100%);
@@ -547,7 +547,7 @@ input[type="number"]{-moz-appearance:textfield;}
   .master-modal-hd{padding:14px 16px 0;}
   .master-modal-body{padding:16px 16px 36px;}
   .mm-mtab{padding:9px 13px;font-size:11px;}
-  #fab-group{bottom:calc(78px + env(safe-area-inset-bottom,0px));right:12px;}
+  #fab-group{bottom:calc(16px + env(safe-area-inset-bottom,0px));right:12px;}
   .help-fab{padding:10px 8px;}
 }
 
@@ -1169,24 +1169,12 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
 
 </main><!-- /main-wrap -->
 
-<!-- ══ BOTTOM BAR (우수) ══ -->
-<div id="bottom-bar-uw" class="bottom-bar no-print">
-  <div class="bottom-bar-inner">
-    <button class="btn-calc" onclick="calcUW()">🌧️ <span>우수 배관 계산 실행</span></button>
-    <button class="btn-secondary" onclick="resetUW()">🔄 <span class="btn-stxt">초기화</span></button>
-  </div>
-</div>
-<div id="bottom-bar-sw" class="bottom-bar no-print" style="display:none;">
-  <div class="bottom-bar-inner">
-    <button class="btn-calc teal" onclick="calcSW()">🚽 <span>오수 배관 계산 실행</span></button>
-    <button class="btn-secondary" onclick="resetSW()">🔄 <span class="btn-stxt">초기화</span></button>
-  </div>
-</div>
+<!-- v5.1.6 : 하단 계산바(계산 실행 · 초기화) 삭제 — 입력하면 자동 계산(#mm-autocalc) · 전체 초기화는 우측 하단 FAB(§25-6-31) -->
 
 <!-- ══ TOAST ══ -->
 <div class="toast" id="toast"></div>
 
-<!-- ══ FAB 버튼 그룹 (v5.0 §18-11 — 초기화 위 · 설계기준 아래 · 하단 계산바 위) ══ -->
+<!-- ══ FAB 버튼 그룹 (v5.0 §18-11 — 초기화 위 · 설계기준 아래) ══ -->
 <div id="fab-group" class="no-print">
   <button class="help-fab" id="fabReset" onclick="resetAll()" title="전체 초기화">
     <span class="fab-icon">🔄</span>
@@ -1835,8 +1823,6 @@ function showTab(id,btn){
   document.querySelectorAll('.tb:not(.tb-manual)').forEach(function(b){b.classList.remove('active');});
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
-  document.getElementById('bottom-bar-uw').style.display=id==='tab-uw'?'block':'none';
-  document.getElementById('bottom-bar-sw').style.display=id==='tab-sw'?'block':'none';
   if(id==='tab-report'){scaleA4();}
 }
 function uwUpdateSteps(active){
@@ -1973,7 +1959,7 @@ function resetUW(){
   var today=new Date();
   document.getElementById('uw-date').value=today.getFullYear()+'-'+('0'+(today.getMonth()+1)).slice(-2)+'-'+('0'+today.getDate()).slice(-2);
   UW.result=null;UW.hasResult=false;
-  document.getElementById('uw-result-panel').innerHTML='<div class="nb blue"><div class="nb-tit">💡 사용 방법</div><div class="nb-txt">조건을 입력하고 계산 버튼을 눌러주세요.</div></div>';
+  document.getElementById('uw-result-panel').innerHTML='<div class="nb blue"><div class="nb-tit">💡 사용 방법</div><div class="nb-txt">조건을 입력하면 자동으로 계산됩니다.</div></div>';
   showToast('우수 계산이 초기화되었습니다.');
   uwUpdateSteps(1);
 }
@@ -1995,7 +1981,7 @@ function resetSW(){
   var today=new Date();
   document.getElementById('sw-date').value=today.getFullYear()+'-'+('0'+(today.getMonth()+1)).slice(-2)+'-'+('0'+today.getDate()).slice(-2);
   SW.result=null;SW.hasResult=false;
-  document.getElementById('sw-result-panel').innerHTML='<div class="nb teal"><div class="nb-tit">💡 사용 방법</div><div class="nb-txt">조건을 입력하고 계산 버튼을 눌러주세요.</div></div>';
+  document.getElementById('sw-result-panel').innerHTML='<div class="nb teal"><div class="nb-tit">💡 사용 방법</div><div class="nb-txt">조건을 입력하면 자동으로 계산됩니다.</div></div>';
   showToast('오수 계산이 초기화되었습니다.');
   swUpdateSteps(1);
 }
@@ -2531,6 +2517,38 @@ window.exportA4Jpg = function(){
     stamp = document.title = [n, proj(), ymd()].filter(Boolean).map(function (s) { return s.replace(/[\\\/:*?"<>|]/g, '').replace(/\s+/g, ''); }).join('_');
   });
   addEventListener('afterprint', function () { if (old !== null && document.title === stamp) document.title = old; old = stamp = null; });
+})();
+</script>
+<script id="mm-autocalc">/* v5.1.6 (2026-11-01) — 자동 계산(작업지시서 §25-6-31)
+   하단 계산바(「계산 실행」 · 「초기화」)를 없앴다. 대신 우수 · 오수 탭의 입력이 바뀌면 0.35초 뒤 그 탭을 다시 계산한다.
+   처음 열 때와 「전체 초기화」 뒤에도 기본값으로 계산해 결과 · 요약 · A4 보고서가 늘 채워져 있다.
+   자동 계산 중에는 「계산 완료」 알림을 띄우지 않고, 입력 누락 경고만 띄운다. 계산 함수(calcUW · calcSW)는 그대로 쓴다. */
+(function(){
+  var T={};
+  function quiet(fn){
+    var t=window.showToast, last='';
+    window.showToast=function(m){last=String(m||'');};
+    try{fn();}catch(e){console.error(e);}finally{window.showToast=t;}
+    if(last&&last.indexOf('완료')<0&&typeof t==='function')t(last);
+  }
+  function run(k,ms){clearTimeout(T[k]);T[k]=setTimeout(function(){quiet(k==='uw'?window.calcUW:window.calcSW);},ms==null?350:ms);}
+  function which(el){
+    if(!el||!el.closest)return null;
+    if(el.closest('#uw-result-panel,#sw-result-panel'))return null;
+    if(el.closest('#tab-uw'))return 'uw';
+    if(el.closest('#tab-sw'))return 'sw';
+    return null;
+  }
+  function on(e){var k=which(e.target);if(k)run(k);}
+  document.addEventListener('input',on,true);
+  document.addEventListener('change',on,true);
+  document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('button,.seg-btn,[onclick]'))on(e);},true);
+  ['resetUW','resetSW'].forEach(function(n){
+    var o=window[n]; if(typeof o!=='function')return;
+    window[n]=function(){var r=o.apply(this,arguments);run(n==='resetUW'?'uw':'sw',0);return r;};
+  });
+  function go(){run('uw',0);run('sw',0);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){setTimeout(go,0);});else setTimeout(go,0);
 })();
 </script>
 <script id="mm-foot-stick">/* v5.1.5 (2026-11-01) — 하단 버전 카드 바닥 고정(작업지시서 §25-6-30) */
