@@ -1,4 +1,5 @@
 /* ═══════════════════════════════════════════════════
+   v6.1.0 (2026-11-12) — 화면 확대 허용(viewport 의 maximum-scale=1.0 · user-scalable=no 삭제 — 휴대폰에서 두 손가락 확대 가능) (정밀검토 B17 · 작업지시서 §25-6-78) · 판 6.1 · 캐시명 v6.1.0 (종전 tobog-v5.1.9)
    v5.1.0 회차 2026-10-17 — KDS 61 40 00 · 61 10 00 (2025. 10. 1.) 원문 대조 판정 엔진 CEPENG · 매뉴얼(/manual/ 캐시 제외) · 캐시명 v5.1.0
    S6 회차 2026-09-05 — R24①② 표 선 separate·mono 한글 폴백 소급 동반 캐시명 v5.0.5
    S5 회차 2026-09-04 — R23② JPG 엔진 행 나눔 소급 동반 캐시명 v5.0.4
@@ -37,7 +38,7 @@ const mmMatch = (req, opt) => caches.keys()
   .then((ks) => ks.reduce((p, k) => p.then((r) => r || caches.open(k).then((c) => c.match(req, opt))), Promise.resolve(undefined)))
   .then((r) => (r && r.type === 'opaque' && req && req.mode === 'cors') ? undefined : r);
 
-const CACHE  = 'tobog-v5.1.9';   /* v5.1.0 : KDS 원문 대조 판정 엔진 */
+const CACHE  = 'tobog-v6.1.0';   /* v5.1.0 : KDS 원문 대조 판정 엔진 */
 const ORPHAN = ['tobog-v2.0'];
 const ASSETS = [
   './',
