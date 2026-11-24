@@ -578,6 +578,11 @@ input[type="number"]{-moz-appearance:textfield;}
   @page{size:A4 portrait;margin:14mm 12mm 22mm 14mm;}
 }
 </style>
+<style id="cep-bad-css">/* v6.1.4 — 무효 입력 빨간 칸 · 안내(교차검증 F1 · F2), 인쇄 제외 */
+.finput.cep-bad{outline:2px solid #d32f2f!important;outline-offset:1px;background:#fff5f5!important;}
+.cep-bad-msg{display:block;color:#d32f2f;font-size:11px;font-weight:700;line-height:1.35;margin-top:3px;}
+@media print{.cep-bad-msg{display:none!important}}
+</style>
 <style id="mm-r1">/* R1 (2026-09-04 · 지시서 §20-1 · S10 소급) — 인쇄 PDF 하단 각인 MANMIN · Ver 비표시. 버전은 A4 푸터 [MANMIN-Ver5.0] 이 담당 */
 #dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}
 @media print{#dev-stamp,#dev-stamp-print,.dev-stamp{display:none!important;}}</style>
@@ -691,7 +696,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
         </div>
         <div class="card-body">
           <div class="nb blue" style="margin-bottom:11px;">
-            <div class="nb-tit">📌 적용 기준 · 설계빈도 (v5.1.0)</div>
+            <div class="nb-tit">📌 적용 기준 · 설계빈도</div>
             <div class="nb-txt">최소 설계빈도 <strong>지선관로 10년 · 간선관로 30년</strong>(KDS 61 10 00 1.5.1(3))<br>강우강도는 지역 IDF 또는 <strong>확률강우량도(www.k-idf.re.kr)</strong>로 구해 아래 칸에 입력합니다.</div>
           </div>
           <div class="frow">
@@ -699,7 +704,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
               <label class="flbl">관경 · 유속 판정 기준</label>
               <select class="fselect" id="uw-basis">
                 <option value="public" selected>공공관로 기준 — KDS 61 40 00 1.3 · 2.3</option>
-                <option value="drain">배수설비 기준 — KDS 61 40 00 15.2</option>
+                <option value="drain">배수설비 기준 — KDS 61 40 00 15.2 · 하수도법 시행규칙 별표 7</option>
               </select>
             </div>
             <div class="fgrp">
@@ -819,7 +824,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
           <div class="frow">
             <div class="fgrp">
               <label class="flbl">관 재질</label>
-              <select class="fselect" id="uw-material">
+              <select class="fselect" id="uw-material" onchange="cepMatN('uw')">
                 <option value="CON" selected>철근콘크리트관 (흄관)</option>
                 <option value="PVC">경질염화비닐관</option>
                 <option value="GRP">강화플라스틱복합관</option>
@@ -1035,7 +1040,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
             <div class="nb-tit">📐 판정 기준 (KDS 61 40 00 : 2025)</div>
             <div class="nb-txt">
               공공관로 — 유속 <strong>0.6 ~ 3.0 m/s</strong>(1.3(1)) · 최소관경 <strong>200 mm</strong>(2.3(1), 초기관로 국지 150)<br>
-              배수설비 — 유속 <strong>0.6 ~ 1.5 m/s</strong>(15.2(3)) · 최소관경 배수인구별 표 1.15.1<br>
+              배수설비 — 유속 <strong>0.6 ~ 1.5 m/s</strong>(15.2(3)) · 최소관경 배수인구별 표 1.15.1 (하수도법 시행규칙 별표 7과 같은 값)<br>
               단면은 <strong>만류</strong>(1.2(2)④) · 계획시간최대오수량 × (1 + 여유율)(1.1(5))
             </div>
           </div>
@@ -1045,7 +1050,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
               <label class="flbl">관경 · 유속 판정 기준</label>
               <select class="fselect" id="sw-basis" onchange="document.getElementById('sw-l150-wrap').style.display=this.value==='public'?'':'none'">
                 <option value="public" selected>공공관로 기준 — 1.3 · 2.3</option>
-                <option value="drain">배수설비 기준 — 15.2</option>
+                <option value="drain">배수설비 기준 — 15.2 · 시행규칙 별표 7</option>
               </select>
               <label id="sw-l150-wrap" style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#00695c;margin-top:5px;"><input type="checkbox" id="sw-l150"/> 초기관로 국지 150 mm (2.3(3))</label>
             </div>
@@ -1071,7 +1076,7 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
             </div>
             <div class="fgrp">
               <label class="flbl">관 재질</label>
-              <select class="fselect" id="sw-material">
+              <select class="fselect" id="sw-material" onchange="cepMatN('sw')">
                 <option value="PVC" selected>PVC관</option>
                 <option value="PE">PE관</option>
                 <option value="GRP">GRP관</option>
@@ -1217,8 +1222,8 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
 
       <!-- 법규·기준 탭 -->
       <div id="gitab-panel-law" style="display:none;">
-        <div class="nb teal" style="margin-bottom:10px;"><div class="nb-tit">📐 적용 기준 (kcsc.re.kr 원문 대조 2026-10-17)</div><div class="nb-txt"><strong>KDS 61 40 00 관로시설 설계기준</strong> — 2025. 10. 1. 개정 · 계획하수량 · 유량계산 · 유속 · 최소관경 · 배수설비<br><strong>KDS 61 10 00 하수도설계 일반사항</strong> — 2025. 10. 1. 개정 · 계획우수량 · 설계빈도 · 계획오수량</div></div>
-        <div class="nb blue"><div class="nb-tit">🏛️ 범위 밖 (따로 확인)</div><div class="nb-txt">하수도법 · 시행규칙의 배수설비 설치 · 관리 의무, 지자체 하수도 사용 조례, 하수도정비기본계획의 강우강도식 · 원단위 — 이 도구는 판정하지 않습니다.</div></div>
+        <div class="nb teal" style="margin-bottom:10px;"><div class="nb-tit">📐 적용 기준 (kcsc.re.kr 원문 대조 2026-10-17 · 재대조 2026-11-24)</div><div class="nb-txt"><strong>KDS 61 40 00 관로시설 설계기준</strong> — 2025. 10. 1. 개정 · 계획하수량 · 유량계산 · 유속 · 최소관경 · 배수설비<br><strong>KDS 61 10 00 하수도설계 일반사항</strong> — 2025. 10. 1. 개정 · 계획우수량 · 설계빈도 · 계획오수량</div></div>
+        <div class="nb grn" style="margin-bottom:10px;"><div class="nb-tit">⚖️ 배수설비 법정 기준 (lawmcp 원문 대조 2026-11-24)</div><div class="nb-txt"><strong>하수도법 시행규칙 제23조제2항 · 별표 7</strong>(MST 287447 · 시행 2026-06-22) — 오수관(배수인구) · 합류관 · 우수관(배수면적) · 배수량이 특히 많은 장소의 관 크기, 배수관 유속 0.6 ~ 1.5 m/s. KDS 61 40 00 15.2 와 <strong>같은 값</strong>이며, 배수설비 기준 판정은 두 근거를 함께 표기합니다(공공하수도관리청이 특별한 사유를 인정한 경우는 그 지시에 따름).</div></div><div class="nb blue"><div class="nb-tit">🏛️ 범위 밖 (따로 확인)</div><div class="nb-txt">별표 7 의 물받이 설치 · 간격(안지름 120배 이하) · 청소구, 스크린(유효간격 10 mm 이하) · 유지차단장치 · 모래받이 · 악취방지트랩, 제23조제1항의 연결 · 자재 · 분류식 구조, 지자체 하수도 사용 조례, 하수도정비기본계획의 강우강도식 · 원단위 — 이 도구는 판정하지 않습니다.</div></div>
       </div>
 
       <!-- 설계기준 탭 -->
@@ -1227,13 +1232,13 @@ footer.mm-foot{position:relative;z-index:1;border-top:1px solid #e4e9f0;backgrou
           <table class="rtbl">
             <thead><tr><th>항목</th><th>공공관로 기준</th><th>배수설비 기준</th><th>근거</th></tr></thead>
             <tbody>
-              <tr><td>오수 최소관경</td><td>200 mm (초기관로 국지 150)</td><td>배수인구 150 · 300 · 600 · 1,000명 → 100 · 150 · 200 · 250 mm</td><td>2.3 · 표 1.15.1</td></tr>
-              <tr><td>우수 최소관경</td><td>250 mm</td><td>배수면적 200 · 600 · 1,200 ㎡ 미만 → 100 · 150 · 200 mm</td><td>2.3 · 표 1.15.2</td></tr>
+              <tr><td>오수 최소관경</td><td>200 mm (초기관로 국지 150)</td><td>배수인구 150 · 300 · 600 · 1,000명 이하 → 100 · 150 · 200 · 250 mm 이상</td><td>2.3 · 표 1.15.1</td></tr>
+              <tr><td>우수 최소관경</td><td>250 mm</td><td>배수면적 200 · 600 · 1,200 ㎡ 미만 → 100 · 150 · 200 mm 이상 · 1,200 ㎡ 이상은 관의 지름 또는 개수를 늘림(병렬관 검토)</td><td>2.3 · 표 1.15.2</td></tr><tr><td>배수량이 특히 많은 장소</td><td>—</td><td>배수량 1,000 · 2,000 · 4,000 · 6,000 ㎥/일 미만 → 150 · 200 · 250 · 300 mm 이상 · 6,000 이상은 지름 또는 개수를 늘림(병렬관 검토)</td><td>표 1.15.3</td></tr><tr><td>짧은 지관 단서</td><td>—</td><td>일부 오수 · 우수 배제용 연장 3 m 미만 지관은 75 mm 사용 가능(이 도구는 적용하지 않음 — 보수적)</td><td>15.2(2)①② 단서</td></tr>
               <tr><td>오수 유속</td><td>0.6 ~ 3.0 m/s</td><td>0.6 ~ 1.5 m/s</td><td>1.3(1) · 15.2(3)</td></tr>
               <tr><td>우수 유속</td><td>0.8 ~ 3.0 m/s</td><td>0.6 ~ 1.5 m/s</td><td>1.3(2) · 15.2(3)</td></tr>
               <tr><td>최소 흙두께</td><td>1 m 원칙</td><td>부지 내 20 cm 이상</td><td>3.2 · 15.2(4)</td></tr>
               <tr><td>연결관</td><td colspan="2">최소관경 150 mm · 경사 1 % 이상</td><td>14.5</td></tr>
-              <tr><td>설계빈도</td><td colspan="2">지선관로 10년 · 간선관로 30년 이상</td><td>61 10 00 1.5.1(3)</td></tr>
+              <tr><td>설계빈도</td><td colspan="2">지선관로 10년 · 간선관로 30년 이상(지역 특성 등을 고려해 지선 30년 · 간선 50년 또는 더 강화된 기준 적용 가능)</td><td>61 10 00 1.5.1(3)</td></tr><tr><td>배수설비 법정 근거</td><td colspan="2">표 1.15.1 ~ 1.15.3 · 유속 0.6 ~ 1.5 m/s 는 하수도법 시행규칙 별표 7 과 같은 값</td><td>시행규칙 제23조② 별표 7</td></tr>
             </tbody>
           </table>
         </div>
@@ -1394,18 +1399,73 @@ var SW = {
    종전 Talbot 지역표(관측소 39곳 · 출처 미상)는 삭제 — 대전 5년 · 10분 69.8 vs 참고자료 123.9 mm/h (−44 %)
    참고 지점 2곳은 사용자 참고자료 엑셀(강우강도식 매개변수산출.xls · IDF-64bit.xls)의 지속기간별 표 그대로
 ════════════════════════════════════════════════════════ */
+/* v6.1.4 — 표 범위(5 ~ 120분) 밖 t 는 몰래 자르지 않고 경고 + 계산에 쓴 t(표 끝 값)를 표시(교차검증 F3) */
+function cepRefT(st,t){var ts=CEPENG.REF[st].t;return Math.max(ts[0],Math.min(ts[ts.length-1],t));}
 function uwRefApply(){
-  var st=document.getElementById('uw-ref').value, T=parseInt(document.getElementById('uw-return').value)||10, t=parseFloat(document.getElementById('uw-tc').value)||10;
+  var st=document.getElementById('uw-ref').value, T=parseInt(document.getElementById('uw-return').value)||10, tr=String(document.getElementById('uw-tc').value).trim(), t=tr===''?NaN:Number(tr);
   var note=document.getElementById('uw-ref-note');
   if(!st){note.style.display='none';return;}
-  var I=CEPENG.refI(st,T,t);
-  document.getElementById('uw-I').value=I.toFixed(1);
   note.style.display='block';
-  note.innerHTML='📍 '+st+'('+CEPENG.REF[st].code+') · 재현 '+T+'년 · t = '+t+'분 → I = <strong>'+I.toFixed(1)+' mm/hr</strong><br><span style="font-weight:500">사용자 참고자료 엑셀의 지속기간별 표(5 ~ 120분, log-log 보간) — 설계에는 해당 지역 확률강우량도 값을 확인하십시오.</span>';
+  if(!(isFinite(t)&&t>0)){note.innerHTML='⚠ 도달시간 t 를 0보다 큰 값으로 입력하세요 — 참고 강우강도를 적용하지 않았습니다.';return;}
+  var tu=cepRefT(st,t), I=CEPENG.refI(st,T,t);
+  document.getElementById('uw-I').value=I.toFixed(1);
+  note.innerHTML='📍 '+st+'('+CEPENG.REF[st].code+') · 재현 '+T+'년 · t = '+t+'분'+(tu!==t?' → <span style="color:#c62828">표 범위(5 ~ 120분) 밖 — 표 '+tu+'분 값 사용</span>':'')+' → I = <strong>'+I.toFixed(1)+' mm/hr</strong><br><span style="font-weight:500">'+(tu!==t?'⚠ 표 범위 밖입니다 — 설계에는 해당 t 의 강우강도를 직접 입력하십시오. ':'')+'사용자 참고자료 엑셀의 지속기간별 표(5 ~ 120분, log-log 보간) — 설계에는 해당 지역 확률강우량도 값을 확인하십시오.</span>';
 }
 function uwUpdateC(){
   var sel=document.getElementById('uw-C').value;
   if(sel!=='custom') document.getElementById('uw-C-custom').value=sel;
+}
+/* v6.1.4 — 재질을 바꾸면 KDS 61 40 00 1.2(2)② 표준 n 자동 선택(표준 없는 PE · HDPE 는 그대로 · 사용자 선택 표시)(교차검증 F8) */
+var CEP_MAT_N={CON:0.013,PVC:0.011,GRP:0.011};
+var CEP_MAT_NM={PE:'PE관',PVC:'경질염화비닐관',CON:'철근콘크리트관',GRP:'강화플라스틱복합관',HDP:'HDPE(파형)관'};
+function cepMatN(k){
+  var m=document.getElementById(k+'-material').value, s=document.getElementById(k+'-mann'), n=CEP_MAT_N[m];
+  if(n!=null){var v=n.toFixed(3);for(var i=0;i<s.options.length;i++){if(s.options[i].value===v){s.value=v;break;}}}
+}
+function cepNsrc(mat,n){var s=CEP_MAT_N[mat];if(s==null)return 'KDS 표준 n 없음 — 사용자 선택';return Math.abs(s-n)<1e-9?'KDS 61 40 00 1.2(2)② 표준':'사용자 선택(KDS 표준 '+s.toFixed(3)+')';}
+/* v6.1.4 — 입력 검사: 빈 값 · 숫자 아님 · 0 이하 · 범위 밖은 몰래 바꾸지 않고 「계산 불가」(빨간 칸 + 안내)(교차검증 F1 · F2) */
+function cepRaw(el){var s=el?String(el.value==null?'':el.value).trim():'';return s===''?NaN:Number(s);}
+function cepMark(el,msg){
+  if(!el)return;
+  var h=(el.closest&&el.closest('.input-sfx'))||el, s=h.nextElementSibling, has=!!(s&&s.classList.contains('cep-bad-msg'));
+  if(msg){el.classList.add('cep-bad');if(!has){s=document.createElement('span');s.className='cep-bad-msg';h.parentNode.insertBefore(s,h.nextSibling);}s.textContent='⚠ '+msg;}
+  else{el.classList.remove('cep-bad');if(has)s.parentNode.removeChild(s);}
+}
+function cepNum(el,name,lo,hi,unit,err){
+  var v=cepRaw(el),m=null;
+  if(!isFinite(v))m=name+' — 숫자를 입력하세요(빈 값 · 글자)';
+  else if(v<=0)m=name+' — 0보다 큰 값을 입력하세요';
+  else if(lo!=null&&(v<lo||v>hi))m=name+' — '+lo.toFixed(lo%1?1:(hi%1||hi<10?1:0))+' ~ '+hi.toFixed(lo%1?1:(hi%1||hi<10?1:0))+(unit?' '+unit:'')+' 범위로 입력하세요';
+  cepMark(el,m?m+' · 계산 불가':null);
+  if(m)err.push(m);
+  return v;
+}
+function uwCheck(){
+  var err=[],warn=[],g=function(id){return document.getElementById(id);};
+  cepNum(g('uw-I'),'강우강도 I',1,400,'mm/hr',err);
+  cepNum(g('uw-area'),'유역면적 A',null,null,'',err);
+  if(g('uw-C').value==='custom')cepNum(g('uw-C-custom'),'유출계수 C(직접)',0.1,1.0,'',err);else cepMark(g('uw-C-custom'),null);
+  var t=cepNum(g('uw-tc'),'도달시간 t',null,null,'',err), st=g('uw-ref').value;
+  if(st&&isFinite(t)&&t>0){var tu=cepRefT(st,t);if(tu!==t){warn.push('도달시간 t = '+t+'분 — 참고 표 범위(5 ~ 120분) 밖, 표 '+tu+'분 값 사용');}}
+  if(UW.mode==='multi')document.querySelectorAll('#uw-segs-wrap .cep-seg-a').forEach(function(e,i){cepNum(e,'구간 '+(i+1)+' 유역',null,null,'',err);});
+  return {err:err,warn:warn};
+}
+function swCheck(){
+  var err=[],warn=[],g=function(id){return document.getElementById(id);};
+  cepNum(g('sw-units'),'계획 세대 수',null,null,'',err);
+  cepNum(g('sw-ppu'),'세대당 인원',null,null,'',err);
+  if(g('sw-wpd').value==='custom')cepNum(g('sw-wpd-custom'),'1인1일최대오수량(직접)',null,null,'',err);else cepMark(g('sw-wpd-custom'),null);
+  if(g('sw-peakf').value==='custom'){var pk=cepNum(g('sw-peakf-custom'),'시간변동계수(직접)',1.0,3.0,'',err);
+    if(isFinite(pk)&&pk>=1.0&&pk<=3.0&&(pk<1.3||pk>1.8))warn.push('시간변동계수 '+pk+' — KDS 61 10 00 1.7.2(6) 표준(1.3 ~ 1.8배) 밖');}
+  else cepMark(g('sw-peakf-custom'),null);
+  if(SW.mode==='multi')document.querySelectorAll('#sw-segs-wrap .cep-seg-u').forEach(function(e,i){cepNum(e,'구간 '+(i+1)+' 세대수',null,null,'',err);});
+  return {err:err,warn:warn};
+}
+function cepBadPanel(kind,err){
+  var c=kind==='uw'?'우수':'오수';
+  return '<div class="result-hero" style="background:linear-gradient(135deg,#7f1d1d,#b91c1c)"><div class="rh-label">'+c+' 배관 — 입력 확인</div><div class="rh-num" style="font-size:30px">계산 불가</div>'
+    +'<div class="rh-note">아래 값을 고치면 다시 계산합니다 · 요약 · A4 · 인쇄 · JPG 는 결과를 내지 않습니다</div></div>'
+    +'<div class="nb amber" style="margin-bottom:10px;border-color:#ef9a9a;background:#fff5f5"><div class="nb-tit" style="color:#b71c1c">⚠ 입력 확인</div><div class="nb-txt" style="color:#b71c1c">'+err.join('<br>')+'</div></div>';
 }
 function swUpdatePeakf(){
   var sel = document.getElementById('sw-peakf').value;
@@ -1452,8 +1512,8 @@ function uwRenderSegs(){
     html+='<div class="seg-row" id="uwseg-'+s.id+'">'
       +'<span class="seg-lbl">'+s.name+'</span>'
       +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="uwSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'uwseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:11px;"/></div>'
-      +'<div class="fgrp"><label class="flbl">관 길이(m)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="uwSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
-      +'<div class="fgrp"><label class="flbl">구간 유역(ha)</label><input class="finput" type="number" value="'+(s.upArea||0.3)+'" min="0.01" step="0.01" oninput="uwSegs.find(x=>x.id==='+s.id+').upArea=+this.value;" style="font-size:11px;"/></div>'
+      +'<div class="fgrp"><label class="flbl" title="관경 계산에 쓰지 않는 참고 값">관 길이(m, 참고)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="uwSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
+      +'<div class="fgrp"><label class="flbl">구간 유역(ha)</label><input class="finput cep-seg-a" type="number" value="'+(isNaN(s.upArea)?'':s.upArea)+'" min="0.01" step="0.01" oninput="uwSegs.find(x=>x.id==='+s.id+').upArea=(this.value.trim()===\'\'?NaN:+this.value);" style="font-size:11px;"/></div>'
       +'<button class="seg-del" onclick="uwDelSeg('+s.id+')">✕</button>'
       +'</div>';
   });
@@ -1497,8 +1557,8 @@ function swRenderSegs(){
     html+='<div class="seg-row" id="swseg-'+s.id+'">'
       +'<span class="seg-lbl">'+s.name+'</span>'
       +'<div class="fgrp"><label class="flbl">구간명</label><input class="finput" value="'+s.name+'" oninput="swSegs.find(x=>x.id==='+s.id+').name=this.value;document.getElementById(\'swseg-'+s.id+'\').querySelector(\'.seg-lbl\').textContent=this.value;" style="font-size:11px;"/></div>'
-      +'<div class="fgrp"><label class="flbl">관 길이(m)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="swSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
-      +'<div class="fgrp"><label class="flbl">구간 세대수</label><input class="finput" type="number" value="'+(s.subUnits||50)+'" min="0" oninput="swSegs.find(x=>x.id==='+s.id+').subUnits=+this.value;" style="font-size:11px;"/></div>'
+      +'<div class="fgrp"><label class="flbl" title="관경 계산에 쓰지 않는 참고 값">관 길이(m, 참고)</label><input class="finput" type="number" value="'+s.len+'" min="1" oninput="swSegs.find(x=>x.id==='+s.id+').len=+this.value;" style="font-size:11px;"/></div>'
+      +'<div class="fgrp"><label class="flbl">구간 세대수</label><input class="finput cep-seg-u" type="number" value="'+(isNaN(s.subUnits)?'':s.subUnits)+'" min="1" oninput="swSegs.find(x=>x.id==='+s.id+').subUnits=(this.value.trim()===\'\'?NaN:+this.value);" style="font-size:11px;"/></div>'
       +'<button class="seg-del" onclick="swDelSeg('+s.id+')">✕</button>'
       +'</div>';
   });
@@ -1510,11 +1570,15 @@ function swRenderSegs(){
 ════════════════════════════════════════════════════════ */
 var PIPE_DN=CEPENG.DN;
 function manningQ_full(dn_mm,n,slope_1_n){return CEPENG.full(dn_mm,n,slope_1_n);}
-var BASIS_NM={public:'공공관로 기준 (KDS 61 40 00 1.3 · 2.3)',drain:'배수설비 기준 (KDS 61 40 00 15.2)'};
+var BASIS_NM={public:'공공관로 기준 (KDS 61 40 00 1.3 · 2.3)',drain:'배수설비 기준 (KDS 61 40 00 15.2 · 하수도법 시행규칙 제23조② 별표 7)'};
 function fx(v,d){return (v===null||v===undefined||!isFinite(v))?'—':(+v).toFixed(d);}
-function vTxt(r){return r.V===null?'통수능 초과':fx(r.V,2)+' m/s';}
-function vJudge(r){var a=r.vr[0].toFixed(1),b=r.vr[1].toFixed(1);if(r.V===null)return '✗ 통수능 초과';if(r.vLow)return '✗ 최소 '+a+' m/s 미달';if(r.vHigh)return '✗ 최대 '+b+' m/s 초과';return '✓ '+a+' ~ '+b+' m/s';}
+function vTxt(r){return r.V===null?'통수능 부족':fx(r.V,2)+' m/s';}
+/* v6.1.4 — 통수능이 모자라면(최대 관경으로도 설계유량 초과) 유속이 범위 안이어도 「✓」로 쓰지 않음(교차검증 F4) */
+function vJudge(r){var a=r.vr[0].toFixed(1),b=r.vr[1].toFixed(1);if(r.V===null||!r.capOk)return '✗ 통수능 부족(DN'+r.dn+' 만류 < 설계유량)';if(r.vLow)return '✗ 최소 '+a+' m/s 미달';if(r.vHigh)return '✗ 최대 '+b+' m/s 초과';return '✓ '+a+' ~ '+b+' m/s';}
 function okC(b){return b?'#2e7d32':'#c62828';}
+function cepWarnBox(w){return w&&w.length?'<div class="nb amber" style="margin-bottom:10px"><div class="nb-tit">⚠ 입력 확인</div><div class="nb-txt">'+w.join('<br>')+'</div></div>':'';}
+/* v6.1.4 — 강우강도 출처 표기: 참고 지점 값을 고치면 「입력(참고 ○○ 값 수정)」, 표 범위 밖 t 는 「표 ○분 값」(교차검증 F3 · F6) */
+function uwIsrc(R){if(!R.ref)return ' · 입력';if(R.refMod)return ' · 입력(참고 '+R.ref+' 값 수정)';return ' · 참고 '+R.ref+(R.tUsed!==R.tc?' · 표 '+R.tUsed+'분 값':'');}
 
 /* ════════════════════════════════════════════════════════
    CALC — STORMWATER (우수) · v5.1.0 엔진 CEPENG.uw
@@ -1522,9 +1586,9 @@ function okC(b){return b?'#2e7d32':'#c62828';}
 function uwInput(){
   var Csel=document.getElementById('uw-C').value;
   return {
-    I:parseFloat(document.getElementById('uw-I').value)||0,
-    A:parseFloat(document.getElementById('uw-area').value)||0,
-    C:Csel==='custom'?parseFloat(document.getElementById('uw-C-custom').value):(parseFloat(Csel)||0.85),
+    I:cepRaw(document.getElementById('uw-I')),
+    A:cepRaw(document.getElementById('uw-area')),
+    C:Csel==='custom'?cepRaw(document.getElementById('uw-C-custom')):(parseFloat(Csel)||0.85),
     slope:parseInt(document.getElementById('uw-slope').value)||150,
     sf:parseFloat(document.getElementById('uw-safety').value)||0,
     n:parseFloat(document.getElementById('uw-mann').value)||0.013,
@@ -1533,20 +1597,28 @@ function uwInput(){
   };
 }
 function calcUW(){
+  /* v6.1.4 — 무효 입력이면 결과 · 요약 · A4 를 지우고 「계산 불가」(교차검증 F1) */
+  var ck=uwCheck(); UW.err=ck.err; UW.warn=ck.warn;
+  if(ck.err.length){
+    UW.result=null; UW.hasResult=false;
+    document.getElementById('uw-result-panel').innerHTML=cepBadPanel('uw',ck.err);
+    renderA4Report(); uwUpdateSteps(2);
+    showToast('⚠️ 입력 확인 — 우수 계산 불가: '+ck.err[0]); return;
+  }
   var p=uwInput();
-  if(!(p.I>0&&p.A>0&&p.C>0)){showToast('강우강도 · 유역면적 · 유출계수를 확인하세요');return;}
   var r=CEPENG.uw(p);
   r.material=document.getElementById('uw-material').value;
   r.returnPeriod=parseInt(document.getElementById('uw-return').value)||10;
-  r.tc=parseFloat(document.getElementById('uw-tc').value)||10;
+  r.tc=cepRaw(document.getElementById('uw-tc'));
   r.ref=document.getElementById('uw-ref').value;
+  if(r.ref){r.tUsed=cepRefT(r.ref,r.tc);r.refMod=CEPENG.refI(r.ref,r.returnPeriod,r.tc).toFixed(1)!==(+p.I).toFixed(1);}
+  r.warn=ck.warn.slice(); r.nSrc=cepNsrc(r.material,r.n);
   r.projName=document.getElementById('uw-projname').value||'만민 아파트 신축공사';
   r.author=document.getElementById('uw-author').value||'김만민';
   r.dateVal=document.getElementById('uw-date').value;
   r.safety=p.sf;
   /* 화면 · 요약 바 호환 필드 */
   r.Q_m3s=r.Qcap; r.Q_ls=r.Qcap*1000; r.recDN=r.dn; r.flowRatio=r.ratio; r.area=r.A; r.SF=1+r.sf;
-  if(r.V===null) r.V=r.Vfull;
   UW.result=r; UW.hasResult=true;
   renderUWResult(); renderA4Report();
   showToast((r.capOk&&r.vOk?'✅ ':'⚠️ ')+'우수 배관 계산 완료 — DN'+r.dn+' · '+(r.vOk?'유속 적합':'유속 검토 필요'));
@@ -1577,14 +1649,14 @@ function dnTable(R,kind){
       +'<td style="font-weight:700;color:'+okC(cap)+'">'+(cap?'+'+((f.Q/R.Qcap-1)*100).toFixed(0)+' %':'부족')+'</td>'
       +'<td style="font-weight:800;color:'+okC(cap&&vok&&!under)+'">'+(cap&&vok&&!under?'✓':'✗')+'</td></tr>';
   });
-  return h+'</tbody></table></div><div style="font-size:11px;color:#64748b;margin-top:6px">단면은 만류 통수능 ≥ 설계유량(KDS 61 40 00 1.2(2)④) · 유속은 계획유량이 흐를 때의 수심에서 판정(1.3) — 판정 범위 '+vr[0].toFixed(1)+' ~ '+vr[1].toFixed(1)+' m/s</div></div></div>';
+  return h+'</tbody></table></div><div style="font-size:11px;color:#64748b;margin-top:6px">단면은 만류 통수능 ≥ 설계유량(KDS 61 40 00 1.2(2)④) · 유속은 계획유량이 흐를 때의 수심에서 판정('+(R.basis==='drain'?'15.2(3) · 시행규칙 별표 7':'1.3')+') — 판정 범위 '+vr[0].toFixed(1)+' ~ '+vr[1].toFixed(1)+' m/s</div></div></div>';
 }
 
 function advice(R,kind){
   var a=[];
   if(!R.capOk)a.push('최대 관경(DN'+PIPE_DN[PIPE_DN.length-1]+')으로도 통수능이 부족합니다 — 경사 · 관로 분할을 검토하십시오.');
   if(R.vLow)a.push('계획유량 유속이 최소 '+R.vr[0].toFixed(1)+' m/s 미만입니다 — 관로 경사를 높이십시오'+(kind==='sw'&&R.basis==='public'?' (시점부는 최소경사 5 ‰ 이상, KDS 61 40 00 1.3(1)③)':'')+'.');
-  if(R.vHigh)a.push('계획유량 유속이 최대 '+R.vr[1].toFixed(1)+' m/s를 넘습니다 — 단차 · 감세공 또는 경사 완화를 검토하십시오(1.3).');
+  if(R.vHigh)a.push('계획유량 유속이 최대 '+R.vr[1].toFixed(1)+' m/s를 넘습니다 — 단차 · 감세공 또는 경사 완화를 검토하십시오('+(R.basis==='drain'?'15.2(3)':'1.3')+').');
   return a.length?'<div class="nb amber" style="margin-bottom:10px"><div class="nb-tit">⚠️ 검토 필요</div><div class="nb-txt">'+a.join('<br>')+'</div></div>':'';
 }
 
@@ -1595,7 +1667,7 @@ function renderUWResult(){
     +'<div class="rh-label">추천 우수관 관경 — '+(R.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
     +'<div class="rh-num">DN '+R.dn+'</div><div class="rh-unit">mm</div>'
     +'<div class="rh-note">설계유량 '+fx(R.Qcap,4)+' m³/s · 유속 '+vTxt(R)+' · '+(ok?'✓ 적합':'✗ 검토 필요')+'</div></div>';
-  html+=advice(R,'uw');
+  html+=cepWarnBox(R.warn)+advice(R,'uw');
   html+='<div class="stat-grid">'
     +'<div class="sbox"><div class="sico">🌧️</div><div class="sval">'+fx(R.I,1)+'</div><div class="slbl">강우강도 (mm/hr)</div></div>'
     +'<div class="sbox"><div class="sico">📐</div><div class="sval">'+fx(R.C,2)+'</div><div class="slbl">유출계수 C</div></div>'
@@ -1606,7 +1678,7 @@ function renderUWResult(){
     +'</div>';
   html+=dnTable(R,'uw');
   html+='<div class="card"><div class="card-head"><div class="card-ico blue">🔢</div><span class="card-tit">계산 과정 (합리식)</span></div><div class="card-body"><div class="cbox"><div class="cbox-tit">CALCULATION STEPS</div>'
-    +'<div class="crow"><span class="ck">① 강우강도 I</span><span class="cv">'+fx(R.I,1)+' mm/hr (재현 '+R.returnPeriod+'년, t = '+R.tc+'분'+(R.ref?' · 참고 '+R.ref:' · 입력')+')</span></div>'
+    +'<div class="crow"><span class="ck">① 강우강도 I</span><span class="cv">'+fx(R.I,1)+' mm/hr (재현 '+R.returnPeriod+'년, t = '+R.tc+'분'+uwIsrc(R)+')</span></div>'
     +'<div class="crow"><span class="ck">② 계획우수량 Q = C·I·A/360</span><span class="cv">'+fx(R.C,2)+' × '+fx(R.I,1)+' × '+fx(R.A,3)+' / 360 = '+fx(R.Q,4)+' m³/s</span></div>'
     +'<div class="crow"><span class="ck">③ 설계유량 (여유 +'+R.safety+'%)</span><span class="cv">'+fx(R.Q,4)+' × '+fx(1+R.sf,2)+' = '+fx(R.Qcap,4)+' m³/s</span></div>'
     +'<div class="crow"><span class="ck">④ 최소관경</span><span class="cv">'+R.minDN+' mm — '+R.minRule+'</span></div>'
@@ -1616,7 +1688,7 @@ function renderUWResult(){
   if(UW.mode==='multi'&&R.segs.length)html+=segTable(R,'uw');
   html+='<div class="nb grn"><div class="nb-tit">📋 설계 적용 요약</div><div class="nb-txt">'
     +'· 추천 관경: <strong>DN '+R.dn+' mm</strong> ('+BASIS_NM[R.basis]+')<br>'
-    +'· 관 재질: '+({PE:'PE관',PVC:'경질염화비닐관',CON:'철근콘크리트관',GRP:'강화플라스틱복합관',HDP:'HDPE(파형)관'}[R.material]||R.material)+' · n = '+R.n+' · 경사 1/'+R.slope+'<br>'
+    +'· 관 재질: '+(CEP_MAT_NM[R.material]||R.material)+' · n = '+R.n+' ('+R.nSrc+') · 경사 1/'+R.slope+'<br>'
     +'· 설계유량 '+fx(R.Qcap,4)+' m³/s ('+fx(R.Qcap*1000,1)+' ℓ/s) · 유속 '+vJudge(R)+'</div></div>';
   document.getElementById('uw-result-panel').innerHTML=html;
   uwUpdateSteps(4);
@@ -1628,11 +1700,11 @@ function renderUWResult(){
 function swInput(){
   var wpdSel=document.getElementById('sw-wpd').value, pkSel=document.getElementById('sw-peakf').value;
   return {
-    units:parseFloat(document.getElementById('sw-units').value)||0,
-    ppu:parseFloat(document.getElementById('sw-ppu').value)||0,
-    wpd:wpdSel==='custom'?parseFloat(document.getElementById('sw-wpd-custom').value):(parseFloat(wpdSel)||250),
+    units:cepRaw(document.getElementById('sw-units')),
+    ppu:cepRaw(document.getElementById('sw-ppu')),
+    wpd:wpdSel==='custom'?cepRaw(document.getElementById('sw-wpd-custom')):(parseFloat(wpdSel)||250),
     gw:parseFloat(document.getElementById('sw-gw').value)||0,
-    peakf:pkSel==='custom'?(parseFloat(document.getElementById('sw-peakf-custom').value)||1.5):(parseFloat(pkSel)||1.5),
+    peakf:pkSel==='custom'?cepRaw(document.getElementById('sw-peakf-custom')):(parseFloat(pkSel)||1.5),
     avg:parseFloat(document.getElementById('sw-avg-ratio').value)||0.75,
     slope:parseInt(document.getElementById('sw-slope').value)||100,
     n:parseFloat(document.getElementById('sw-mann').value)||0.011,
@@ -1643,15 +1715,22 @@ function swInput(){
   };
 }
 function calcSW(){
+  /* v6.1.4 — 무효 입력이면 결과 · 요약 · A4 를 지우고 「계산 불가」(교차검증 F1 · F2) */
+  var ck=swCheck(); SW.err=ck.err; SW.warn=ck.warn;
+  if(ck.err.length){
+    SW.result=null; SW.hasResult=false;
+    document.getElementById('sw-result-panel').innerHTML=cepBadPanel('sw',ck.err);
+    renderA4Report(); swUpdateSteps(2);
+    showToast('⚠️ 입력 확인 — 오수 계산 불가: '+ck.err[0]); return;
+  }
   var p=swInput();
-  if(!(p.units>0&&p.ppu>0&&p.wpd>0)){showToast('세대 수 · 세대당 인원 · 오수량을 확인하세요');return;}
   var r=CEPENG.sw(p);
   r.material=document.getElementById('sw-material').value;
+  r.warn=ck.warn.slice(); r.nSrc=cepNsrc(r.material,r.n);
   r.projName=document.getElementById('sw-projname').value||'만민 아파트 신축공사';
   r.author=document.getElementById('sw-author').value||'김만민';
   r.dateVal=document.getElementById('sw-date').value;
   r.Q_m3s=r.Qcap; r.Q_ls=r.Qcap*1000; r.recDN=r.dn; r.flowRatio=r.ratio;
-  if(r.V===null) r.V=r.Vfull;
   SW.result=r; SW.hasResult=true;
   renderSWResult(); renderA4Report();
   showToast((r.capOk&&r.vOk?'✅ ':'⚠️ ')+'오수 배관 계산 완료 — DN'+r.dn+' · '+(r.vOk?'유속 적합':'유속 검토 필요'));
@@ -1664,7 +1743,7 @@ function renderSWResult(){
     +'<div class="rh-label">추천 오수관 관경 — '+(R.basis==='drain'?'배수설비':'공공관로')+' 기준</div>'
     +'<div class="rh-num">DN '+R.dn+'</div><div class="rh-unit">mm</div>'
     +'<div class="rh-note">설계유량 '+fx(R.Qcap,5)+' m³/s · 유속 '+vTxt(R)+' · '+(ok?'✓ 적합':'✗ 검토 필요')+'</div></div>';
-  html+=advice(R,'sw');
+  html+=cepWarnBox(R.warn)+advice(R,'sw');
   html+='<div class="stat-grid">'
     +'<div class="sbox"><div class="sico">👥</div><div class="sval teal">'+fx(R.pop,0)+'</div><div class="slbl">계획인구 (인)</div></div>'
     +'<div class="sbox"><div class="sico">🚿</div><div class="sval teal">'+fx(R.qday,1)+'</div><div class="slbl">계획1일최대 (m³/일)</div></div>'
@@ -1686,7 +1765,7 @@ function renderSWResult(){
   if(SW.mode==='multi'&&R.segs.length)html+=segTable(R,'sw');
   html+='<div class="nb grn"><div class="nb-tit">📋 설계 적용 요약</div><div class="nb-txt">'
     +'· 추천 관경: <strong>DN '+R.dn+' mm</strong> ('+BASIS_NM[R.basis]+')<br>'
-    +'· 관 재질: '+({PVC:'경질염화비닐관',PE:'PE관',GRP:'강화플라스틱복합관',CON:'철근콘크리트관'}[R.material]||R.material)+' · n = '+R.n+' · 경사 1/'+R.slope+'<br>'
+    +'· 관 재질: '+(CEP_MAT_NM[R.material]||R.material)+' · n = '+R.n+' ('+R.nSrc+') · 경사 1/'+R.slope+'<br>'
     +'· 1일평균오수량 '+fx(R.qavg,2)+' m³/일 (1일최대 × '+R.avg+') · 유속 '+vJudge(R)+'</div></div>';
   document.getElementById('sw-result-panel').innerHTML=html;
   swUpdateSteps(4);
@@ -1706,24 +1785,28 @@ function renderA4Report(){
   var el=document.getElementById('a4-content');
 
   /* ── 헤더 정보 통합 ── */
-  var projName = (UW.result&&UW.result.projName)||(SW.result&&SW.result.projName)||'만민 아파트 신축공사';
-  var author   = (UW.result&&UW.result.author)||(SW.result&&SW.result.author)||'김만민';
-  var dateRaw  = (UW.result&&UW.result.dateVal)||(SW.result&&SW.result.dateVal)||'';
+  /* v6.1.4 — 머리 칸은 마지막으로 연 계산 탭의 결과를 먼저(교차검증 F12) */
+  var _A=CEP_LAST==='sw'?SW.result:UW.result, _B=CEP_LAST==='sw'?UW.result:SW.result;
+  var projName = (_A&&_A.projName)||(_B&&_B.projName)||'만민 아파트 신축공사';
+  var author   = (_A&&_A.author)||(_B&&_B.author)||'김만민';
+  var dateRaw  = (_A&&_A.dateVal)||(_B&&_B.dateVal)||'';
   var ds = dateRaw ? fmtDate(dateRaw) : (function(){var n=new Date();return n.getFullYear()+'년 '+(n.getMonth()+1)+'월 '+n.getDate()+'일';})();
 
   /* ── v5.1.0 A4 — 판정 기준 · 최소관경 근거 · 유속 판정 · 근거 조항 표 ── */
   var M='font-family:\'JetBrains Mono\',monospace';
   function rowT(a,b,c,d,st){return '<tr><td'+(st?' style="'+st+'"':'')+'>'+a+'</td><td style="text-align:center;'+M+'">'+b+'</td><td style="text-align:center">'+c+'</td><td>'+d+'</td></tr>';}
-  var uwMain='<p style="color:#90a4ae;text-align:center;padding:10px 0;">우수 배관 계산 결과가 없습니다.</p>',uwBox='',uwSeg='';
+  var _bad=function(e){return '<p style="color:#c62828;text-align:center;padding:10px 0;font-weight:800;">입력 오류 — 계산 안 함<br><span style="font-weight:600;font-size:11px">'+e.join(' · ')+'</span></p>';};
+  var uwMain=(UW.err&&UW.err.length)?_bad(UW.err):'<p style="color:#90a4ae;text-align:center;padding:10px 0;">우수 배관 계산 결과가 없습니다.</p>',uwBox='',uwSeg='';
   if(UW.hasResult&&UW.result){
     var R=UW.result;
     uwMain='<table class="a4-tbl" style="width:100%"><thead><tr><th>항목</th><th>산정값</th><th>단위</th><th>비고 · 근거</th></tr></thead><tbody>'
       +rowT('판정 기준',R.basis==='drain'?'배수설비':'공공관로','—',BASIS_NM[R.basis])
-      +rowT('강우강도 I',fx(R.I,1),'mm/hr','재현 '+R.returnPeriod+'년 · t = '+R.tc+'분'+(R.ref?' · 참고 '+R.ref:' · 입력'))
+      +rowT('강우강도 I',fx(R.I,1),'mm/hr','재현 '+R.returnPeriod+'년 · t = '+R.tc+'분'+uwIsrc(R))
       +rowT('유출계수 C · 유역면적 A',fx(R.C,2)+' · '+fx(R.A,3),'— · ha','KDS 61 10 00 1.5.1(1) 합리식')
       +rowT('계획우수량 Q = C·I·A/360',fx(R.Q,4),'m³/s','설계유량 '+fx(R.Qcap,4)+' m³/s (여유 +'+R.safety+'%)')
       +rowT('최소관경',R.minDN,'mm',R.minRule)
-      +rowT('추천 우수관 관경 DN',R.dn,'mm','만류 '+fx(R.Qfull,4)+' m³/s ≥ 설계유량 (1.2(2)④) · n = '+R.n+' · S = 1/'+R.slope,'font-weight:800;color:#1565c0')
+      +rowT('관 재질 · 조도계수 n',R.n,'—',(CEP_MAT_NM[R.material]||R.material)+' — '+R.nSrc)
+      +rowT('추천 우수관 관경 DN',R.dn,'mm',(R.capOk?'만류 '+fx(R.Qfull,4)+' m³/s ≥ 설계유량 (1.2(2)④)':'통수능 부족 — 만류 '+fx(R.Qfull,4)+' m³/s < 설계유량')+' · n = '+R.n+' · S = 1/'+R.slope,'font-weight:800;color:#1565c0')
       +rowT('계획우수량 유속',R.V===null?'—':fx(R.V,2),'m/s',vJudge(R)+' (수심비 '+(R.f===null?'—':(R.f*100).toFixed(0)+'%')+')')
       +'</tbody></table>';
     if(UW.mode==='multi'&&R.segs.length){
@@ -1736,7 +1819,7 @@ function renderA4Report(){
       +'<div style="font-size:42px;font-weight:900;color:#fff176;'+M+';line-height:1;">DN '+R.dn+' mm</div>'
       +'<div style="font-size:11px;color:rgba(255,255,255,.8);margin-top:4px;">설계유량 '+fx(R.Qcap,4)+' m³/s · 유속 '+vTxt(R)+' · '+(R.capOk&&R.vOk?'✓ 적합':'✗ 검토 필요')+'</div></div>';
   }
-  var swMain='<p style="color:#90a4ae;text-align:center;padding:10px 0;">오수 배관 계산 결과가 없습니다.</p>',swBox='',swSeg='';
+  var swMain=(SW.err&&SW.err.length)?_bad(SW.err):'<p style="color:#90a4ae;text-align:center;padding:10px 0;">오수 배관 계산 결과가 없습니다.</p>',swBox='',swSeg='';
   if(SW.hasResult&&SW.result){
     var S=SW.result;
     swMain='<table class="a4-tbl teal" style="width:100%"><thead><tr><th>항목</th><th>산정값</th><th>단위</th><th>비고 · 근거</th></tr></thead><tbody>'
@@ -1746,7 +1829,8 @@ function renderA4Report(){
       +rowT('계획시간최대오수량',fx(S.qhr,3),'m³/hr','1일최대 ÷ 24 × '+S.peakf+' (1.7.2(6)) · 1일평균 '+fx(S.qavg,2)+' m³/일')
       +rowT('설계유량',fx(S.Qcap,5),'m³/s','시간최대 × (1 + 여유율 '+(S.margin*100).toFixed(0)+'%) (KDS 61 40 00 1.1(5))')
       +rowT('최소관경',S.minDN,'mm',S.minRule)
-      +rowT('추천 오수관 관경 DN',S.dn,'mm','만류 '+fx(S.Qfull,5)+' m³/s ≥ 설계유량 · n = '+S.n+' · S = 1/'+S.slope,'font-weight:800;color:#00695c')
+      +rowT('관 재질 · 조도계수 n',S.n,'—',(CEP_MAT_NM[S.material]||S.material)+' — '+S.nSrc)
+      +rowT('추천 오수관 관경 DN',S.dn,'mm',(S.capOk?'만류 '+fx(S.Qfull,5)+' m³/s ≥ 설계유량':'통수능 부족 — 만류 '+fx(S.Qfull,5)+' m³/s < 설계유량')+' · n = '+S.n+' · S = 1/'+S.slope,'font-weight:800;color:#00695c')
       +rowT('계획시간최대 유속',S.V===null?'—':fx(S.V,2),'m/s',vJudge(S)+' (수심비 '+(S.f===null?'—':(S.f*100).toFixed(0)+'%')+')')
       +'</tbody></table>';
     if(SW.mode==='multi'&&S.segs.length){
@@ -1773,9 +1857,10 @@ function renderA4Report(){
   +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 10 00</td><td style="text-align:center">1.7.2</td><td>계획오수량 — 지하수량 20 % 이하 · 일평균 70 ~ 80 % · 시간최대 1.3 ~ 1.8배</td></tr>'
   +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00 관로시설 설계기준</td><td style="text-align:center">1.1 · 1.2</td><td>계획하수량 · 여유율 · Manning 식 · 조도계수 0.013 / 0.011 · 원형거 만류</td></tr>'
   +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00</td><td style="text-align:center">1.3 · 2.3</td><td>공공관로 — 유속 오수 0.6 ~ 3.0 · 우수 0.8 ~ 3.0 m/s · 최소관경 오수 200 · 우수 250 mm</td></tr>'
-  +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00</td><td style="text-align:center">15.2</td><td>배수설비 — 표 1.15.1 ~ 1.15.3 최소관경 · 유속 0.6 ~ 1.5 m/s · 최소토피 20 cm</td></tr>'
+  +'<tr><td style="font-weight:800;color:#1565c0">KDS 61 40 00 · 하수도법 시행규칙</td><td style="text-align:center">15.2 · 제23조② 별표 7</td><td>배수설비 — 표 1.15.1 ~ 1.15.3 최소관경 · 유속 0.6 ~ 1.5 m/s(별표 7 과 같은 값) · 최소토피 20 cm(KDS)</td></tr>'
   +'</tbody></table>'
   +'<div style="font-size:11px;color:#64748b;margin-top:6px;line-height:1.5">※ 강우강도 · 1인1일최대오수량은 해당 지역 하수도정비기본계획 · 확률강우량도 값을 우선합니다. 여유율(우수)은 MANMIN 적용 사항입니다.</div>'
+  +(function(){var w=[].concat(UW.hasResult&&UW.result&&UW.result.warn||[],SW.hasResult&&SW.result&&SW.result.warn||[]);return w.length?'<div class="a4-no-break" style="margin-top:6px;padding:5px 8px;border:1px solid #d32f2f;border-radius:3px;color:#b71c1c;background:#fff5f5;font-size:11px;line-height:1.5">⚠ 입력 확인 — '+w.join(' · ')+'</div>':'';})()
   +'<div class="a4-footer">'
   +'<span>단지내 우수·오수 배관산정 시스템 [MANMIN-Ver6.1]</span>'
   +'<span>KDS 61 40 00 · 61 10 00 (2025. 10. 1.)</span>'
@@ -1818,7 +1903,9 @@ function renderRefTables(){ /* v5.1.0 — 미사용(안내창 관경표로 통�
 /* ════════════════════════════════════════════════════════
    TAB / STEP UI
 ════════════════════════════════════════════════════════ */
+var CEP_LAST='uw';
 function showTab(id,btn){
+  if(id==='tab-uw')CEP_LAST='uw'; else if(id==='tab-sw')CEP_LAST='sw';
   document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.tb:not(.tb-manual)').forEach(function(b){b.classList.remove('active');});
   document.getElementById(id).classList.add('active');
@@ -1968,6 +2055,9 @@ function resetSW(){
   document.getElementById('sw-ppu').value='2.5';
   document.getElementById('sw-wpd').value='250';
   document.getElementById('sw-peakf').value='1.5';
+  document.getElementById('sw-peakf-custom').value='1.5';
+  document.getElementById('sw-wpd-custom').value='250';
+  swUpdatePeakf();
   document.getElementById('sw-gw').value='10';
   document.getElementById('sw-avg-ratio').value='0.75';
   document.getElementById('sw-basis').value='public';
@@ -1993,6 +2083,7 @@ function resetAll(){resetUW();resetSW();}
 ════════════════════════════════════════════════════════ */
 function doPrint(){
   if(!(UW.hasResult||SW.hasResult)){ showToast('먼저 우수 또는 오수 배관을 계산하세요'); return; }
+  if((UW.err&&UW.err.length)||(SW.err&&SW.err.length)){ showToast('⚠️ 입력 확인 — 계산 불가 항목이 있어 인쇄하지 않습니다'); return; }   /* v6.1.4 */
   renderA4Report();
   window.print();
 }
@@ -2019,6 +2110,9 @@ document.addEventListener('DOMContentLoaded',function(){
 
   uwRenderSegs();
   swRenderSegs();
+  /* v6.1.4 — 직접입력 칸에 쓰면 선택칸을 「직접입력」으로(교차검증 F11) */
+  document.getElementById('uw-C-custom').addEventListener('input',function(){document.getElementById('uw-C').value='custom';});
+  document.getElementById('sw-wpd-custom').addEventListener('input',function(){document.getElementById('sw-wpd').value='custom';});
   uwUpdateSteps(1);
   swUpdateSteps(1);
   renderA4Report();
@@ -2277,6 +2371,7 @@ window.exportA4Jpg = function(){
   var el = document.getElementById('a4-content');
   if(!el){ showToast('A4 미리보기 탭으로 이동 후 시도하세요'); return; }
   if(!(UW.hasResult||SW.hasResult)){ showToast('⚠️ 먼저 우수 또는 오수 배관을 계산하세요'); return; }
+  if((UW.err&&UW.err.length)||(SW.err&&SW.err.length)){ showToast('⚠️ 입력 확인 — 계산 불가 항목이 있어 JPG로 저장하지 않습니다'); return; }   /* v6.1.4 */
   renderA4Report();
   showToast('📸 JPG 생성 중...');
   /* ⛔ 미리보기 축소 배율을 반드시 먼저 푼다(§16-17). 해제 → 리플로우 → 측정·캡처 → 복원 */
@@ -2341,8 +2436,11 @@ window.exportA4Jpg = function(){
   function setSum(){
     var f=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
     var U=(typeof UW!=='undefined'&&UW.hasResult&&UW.result)||null, S=(typeof SW!=='undefined'&&SW.hasResult&&SW.result)||null;
-    f('sb-uwq', U?U.Q_m3s.toFixed(4)+' m³/s':'—'); f('sb-uwdn', U?'DN '+U.recDN:'—'); f('sb-uwv', U?(U.vOk?'':'⚠ ')+U.V.toFixed(2)+' m/s':'—');
-    f('sb-swq', S?S.Q_m3s.toFixed(5)+' m³/s':'—'); f('sb-swdn', S?'DN '+S.recDN:'—'); f('sb-swv', S?(S.vOk?'':'⚠ ')+S.V.toFixed(2)+' m/s':'—');
+    /* v6.1.4 — 계산 불가는 「—」 · 통수능 부족은 유속 대신 표시(교차검증 F1 · F4) */
+    var vv=function(R){return R.V===null?'⚠ 통수능 부족':((R.vOk&&R.capOk)?'':'⚠ ')+R.V.toFixed(2)+' m/s';};
+    var bu=typeof UW!=='undefined'&&UW.err&&UW.err.length, bs=typeof SW!=='undefined'&&SW.err&&SW.err.length;
+    f('sb-uwq', U?U.Q_m3s.toFixed(4)+' m³/s':'—'); f('sb-uwdn', U?'DN '+U.recDN:(bu?'계산 불가':'—')); f('sb-uwv', U?vv(U):'—');
+    f('sb-swq', S?S.Q_m3s.toFixed(5)+' m³/s':'—'); f('sb-swdn', S?'DN '+S.recDN:(bs?'계산 불가':'—')); f('sb-swv', S?vv(S):'—');
   }
   ['calcUW','calcSW','resetUW','resetSW'].forEach(function(n){
     var o=window[n]; if(typeof o==='function'){ window[n]=function(){var r=o.apply(this,arguments);setSum();return r;}; }
@@ -2773,7 +2871,7 @@ window.exportA4Jpg = function(){
   tr{break-inside:avoid;page-break-inside:avoid}   /* 행이 쪽 중간에서 갈리지 않게 */
 }
 </style>
-<script id="mm-print-js" data-name="단지내우수오수배관산정결과서" data-pageno="0">
+<script id="mm-print-js" data-name="단지내우수오수배관산정결과서" data-pageno="1">
 /* MANMIN 공통 인쇄 원본 manmin-print.js v1.1 (2026-11-12, 작업지시서 §25-6-87 — html2canvas 지연 로더 SRI · 원본 v1.0 2026-11-08 §25-6-42)
    정본: Z:\MIN-A\01.만민자료\02.설계자료\11.개발자료\64.개발자료[인쇄공통]\버전s-1.0\manmin-print-v1.0\
    도구에는 inject.py 가 MM-PRINT:BEGIN · MM-PRINT:END 표식 사이에 그대로 끼워 넣음(외부 링크 없음 · 오프라인 동작). 도구에서 직접 고치지 말 것.
