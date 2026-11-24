@@ -2,13 +2,15 @@
 // 규격: 1440×900 · DSF 1.25 (영상용 좁은 화면: MM_VW=720 MM_VH=1280 MM_DSF=2) · serviceWorkers block · _marks.json · _example.json
 const {chromium}=require(process.env.MM_PW||'playwright');const fs=require('fs');const path=require('path');const {setup,server}=require('./serve');
 const repo=path.resolve(process.argv[2]),out=path.resolve(process.argv[3]);fs.mkdirSync(out,{recursive:true});
-const VW=+(process.env.MM_VW||1440),VH=+(process.env.MM_VH||900),DSF=+(process.env.MM_DSF||1.25),PORT=8977;
+const VW=+(process.env.MM_VW||1440),VH=+(process.env.MM_VH||900),DSF=+(process.env.MM_DSF||1.25),PORT=+(process.env.MM_PORT||8977);
 const HIDE='#pwa-install-banner,#sw-update-bar,.toast,#fab-group,.bottom-bar{display:none!important} *{animation:none!important;transition:none!important} .main-wrap{padding-bottom:20px!important}';
 const HELP=`window.__vis=e=>e&&e.getClientRects().length>0;
 window.__find=sel=>{
  if(sel.startsWith('card:')){const t=sel.slice(5);return [...document.querySelectorAll('.card')].find(c=>__vis(c)&&c.querySelector('.card-tit')&&c.querySelector('.card-tit').textContent.includes(t))||null;}
  if(sel.startsWith('fg:')){const t=sel.slice(3);return [...document.querySelectorAll('.fgrp')].find(g=>__vis(g)&&g.querySelector('.flbl')&&g.querySelector('.flbl').textContent.includes(t))||null;}
  if(sel.startsWith('crow:')){const t=sel.slice(5);return [...document.querySelectorAll('.crow')].find(g=>__vis(g)&&g.textContent.includes(t))||null;}
+ if(sel==='a4bad'){return [...document.querySelectorAll('#a4-content p')].find(e=>e.textContent.includes('입력 오류'))||null;}
+ if(sel==='a4warn'){return [...document.querySelectorAll('#a4-content .a4-no-break')].find(e=>e.textContent.startsWith('⚠ 입력 확인'))||null;}
  if(sel.startsWith('nth:')){const [q,i]=sel.slice(4).split('|');return [...document.querySelectorAll(q)].filter(__vis)[+i]||null;}
  for(const s of sel.split(',')){const e=[...document.querySelectorAll(s)].find(__vis);if(e)return e;}return null;};
 window.__tab=i=>showTab(['tab-uw','tab-sw','tab-report'][i],document.querySelectorAll('.tb:not(.tb-manual)')[i]);
@@ -16,18 +18,19 @@ window.__uwA=()=>{resetUW();document.getElementById('uw-ref').value='대전';uwR
 window.__uwB=()=>{__uwA();document.getElementById('uw-basis').value='drain';calcUW();};
 window.__swA=()=>{resetSW();calcSW();};
 window.__swB=()=>{__swA();document.getElementById('sw-slope').value='200';calcSW();};
+window.__sv=(id,v)=>{const e=document.getElementById(id);e.value=v;e.dispatchEvent(new Event('input',{bubbles:true}));};
 window.__guide=t=>{if(!_guideOpen)toggleGuide();switchGuideTab(t);};`;
 const UWA="__tab(0);__uwA();__swA();__tab(0)";
 const SHOTS=[
  {id:'s01_overview',pre:UWA+";window.scrollTo(0,0)",clip:'viewport',m:[['nth:.tb|0','탭 3개'],['#mm-manual-btn','📘 매뉴얼'],['.sum-bar','요약 바'],['nth:#tab-uw .card|0','입력'],['#uw-result-panel .result-hero','결과']]},
- {id:'s02_header',clip:'.hdr-shell',m:[['.hdr-h1','도구 이름 · Ver-5.1'],['#mm-manual-btn','📘 매뉴얼 — 탭 막대 끝'],['.hdr-right','KDS 61 40 00 · 61 10 00 (2025. 10. 1.)'],['.tab-bar-inner','탭 3개']]},
+ {id:'s02_header',clip:'.hdr-shell',m:[['.hdr-h1','도구 이름'],['.hdr-manmin','MANMIN · Ver-6.1'],['#mm-manual-btn','📘 매뉴얼 — 탭 막대 끝'],['.hdr-right','KDS 61 40 00 · 61 10 00 (2025. 10. 1.)'],['.tab-bar-inner','탭 3개']]},
  {id:'s03_uw_rain',clip:'card:1. 지역 및 강우',m:[['fg:관경 · 유속 판정','판정 기준 — 공공관로 / 배수설비'],['fg:참고 지점','참고 지점 — 대전 · 임실'],['fg:재현기간','재현기간 — 지선 10년'],['fg:도달시간','도달시간 t'],['#uw-ref-note','참고 표 값'],['fg:강우강도 I','강우강도 I 입력']]},
- {id:'s04_uw_basin',clip:'card:2. 유역 및 지표',m:[['fg:유역면적','유역면적 A'],['fg:유출계수 C','유출계수 C'],['fg:구배 경사','관로 경사'],['fg:여유율','여유율 (MANMIN)'],['fg:관 재질','관 재질'],['fg:Manning n','조도계수 n — KDS 표준']]},
- {id:'s05_uw_seg',pre:"uwSetMode('multi');uwAddSeg()",clip:'card:3. 배관 구간',post:"uwSetMode('single');uwSegs=uwSegs.slice(0,1);document.getElementById('uw-seg-badge').textContent='구간 1개';uwRenderSegs();__uwA()",m:[['.pipe-toggle','단일 · 다중 구간'],['nth:#uw-segs-wrap .seg-row|0','구간명 · 길이 · 유역'],['#uw-multi-btns','구간 추가']]},
+ {id:'s04_uw_basin',clip:'card:2. 유역 및 지표',m:[['fg:유역면적','유역면적 A'],['fg:유출계수 C','유출계수 C'],['fg:구배 경사','관로 경사'],['fg:여유율','여유율 (MANMIN)'],['fg:관 재질','관 재질 — 바꾸면 KDS 표준 n 자동 선택'],['fg:Manning n','조도계수 n — KDS 표준']]},
+ {id:'s05_uw_seg',pre:"uwSetMode('multi');uwAddSeg()",clip:'card:3. 배관 구간',post:"uwSetMode('single');uwSegs=uwSegs.slice(0,1);document.getElementById('uw-seg-badge').textContent='구간 1개';uwRenderSegs();__uwA()",m:[['.pipe-toggle','단일 · 다중 구간'],['nth:#uw-segs-wrap .seg-row|0','구간명 · 관 길이(m, 참고) · 구간 유역'],['#uw-multi-btns','구간 추가']]},
  {id:'s06_uw_hero',clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .stat-grid',m:[['#uw-result-panel .rh-num','추천 관경 DN 450'],['nth:#uw-result-panel .sbox|3','설계유량'],['nth:#uw-result-panel .sbox|4','계획유량 유속'],['nth:#uw-result-panel .sbox|5','계획유량 수심비']]},
  {id:'s07_uw_dn',clip:'card:관경별 만류 통수능',m:[['#uw-result-panel .pc-rec','추천 — 만류 ≥ 설계유량'],['nth:#uw-result-panel .pc-dim|0','최소관경부터 비교']]},
  {id:'s08_uw_steps',clip:'card:계산 과정 (합리식)',m:[['crow:② 계획우수량','합리식 Q = C·I·A/360'],['crow:④ 최소관경','최소관경 — 근거 조항'],['crow:⑤','만류 통수능 ≥ 설계유량'],['crow:⑥','계획유량 유속 판정']]},
- {id:'s09_uw_drain',pre:"__uwB()",clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .nb.amber',post:"__uwA()",m:[['#uw-result-panel .rh-label','배수설비 기준'],['#uw-result-panel .nb.amber','유속 1.5 m/s 초과 — 검토']]},
+ {id:'s09_uw_drain',pre:"__uwB()",clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .nb.amber',post:"__uwA()",m:[['#uw-result-panel .rh-label','배수설비 기준'],['#uw-result-panel .nb.amber','유속 1.5 m/s 초과 — 검토(15.2(3))']]},
  {id:'s10_sw_qty',pre:"__tab(1)",clip:'card:1. 계획 오수량',m:[['fg:계획 세대','세대 수'],['fg:세대당 인원','세대당 인원'],['fg:1인1일최대','1인1일최대오수량'],['fg:시간변동계수','시간변동계수 1.3 ~ 1.8'],['fg:지하수량','지하수량 ≤ 20 %'],['fg:일평균','일평균 / 일최대']]},
  {id:'s11_sw_cond',clip:'card:2. 배관 설계 조건',m:[['fg:관경 · 유속 판정','판정 기준 · 국지 150'],['fg:관 경사','관 경사'],['fg:Manning n','조도계수 0.011'],['fg:계획하수량 여유율','여유율 (1.1(5))'],['fg:단면 산정','만류 단면']]},
  {id:'s12_sw_hero',clip:'#sw-result-panel .result-hero',to:'#sw-result-panel .stat-grid',m:[['#sw-result-panel .rh-num','추천 관경 DN 200'],['nth:#sw-result-panel .sbox|1','계획1일최대'],['nth:#sw-result-panel .sbox|2','계획시간최대'],['nth:#sw-result-panel .sbox|4','계획유량 유속']]},
@@ -39,6 +42,19 @@ const SHOTS=[
  {id:'s18_help_law',pre:"__guide('law')",wait:300,fixed:true,clip:'#guide-panel',m:[]},
  {id:'s19_help_design',pre:"__guide('design')",wait:300,fixed:true,clip:'#guide-panel',m:[]},
  {id:'s20_help_pipe',pre:"__guide('pipe')",wait:400,fixed:true,clip:'#guide-panel',post:"toggleGuide();__tab(0)",m:[]},
+ /* v6.1.4 — 무효 입력 「계산 불가」 · 참고 강우 t 범위 밖 · 통수능 부족 · 직접입력 자동 전환 · 변동계수 표준 밖 · 재질 표준 n */
+ {id:'s25_uw_invalid_in',pre:"__tab(0);document.getElementById('uw-area').value='';calcUW()",clip:'card:2. 유역 및 지표',m:[['#uw-area','빨간 칸 — 유역면적 빈 값'],['.cep-bad-msg','안내 — 숫자를 입력하세요 · 계산 불가']]},
+ {id:'s26_uw_invalid_res',clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .nb.amber',m:[['#uw-result-panel .rh-num','계산 불가'],['#uw-result-panel .nb.amber','고칠 칸 목록']]},
+ {id:'s27_sum_invalid',clip:'.sum-bar-wrap',m:[['#sb-uwdn','우수 DN 「계산 불가」 · Q · V 「—」']]},
+ {id:'s28_a4_invalid',pre:"__tab(2);window.scrollTo(0,0)",wait:700,clip:'nth:#a4-content .a4-sub|0',to:'a4bad',post:"__tab(0);__uwA()",m:[['a4bad','입력 오류 — 계산 안 함']]},
+ {id:'s29_uw_trange',pre:"__tab(0);document.getElementById('uw-tc').value='150';uwRefApply();calcUW()",clip:'card:1. 지역 및 강우',m:[['fg:도달시간','도달시간 t = 150분 (표 범위 5 ~ 120분 밖)'],['#uw-ref-note','표 120분 값 사용 · 직접 입력 권고']]},
+ {id:'s30_uw_trange_res',clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .nb.amber',m:[['#uw-result-panel .nb.amber','⚠ 입력 확인 — 표 120분 값 사용']]},
+ {id:'s31_a4_warn',pre:"__tab(2);window.scrollTo(0,0)",wait:700,clip:'nth:#a4-content .a4-sub|2',to:'a4warn',post:"__tab(0);__uwA()",m:[['a4warn','A4 「⚠ 입력 확인」 줄']]},
+ {id:'s32_uw_cap',pre:"__tab(0);document.getElementById('uw-safety').value='0';document.getElementById('uw-area').value='10';calcUW()",clip:'#uw-result-panel .result-hero',to:'#uw-result-panel .nb.amber',m:[['#uw-result-panel .rh-note','설계유량 > DN1200 만류 — ✗ 검토 필요'],['#uw-result-panel .nb.amber','최대 관경으로도 통수능 부족']]},
+ {id:'s33_uw_cap_steps',clip:'card:계산 과정 (합리식)',post:"__uwA()",m:[['crow:⑤','만류 통수능 < 설계유량'],['crow:⑥','✗ 통수능 부족(DN1200 만류 < 설계유량)']]},
+ {id:'s34_sw_custom',pre:"__tab(1);__sv('sw-wpd-custom','300');document.getElementById('sw-peakf').value='custom';swUpdatePeakf();document.getElementById('sw-peakf-custom').value='2.0';calcSW()",clip:'card:1. 계획 오수량',m:[['fg:1인1일최대','직접입력 칸에 쓰면 선택칸 「직접입력」 자동 전환'],['fg:시간변동계수','직접 2.0 — 표준 1.3 ~ 1.8 밖']]},
+ {id:'s35_sw_custom_res',clip:'#sw-result-panel .result-hero',to:'#sw-result-panel .nb.amber',post:"__swA()",m:[['#sw-result-panel .nb.amber','⚠ 입력 확인 — KDS 61 10 00 1.7.2(6) 표준 밖']]},
+ {id:'s36_uw_material',pre:"__tab(0);document.getElementById('uw-material').value='PVC';cepMatN('uw');calcUW()",clip:'card:2. 유역 및 지표',post:"__uwA()",m:[['fg:관 재질','경질염화비닐관 선택'],['fg:Manning n','n = 0.011 자동 선택']]},
  {id:"s23_proj_menu",pre:"__tab(0);localStorage.setItem('MANMIN_PROJECT_V1',JSON.stringify({\"사업명\": \"○○ 지식산업센터 신축공사\", \"작성자\": \"김만민 건축사\", \"updated\": \"2026-11-09 10:00\", \"from\": \"제연설비\"}));window.scrollTo(0,0);document.querySelector('.mm-proj-btn').click()",wait:700,clip:'viewport',post:"document.querySelectorAll('.mm-proj-menu').forEach(e=>e.remove())",m:[[".mm-proj-btn", "「🏢 건물개요」 단추(오른쪽 아래)"], [".mm-proj-menu button[data-a=\"save\"]", "저장 — 지금 값 담기"], [".mm-proj-menu button[data-a=\"load\"]", "불러오기"], [".mm-proj-menu button[data-a=\"exp\"]", "파일로 내보내기(.json)"], [".mm-proj-menu button[data-a=\"imp\"]", "파일 가져오기"]]},
  {id:"s24_proj_load",pre:"(()=>{window.__mmK=MMProject.keys;window.__mmB=__mmK.map(k=>MMProject.fields(k).map(e=>e.value));const __sv=(e,v)=>{const d=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');d.set.call(e,v);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};const e=MMProject.fields('사업명')[0];if(e)__sv(e,'');localStorage.setItem('MANMIN_PROJECT_V1',JSON.stringify({\"사업명\": \"○○ 지식산업센터 신축공사\", \"작성자\": \"김만민 건축사\", \"updated\": \"2026-11-09 10:00\", \"from\": \"제연설비\"}));MMProject.load();})()",wait:900,fixed:true,clip:'.mm-proj-dlg',post:"(()=>{document.querySelectorAll('.mm-proj-back').forEach(e=>e.remove());const __sv=(e,v)=>{const d=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value');d.set.call(e,v);e.dispatchEvent(new Event('input',{bubbles:true}));e.dispatchEvent(new Event('change',{bubbles:true}));};__mmK.forEach((k,i)=>MMProject.fields(k).forEach((e,j)=>{if(e.value!==__mmB[i][j])__sv(e,__mmB[i][j]);}));localStorage.removeItem('MANMIN_PROJECT_V1');})()",m:[[".mm-proj-dlg input[type=checkbox]", "체크한 항목만 채움(빈 칸은 체크된 채로)"], [".mm-proj-dlg .mm-proj-warn", "이미 입력된 칸 — 직접 체크해야 덮어씀"], [".mm-proj-dlg .mm-proj-ok", "채우기"]]},
 ];
@@ -47,11 +63,11 @@ const SHOTS=[
  const ctx=await b.newContext({viewport:{width:VW,height:VH},deviceScaleFactor:DSF,serviceWorkers:'block',locale:'ko-KR'});await setup(ctx);
  const pg=await ctx.newPage();const errs=[];pg.on('pageerror',e=>errs.push(e.message));pg.on('dialog',d=>{errs.push('dialog '+d.message());d.dismiss();});
  await pg.goto(`http://127.0.0.1:${PORT}/index.html`);await pg.waitForFunction(()=>window.CEPENG);await pg.evaluate(()=>document.fonts.ready);await pg.waitForTimeout(1200);
- await pg.addStyleTag({content:HIDE});await pg.evaluate(HELP);await pg.evaluate("document.getElementById('uw-date').value='2026-10-17';document.getElementById('sw-date').value='2026-10-17';");await pg.waitForTimeout(300);
+ await pg.addStyleTag({content:HIDE});await pg.evaluate(HELP);await pg.evaluate("document.getElementById('uw-date').value='2026-11-24';document.getElementById('sw-date').value='2026-11-24';");await pg.waitForTimeout(300);
  const meta={};
  for(const S of SHOTS){
   if(S.pre){try{await pg.evaluate(S.pre);}catch(e){errs.push(S.id+' pre '+e.message);}}
-  await pg.evaluate("document.getElementById('uw-date').value='2026-10-17';document.getElementById('sw-date').value='2026-10-17';");
+  await pg.evaluate("document.getElementById('uw-date').value='2026-11-24';document.getElementById('sw-date').value='2026-11-24';");
   await pg.waitForTimeout(S.wait||450);
   if(S.clip!=='viewport'&&!S.fixed){await pg.evaluate(c=>{const e=__find(c);if(e){window.scrollTo(0,e.getBoundingClientRect().top+scrollY-40);}},S.clip);await pg.waitForTimeout(350);}
   const info=await pg.evaluate(({S,VW,VH})=>{
@@ -75,6 +91,9 @@ const SHOTS=[
   const o={};__uwA();o.uwA=Object.assign(pk(UW.result),{I:UW.result.I,A:UW.result.A,C:UW.result.C});__uwB();o.uwB=pk(UW.result);
   __swA();o.swA=Object.assign(pk(SW.result),{pop:SW.result.pop,qday:SW.result.qday,qhr:SW.result.qhr});__swB();o.swB=pk(SW.result);
   const d=CEPENG.sw({units:200,ppu:2.5,wpd:250,gw:10,peakf:1.5,avg:.75,slope:100,n:.011,margin:10,basis:'drain'});o.swDrain=pk(d);
+  /* v6.1.4 사례 — 통수능 부족 · 참고 표 범위 밖 t */
+  document.getElementById('uw-safety').value='0';document.getElementById('uw-area').value='10';calcUW();o.uwCap={dn:UW.result.dn,capOk:UW.result.capOk,V:UW.result.V,judge:vJudge(UW.result)};
+  __uwA();document.getElementById('uw-tc').value='150';uwRefApply();calcUW();o.uwT={I:UW.result.I,tUsed:UW.result.tUsed,dn:UW.result.dn,warn:UW.result.warn};
   __uwA();__swA();return o;});
  fs.writeFileSync(path.join(out,'_example.json'),JSON.stringify(EX,null,1));
  const mctx=await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2,serviceWorkers:'block',isMobile:true,hasTouch:true,locale:'ko-KR'});await setup(mctx);
